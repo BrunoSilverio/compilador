@@ -16,25 +16,29 @@
         <!--Programa-->
         <div class="container-fluid text-center">    
             <div class="row content">
-                <div class="col-sm-4 sidenav">
-                    <h3>Programa<h3>
-
+                <div class="col-sm-5 sidenav">
+                    <textarea id="formPrograma" class="form-control form-control-lg" rows="17" type="text" placeholder="> Programa"></textarea>
+                    <br>
+                    <input id="formEntrada" class="form-control form-control-lg" type="text" placeholder="> Entrada">
                 </div>
-                <!--Dados-->
-                <div class="col-sm-7 text-left sidenav"> 
-                    <h3>Dados</h3>
                 
-                <hr>
+                <div class="col-sm-6 text-left sidenav"> 
+                    <!--Dados-->
+                    <input id="formDados" class="form-control form-control-lg" type="text" placeholder="> Dados" disabled>
+                    
+                    <br>
 
-                    <h3>Saida</h3>
-                
+                    <!--Saidas-->
+                    <input id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" disabled>
                 </div>
 
                 <div class="col-sm-1 sidenav">
+                    <!--Button Debug-->
                     <div class="well">
                         <input type="button" class="w3-button w3-black" value="Debug">
                     </div>
 
+                    <!--Button Run-->
                     <div class="well">
                         <input type="button" class="w3-button w3-black" value="Run">
                     </div>

@@ -37,3 +37,7 @@
   div{
     border: 1px solid #999999;
   }
+
+  input[type=text] {
+    height: 30px;
+  }
