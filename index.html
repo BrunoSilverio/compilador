@@ -6,46 +6,64 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <title>Maquina Virtual</title>
         <link rel="stylesheet" href="./css/style.css">
+        <script src="./js/vm.js"></script>
+        <title>Maquina Virtual</title>
     </head>  
     <body>
         <header class="container-fluid text-center">
-            <h2>Maquina Virtual</h2>
+            <h2 class="fontTitle">Maquina Virtual</h2>
+            <hr>
         </header>
     
         <div class="container-fluid text-center">    
-            <div class="row content">
-                <div class="col-sm-5 sidenav">
-                    <!--Programa-->
-                    <textarea id="formPrograma" class="form-control form-control-lg" rows="30" type="text" placeholder="> Programa"></textarea>
-                    
+            <div> 
+                <div class="col-sm-1 sidenav">
                     <br>
-                    <!--Entrada-->
-                    <input id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada">
+                    <br>
+                    <!--Button Import-->
+                    <div class="import-file">
+                        <label for="file-input">
+                            <img src="img/import.png" class="w3-button w3-black" width="50" height="50">
+                        </label>
+                        <input id="file-input" type="file" />
+                    </div>
+                    <br>
+                    <br>
+                    <!--Button Run-->
+                    <div>
+                        <input type="image" src="img/play.png" class="w3-button w3-black"  width="50" height="50">
+                    </div>
+                    <br>
+                    <br>
+                    <!--Button Debug-->
+                    <div>
+                        <input type="image" src="img/debug.png" class="w3-button w3-black" width="50" height="50">
+                    </div>
+                    <br>
+                    <br>
+                </div>
+                <div class="col-sm-4 sidenav">
+                    <!--Programa-->
+                    <textarea id="formPrograma" class="form-control form-control-lg" rows="20" cols="10" type="text" placeholder="> Programa"></textarea>
+
                 </div>
                 
-                <div class="col-sm-6 text-left sidenav"> 
-                    <!--Dados-->
-                    <textarea id="formDados" class="form-control form-control-lg" rows="15" type="text" placeholder="> Dados"></textarea>
-                    
+                <div class="col-sm-2 text-left sidenav">
+                    <!--Entrada-->
+                    <input id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada">
+
                     <br>
+                
+                    <!--Dados-->
+                    <textarea id="formDados" class="form-control form-control-lg" type="text" placeholder="> Dados" rows="17" readonly></textarea>
+                    
+                </div>
 
+                <div class="col-sm-2 text-left sidenav"> 
                     <!--Saida-->
-                    <textarea id="formSaida" class="form-control form-control-lg" rows="15" type="text" placeholder="> Saida"></textarea>
-                </div>
-
-                <div class="col-sm-1 sidenav">
-                    <!--Button Debug-->
-                    <div class="well">
-                        <input type="button" class="w3-button w3-black" value="Debug">
-                    </div>
-
-                    <!--Button Run-->
-                    <div class="well">
-                        <input type="button" class="w3-button w3-black" value="Run">
-                    </div>
-                </div>
+                    <textarea id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" rows="20" readonly></textarea>
+                </div>          
             </div>
         </div>
     </body>
