@@ -1,35 +1,31 @@
-  header {
-    background-color: rgb(97, 96, 96);
-    color: rgb(252, 253, 252);
-  }
+body {
+  height:100% !important;
+  width: 100% !important;
+  color: #06fc06;
+  background-color: rgb(48, 47, 47);
+}
+
+button {
+  height: 100%;
+  width: 100%;
+
+}
+
+navbar navbar-inverse{
+  color: rgb(252, 253, 252);
+}
+
+table {
+  border-collapse: collapse;
+}
   
-  body {
-    height:100% !important;
-    background-color:  rgb(97, 96, 96);
-    width: 100% !important;
-    color: rgb(252, 253, 252);
- }
+table, td, th {
+  border: 1px solid rgb(255, 255, 255);
+}
 
-  button {
-    height: 100%;
-    width: 100%;
-  }
-
-  navbar navbar-inverse{
-    color: rgb(252, 253, 252);
-  }
-
-  table {
-    border-collapse: collapse;
-  }
-  
-  table, td, th {
-    border: 1px solid rgb(255, 255, 255);
-  }
-
-  .image-upload>input {
-    display: none;
-  }
+.image-upload>input {
+  display: none;
+}
 
 .my-custom-scrollbar {
   position: relative;
@@ -39,8 +35,4 @@
 
 .table-wrapper-scroll-y {
   display: block;
-}
-
-#checkbox_all {
-  display: none;
 }
