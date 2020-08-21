@@ -1,12 +1,13 @@
   header {
-    background-color: rgb(53, 52, 52);
-    color: rgb(2, 250, 56);
+    background-color: rgb(97, 96, 96);
+    color: rgb(252, 253, 252);
   }
   
   body {
     height:100% !important;
-    background-color:  rgb(53, 52, 52);
+    background-color:  rgb(97, 96, 96);
     width: 100% !important;
+    color: rgb(252, 253, 252);
  }
 
   button {
@@ -14,14 +15,32 @@
     width: 100%;
   }
 
-  input[type=text] {
-    height: 30px;
+  navbar navbar-inverse{
+    color: rgb(252, 253, 252);
   }
 
-  .import-file>input {
+  table {
+    border-collapse: collapse;
+  }
+  
+  table, td, th {
+    border: 1px solid rgb(255, 255, 255);
+  }
+
+  .image-upload>input {
     display: none;
   }
 
-  .fontTitle {
-    font-family: "Computer Font", ComputerFont, none;
-  }
+.my-custom-scrollbar {
+  position: relative;
+  height: 400px;
+  overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+  display: block;
+}
+
+#checkbox_all {
+  display: none;
+}

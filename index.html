@@ -11,29 +11,29 @@
         <title>Maquina Virtual</title>
     </head>  
     <body>
-        <header class="container-fluid text-center">
-            <h2 class="fontTitle">Maquina Virtual</h2>
-            <hr>
-        </header>
+        <nav>
+
+            <h3>Maquina Virtual</h3>
     
+            <div class="image-upload" float= "right">
+                <label for="file-input">
+                    <img src="img/import.png" class="w3-button w3-black"  width="50" height="50"/>
+                </label>
+                <input id="file-input" type="file">
+            </div>
+        </nav>
+    <hr>
         <div class="container-fluid text-center">    
             <div> 
                 <div class="col-sm-1 sidenav">
-                    <br>
-                    <br>
-                    <!--Button Import-->
-                    <div class="import-file">
-                        <label for="file-input">
-                            <img src="img/import.png" class="w3-button w3-black" width="50" height="50">
-                        </label>
-                        <input id="file-input" type="file" />
-                    </div>
                     <br>
                     <br>
                     <!--Button Run-->
                     <div>
                         <input type="image" src="img/play.png" class="w3-button w3-black"  width="50" height="50">
                     </div>
+                    <br>
+                    <br>
                     <br>
                     <br>
                     <!--Button Debug-->
@@ -43,28 +43,59 @@
                     <br>
                     <br>
                 </div>
+
                 <div class="col-sm-4 sidenav">
                     <!--Programa-->
                     <textarea id="formPrograma" class="form-control form-control-lg" rows="20" cols="10" type="text" placeholder="> Programa"></textarea>
 
                 </div>
-                
-                <div class="col-sm-2 text-left sidenav">
-                    <!--Entrada-->
-                    <input id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada">
-
-                    <br>
-                
-                    <!--Dados-->
-                    <textarea id="formDados" class="form-control form-control-lg" type="text" placeholder="> Dados" rows="17" readonly></textarea>
-                    
+                <!--Div Geral-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>          
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Instrução</th>
+                            <th>Atributo #1</th>
+                            <th>Atributo #2</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td>1</td>
+                            <td>teste</td>
+                            <td>teste</td>
+                            <td>teste</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <div class="col-sm-2 text-left sidenav"> 
-                    <!--Saida-->
-                    <textarea id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" rows="20" readonly></textarea>
-                </div>          
             </div>
         </div>
+                
+                        
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="col-sm-2 text-right sidenav">
+            <!--Entrada-->
+            <input id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada">
+
+            <br>
+        
+            <!--Dados-->
+            <textarea id="formDados" class="form-control form-control-lg" type="text" placeholder="> Dados" rows="14" readonly></textarea>
+            
+        </div>
+
+        <div class="col-sm-2 text-left sidenav"> 
+            <!--Saida-->
+            <textarea id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" rows="17" readonly></textarea>
+        </div>  
     </body>
 </html>
