@@ -44,30 +44,42 @@
                     <br>
                     <br>
                 </div>
-
-                <div class="col-sm-4 sidenav">
-                    <!--Programa-->
-                    <textarea id="formPrograma" class="form-control form-control-lg" rows="20" cols="10" type="text" placeholder="> Programa"></textarea>
-
+                <div class="col-sm-2 text-right sidenav">
+                    <!--Entrada-->
+                    <input id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada">
+    
+                    <br>
+                
+                    <!--Dados-->
+                    <textarea id="formDados" class="form-control form-control-lg" type="text" placeholder="> Dados" rows="12" readonly></textarea>
+                    
                 </div>
+    
+                <div class="col-sm-2 text-left sidenav"> 
+                    <!--Saida-->
+                    <textarea id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" rows="15" readonly></textarea>
+                </div> 
+                
             </div>
                 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-7">
                         <div>          
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th>L</th>
                                 <th>Instrução</th>
                                 <th>Atributo #1</th>
                                 <th>Atributo #2</th>
+                                <th>Comentário</th>
                             </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                 <td>1</td>
+                                <td>teste</td>
                                 <td>teste</td>
                                 <td>teste</td>
                                 <td>teste</td>
@@ -82,21 +94,7 @@
             <br>
             <br>
 
-            <div class="col-sm-2 text-right sidenav">
-                <!--Entrada-->
-                <input id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada">
-
-                <br>
             
-                <!--Dados-->
-                <textarea id="formDados" class="form-control form-control-lg" type="text" placeholder="> Dados" rows="12" readonly></textarea>
-                
-            </div>
-
-            <div class="col-sm-2 text-left sidenav"> 
-                <!--Saida-->
-                <textarea id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" rows="15" readonly></textarea>
-            </div> 
 
         </div>
     </body>
