@@ -1,10 +1,11 @@
 /* Variavel que contem todo contudo do arquivo.obj */
 let fileObj;
 
-/* Variavel de controle para percorrer a pilha de memoria */
+/* Variavel de controle para percorrer a pilha de memoria, indicando elemento do topo da pilha: M[s] */
 let s = -1;
 
-/* Variavel de controle para percorrer a lista de instruções a serem executadas */
+/* Variavel de controle para percorrer a lista de instruções a serem executadas, 
+contem o endereço da proxima instrução a ser executada: P[i]*/
 let i = 0;
 
 /* Vetor responsavel por simular a pilha de memoria */
@@ -22,7 +23,7 @@ let exec = true;
 /* Contador para lista de instruções */
 let numInst = 1;
 
-/* Funcao  */
+/* Funcao main controla um loop para as operações das instruções */
 function main(){
     while (condition) {
         operation = instructions[i].operation;
