@@ -1,101 +1,115 @@
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="./css/style.css">
-        <script src="./js/vm.js"></script>
-        <title>Maquina Virtual</title>
-    </head>  
-    <body>
-        <!-- NAVBAR -->
-        <nav>
-            <div align="center">
-                <h3>Maquina Virtual</h3>
-            </div>
-            <div style = "position:absolute; right:20px; top:10px" class="image-upload">
-                <label for="file-input">
-                    <img src="img/import.png" class="w3-button w3-black"  width="50" height="50"/>
-                </label>
-                <input id="file-input" type="file"  accept=".obj" onchange="readText(this)">
-            </div>
-        </nav>
-        <hr>
-        <!-- Div Geral -->
-        <div class="container-fluid text-center">    
-            <div> 
-                <div class="col-sm-1 sidenav">
-                    <br>
-                    <br>
-                    <!--Button Run-->
-                    <div>
-                        <input type="image" src="img/play.png" class="w3-button w3-black"  width="50" height="50">
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <!--Button Debug-->
-                    <div>
-                        <input type="image" src="img/debug.png" class="w3-button w3-black" width="50" height="50">
-                    </div>
-                    <br>
-                    <br>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/vm.js"></script>
+    <title>Maquina Virtual</title>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <div align="center">
+            <h3>Maquina Virtual</h3>
+        </div>
+        <div style="position:absolute; right:20px; top:10px" class="image-upload">
+            <label for="file-input">
+                <img src="img/import.png" class="w3-button w3-black" width="50" height="50" />
+            </label>
+            <input id="file-input" type="file" accept=".obj" onchange="readText(this)">
+        </div>
+    </nav>
+    <hr>
+    <!-- Div Geral -->
+    <div class="container-fluid text-center">
+        <div>
+            <div class="col-sm-1 sidenav">
+                <br>
+                <br>
+                <!--Button Run-->
+                <div>
+                    <input type="image" src="img/play.png" class="w3-button w3-black" width="50" height="50">
                 </div>
-                <div class="col-sm-2 text-right sidenav">
-                    <!--Entrada-->
-                    <input id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada">
-    
-                    <br>
-                
-                    <!--Dados-->
-                    <textarea id="formDados" class="form-control form-control-lg" type="text" placeholder="> Dados" rows="12" readonly></textarea>
-                    
+                <br>
+                <br>
+                <br>
+                <!--Button Debug-->
+                <div>
+                    <input type="image" src="img/debug.png" class="w3-button w3-black" width="50" height="50">
                 </div>
-    
-                <div class="col-sm-2 text-left sidenav"> 
-                    <!--Saida-->
-                    <textarea id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" rows="15" readonly></textarea>
-                </div> 
+                <br>
+                <br>
+            </div>
+            <div class="col-sm-2 text-right sidenav">
+                <!--Entrada-->
+                <textarea id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada" rows="10"></textarea>
+
+                <br>
+            
+                <!--Saida-->
+                <textarea id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" rows="10" readonly></textarea>
                 
             </div>
+
+            <div class="col-sm-2 text-left sidenav"> 
+                <!--Dados-->
+                <textarea id="formDados" class="form-control form-control-lg" type="text" placeholder="> Dados" rows="22" readonly></textarea>
                 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-7">
-                        <div>          
+            </div>
+
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div>
                         <table class="table">
                             <thead>
-                            <tr>
-                                <th>L</th>
-                                <th>Instrução</th>
-                                <th>Atributo #1</th>
-                                <th>Atributo #2</th>
-                                <th>Comentário</th>
-                            </tr>
+                                <tr>
+                                    <th style="width:25px">Breakpoint</th>
+                                    <th style="width:50px">L</th>
+                                    <th>Instrução</th>
+                                    <th style="width:105px">Atributo #1</th>
+                                    <th style="width:105px">Atributo #2</th>
+                                    <th>Comentário</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                <td>1</td>
-                                <td>teste</td>
-                                <td>teste</td>
-                                <td>teste</td>
-                                <td>teste</td>
+                                    <td><input type="checkbox" id="line1" name="line" value="breakpoint" style="text-align: center; vertical-align: middle;"></td>
+                                    <td>1</td>
+                                    <td>teste</td>
+                                    <td>teste</td>
+                                    <td>teste</td>
+                                    <td>teste</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" id="line2" name="line" value="breakpoint" style="text-align: center; vertical-align: middle;"></td>
+                                    <td>2</td>
+                                    <td>teste</td>
+                                    <td>teste</td>
+                                    <td>teste</td>
+                                    <td>comentario de teste</td>
                                 </tr>
                             </tbody>
-                            </table>
-                        </div>
+                        </table>
                     </div>
                 </div>
             </div>
-
-            <br>
-            <br>
-
-            
-
         </div>
-    </body>
+
+        <br>
+        <br>
+
+
+
+    </div>
+</body>
+
 </html>
