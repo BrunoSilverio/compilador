@@ -1,2 +1,2 @@
-# compilador
-Maquina virtual/Compilador
+# Maquina Virtual
+
