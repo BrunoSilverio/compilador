@@ -1,29 +1,29 @@
-/* Variavel que contem todo contudo do arquivo.obj */
+// Variavel que contem todo contudo do arquivo.obj
 let fileObj;
 
-/* Variavel de controle para percorrer a pilha de memoria, indicando elemento do topo da pilha: M[s] */
+//Variavel de controle para percorrer a pilha de memoria, indicando elemento do topo da pilha: M[s]
 let s = -1;
 
-/* Variavel de controle para percorrer a lista de instruções a serem executadas, 
-contem o endereço da proxima instrução a ser executada: P[i]*/
+// Variavel de controle para percorrer a lista de instruções a serem executadas, 
+//contem o endereço da proxima instrução a ser executada: P[i]
 let i = 0;
 
-/* Vetor responsavel por simular a pilha de memoria */
+// Vetor responsavel por simular a pilha de memoria
 let memory = [];
 
-/* Vetor responsavel por simular a lista de instruções a serem executadas */
+// Vetor responsavel por simular a lista de instruções a serem executadas
 let instructions = [];
 
-/* Variavel de controle para identificar qual operação deve ser executada */
+// Variavel de controle para identificar qual operação deve ser executada
 let operation = '';
 
-/* Variavel de controle para identificar quando o programa deve finalizar a execução */
+// Variavel de controle para identificar quando o programa deve finalizar a execução
 let exec = true;
 
-/* Contador para lista de instruções */
+// Contador para lista de instruções
 let numInst = 1;
 
-/* Funcao main controla um loop para as operações das instruções */
+// Função main controla um loop para as operações das instruções
 function main(){
     while (condition) {
         operation = instructions[i].operation;
@@ -119,5 +119,75 @@ function main(){
     }
 }
 
+//Função para leitura de arquivo
+function readFile(that) {
+    if (that.files && that.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var output = e.target.result;
+            fileContent = output;
+            readObjectFile(fileContent);
+        };
+        reader.readAsText(that.files[0]);
+    }
+}
 
+//Funções Registradores
+
+
+//=== Função aritmeticas ===
+//Operacao adição
+function add() {
+    memory[s-1] = parseInt(memory[s-1] + memory[s]);
+    s = (s-1);
+}
+//Operacao subtração
+function sub() {
+    memory[s-1] = parseInt(memory[s-1] - memory[s]);
+    s = (s-1);
+}
+//Operacao multiplicação
+function mult() {
+    memory[s-1] = parseInt(memory[s-1] * memory[s]);
+    s = (s-1);
+}
+//Operacao divisão
+function divi() {
+    memory[s-1] = parseInt(memory[s-1] / memory[s]); 
+    s = (s-1);
+}
+//Operacao inversão
+function inv() {
+    memory[s] = memory[s] * -1;
+}
+
+//Funções Logicas
+//Operacao AND
+function and() {
+    if (memory[s-1] == 1 && memory[s] == 1) {
+        memory[s-1] = 1;
+    } else {
+        memory[s-1] = 0;
+    }
+    s = (s-1);
+}
+//Operacao AND
+function or() {
+    if (memory[s-1] == 1 || memory[s] == 1) {
+        memory[s-1] = 1;
+    } else {
+        memory[s-1] = 0;
+    }
+    s = (s-1);
+}
+//Operacao AND
+function neg(params) {
+    memory[s] = 1 - memory[s];
+}
+
+//Funções Comparativas
+
+
+
+//Funções Desvio
 
