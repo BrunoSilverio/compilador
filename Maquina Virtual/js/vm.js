@@ -132,10 +132,76 @@ function readFile(that) {
     }
 }
 
-//Funções Registradores
+//=============================
+//===== Função basicas VM =====
+//=============================
 
+//Iniciar programa principal
+function start() {
+    s = -1;
+    document.getElementById("terminal").innerHTML = "> ";
+}
+//Parar - “Para a execução da MVD”
+function hlt(params) {
+    exec = false;
+}
+//Operação RD - Ultimo valor entrado pelo usuario.
+function rd() {
+    entryValue = readEntry();
+    s = (s+1);
+    memory[s] = entryValue;
+}
+//Saida - Impressão
+function prn() {
+    // printValue(memory[s]);
+    if (memory[s] == undefined) {
+        document.getElementById("terminal").innerHTML += templateTerminal("");
+    } else {
+        document.getElementById("terminal").innerHTML += templateTerminal(memory[s]);
+    }
+    s = (s-1);
+}
 
+//==============================
+//===== Funções de Memoria =====
+//==============================
+
+//Carregar constante
+//k = instruction[i].parameters.p1
+function ldc(){
+    s = (s+1); 
+    memory[s] = k;
+}
+//Carregar valor
+function ldv(){
+    s = (s+1);
+    memory[s] = memory[n];
+}
+//Atribuição - Armazenar valor
+function str(){
+    memory[n] = memory[s]; 
+    s = (s-1); 
+}
+//Alocação de Variáveis
+function alloc() {
+    for (let j = 0; j < instructions[i].parameters.p2; j++) {
+        s = (s+1);
+        memory[s] = memory[instructions[i].parameters.p1 + j];
+    }
+}
+//Desalocação de Variáveis
+function dalloc() {
+    for (let j = instructions[i].parameters.p2 - 1; j >= 0; j--) {
+
+        memory[instructions[i].parameters.p1 + j] = memory[s];
+        s = (s-1);
+    }
+}
+
+//==========================
 //=== Função aritmeticas ===
+//==========================
+
 //Operacao adição
 function add() {
     memory[s-1] = parseInt(memory[s-1] + memory[s]);
@@ -161,7 +227,10 @@ function inv() {
     memory[s] = memory[s] * -1;
 }
 
-//Funções Logicas
+//==========================
+//==== Funções Logicas =====
+//==========================
+
 //Operacao AND
 function and() {
     if (memory[s-1] == 1 && memory[s] == 1) {
@@ -171,7 +240,7 @@ function and() {
     }
     s = (s-1);
 }
-//Operacao AND
+//Operacao OR
 function or() {
     if (memory[s-1] == 1 || memory[s] == 1) {
         memory[s-1] = 1;
@@ -180,14 +249,113 @@ function or() {
     }
     s = (s-1);
 }
-//Operacao AND
+//Operacao NEG
 function neg(params) {
     memory[s] = 1 - memory[s];
 }
 
-//Funções Comparativas
+//=============================
+//== Funções para Comparação ==
+//=============================
 
+//Comparar menor
+function cme(){
+    if(memory[s-1] < memory[s]){
+        memory[s-1] = 1;
+    }
+    else{
+        memory[s-1] = 0; 
+    }
+    s = (s-1);
+}
+//Comparar maior
+function cma(){
+    if (memory[s-1] > memory[s]){
+        memory[s-1] = 1;
+    }
+    else{
+        memory[s-1] = 0; 
+    } 
+    s = (s-1);
+}
+//Comparar igual
+function ceq(){
+    if (memory[s-1] == memory[s]){
+        memory[s-1] = 1;
+    }  
+    else{
+        memory[s-1] = 0; 
+    }
+    s = (s-1);
+}
+//Comparar desigual
+function cdif(){
+    if (memory[s-1] != memory[s]){
+        memory[s-1] = 1;
+    }
+    else{
+        memory[s-1] = 0;
+    }
+    s = (s-1);
+}
+//Comparar menor ou igual
+function cmeq(){
+    if (memory[s-1] <= memory[s]){
+        memory[s-1] = 1;
+    }
+    else{
+        memory[s-1] = 0;
+    }
+    s = (s-1);
+}
+//Comparar maior ou igual
+function cmaq(){
+    if (memory[s-1] >= memory[s]) {
+        memory[s-1] = 1;
+    }
+    else{
+        memory[s-1] = 0;
+    }
+    s = (s-1);
+}
 
+//============================
+//===== Funções de Jumps =====
+//============================
 
-//Funções Desvio
+//Desviar sempre
+function jmp() {
+    i = findLabel(instructions[i].parameters.p1).index;
+}
 
+//Desviar se falso
+function jmpf() {
+    if (memory[s] == 0) {
+        i = findLabel(instructions[i].parameters.p1).index;
+        // Decrementa pois será incrementado na main.
+        i = (i-1);
+        //i = i + 1;
+    }
+    else {
+        // Não faz nada pois será incrementado na main
+        // i = i - 1;
+    }
+    s = (s-1);
+}
+
+//===============================
+//===== Funções de Chamadas =====
+//===============================
+
+//Chamar procedimento ou função
+function call() {
+    s = (s+1);
+    memory[s] = (i+1);
+    i = findLabel(instructions[i].parameters.p1).index;
+}
+
+//Retornar de procedimento
+function retn() {
+    i = memory[s];
+    s = (s-1);
+}
