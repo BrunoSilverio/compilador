@@ -8,8 +8,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/vm.js"></script>
-    <title>Maquina Virtual</title>
+    <!-- CodeMirror -->
+    <script src="codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="codemirror/theme/isotope.css">
+    <script src="codemirror/mode/javascript/javascript.js"></script>
+    <script src="codemirror/mode/css/css.js"></script>
+    <link rel="stylesheet" href="codemirror/theme/dracula.css"/>
+    <title>Compilador</title>
 </head>
 
 <body>
@@ -22,7 +28,7 @@
             <label for="file-input">
                 <img src="img/import.png" class="w3-button w3-black" width="50" height="50" />
             </label>
-            <input id="file-input" type="file" accept=".obj" onchange="readText(this)">
+            <input id="file-input" type="file" accept=".txt" onchange="readText(this)">
         </div>
 
         <div style="position:absolute; right:100px; top:10px">
@@ -32,15 +38,19 @@
     </nav>
     <hr>
     <!-- Div Geral -->
-    <div class="container-fluid text-center">
-        <div>
-
-        </div>
+    <div class="container-fluid text-left" id="codeeditor">
+  
+        <!--Codigo Fonte LPD - usando CodeMirror-->
+        <script>
+            var editor = CodeMirror(document.getElementById("codeeditor"),{
+                mode: "javascript",
+                theme: "isotope",
+                tabSize: 5,
+                lineNumbers: true
+            });
+            
+        </script>
         <div class="col-sm-2 text-right sidenav">
-            <!--Entrada-->
-            <textarea id="formEntrada" type="text" rows="23" cols="260" placeholder="> Código"
-                ></textarea>
-
             <br>
             <br>
 
