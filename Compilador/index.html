@@ -38,29 +38,31 @@
     </nav>
     <hr>
     <!-- Div Geral -->
-    <div class="container-fluid text-left" id="codeeditor">
-  
-        <!--Codigo Fonte LPD - usando CodeMirror-->
-        <script>
-            var editor = CodeMirror(document.getElementById("codeeditor"),{
-                mode: "javascript",
-                theme: "isotope",
-                tabSize: 5,
-                lineNumbers: true
-            });
-            
-            function localLoad(files) {
-                if (files.length == 1) {
-                    document.title = escape(files[0].name);
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        editor.setValue(e.target.result);
-                    };
-                    reader.readAsText(files[0]);
+    <div class="container-fluid text-left" >
+        <div id="codeeditor">
+            <!--Codigo Fonte LPD - usando CodeMirror-->
+            <script>
+                var editor = CodeMirror(document.getElementById("codeeditor"),{
+                    mode: "javascript",
+                    theme: "isotope",
+                    tabSize: 5,
+                    lineNumbers: true,
+                    viewportMargin: 130
+                });
+                
+                function localLoad(files) {
+                    if (files.length == 1) {
+                        document.title = escape(files[0].name);
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            editor.setValue(e.target.result);
+                        };
+                        reader.readAsText(files[0]);
+                    }
                 }
-            }
-            
-        </script>
+                
+            </script>
+        </div>
         <div class="col-sm-2 text-right sidenav">
             <br>
             <br>
@@ -72,7 +74,5 @@
 
         </div>
     </div>
-    </div>
 </body>
-
 </html>

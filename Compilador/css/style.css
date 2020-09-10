@@ -45,6 +45,8 @@ textarea {
 
 .CodeMirror {
   border: 1px solid #eee;
-  height: 100%;
+  font-family: monospace;
+  height: 300px;
+  color: black;
+  direction: ltr;
 }
-
