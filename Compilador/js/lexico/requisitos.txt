@@ -5,6 +5,6 @@ Neste arquivo teremos o programa escrito em LPD. Não serão aceitos analisadore
 
 - O analisador deve realizar o processamento léxico do arquivo de entrada. Não serão aceitos analisadores que não completem o processamento.
 
-- O programa deve apresentar como saída : uma lista de tokens contendo, para cada token, pelo menos seu tipo e lexema. Se ocorrer um erro, o programa deve retornar 
-a lista de tokens até o momento do erro, e a linha em que o erro ocorreu, e parar o processamento. Não serão aceitos analisadores que não apresentem uma lista de tokens, e a 
-linha do erro, caso ele ocorra.
+- O programa deve apresentar como saída : uma lista de tokens contendo, para cada token, pelo menos seu tipo e lexema. Se ocorrer um erro, 
+o programa deve retornar a lista de tokens até o momento do erro, e a linha em que o erro ocorreu, 
+e parar o processamento. Não serão aceitos analisadores que não apresentem uma lista de tokens, e a linha do erro, caso ele ocorra.
