@@ -28,7 +28,7 @@
             <label for="file-input">
                 <img src="img/import.png" class="w3-button w3-black" width="50" height="50" />
             </label>
-            <input id="file-input" type="file" accept=".txt" onchange="readText(this)">
+            <input id="file-input" type="file" accept=".txt" onchange="localLoad(this.files);"/>
         </div>
 
         <div style="position:absolute; right:100px; top:10px">
@@ -48,6 +48,17 @@
                 tabSize: 5,
                 lineNumbers: true
             });
+
+            function localLoad(files) {
+                if (files.length == 1) {
+                    document.title = escape(files[0].name);
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        editor.setValue(e.target.result);
+                    };
+                    reader.readAsText(files[0]);
+                }
+            }
             
         </script>
         <div class="col-sm-2 text-right sidenav">
