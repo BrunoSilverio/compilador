@@ -15,6 +15,7 @@
     <script src="codemirror/mode/javascript/javascript.js"></script>
     <script src="codemirror/mode/css/css.js"></script>
     <link rel="stylesheet" href="codemirror/theme/dracula.css"/>
+    <script type = "text/javascript" src="main.js"></script>
     <title>Compilador</title>
 </head>
 
@@ -31,8 +32,8 @@
             <input id="file-input" type="file" accept=".txt" onchange="localLoad(this.files);"/>
         </div>
 
-        <div style="position:absolute; right:100px; top:10px">
-            <input type="image" src="img/play.png" class="w3-button w3-black" width="50" height="50">
+        <div style="position:absolute; right:100px; top:10px" class="image-upload">
+            <button id="teste" type="button" onclick="myFunction()">Play</button>
         </div>
 
     </nav>

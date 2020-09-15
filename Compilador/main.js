@@ -1,7 +1,7 @@
 //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import
 
-import * as lexico from './lexico/lexico.js';
-import * as token from './lexico/token.js';
+/*import * as lexico from 'js/lexico/lexico.js';
+import * as token from 'js/lexico/token.js';
 
 //Variavel com o codigo fonte completo
 let programa;
@@ -20,4 +20,7 @@ function main() {
     }
 }
 
-
+*/
+function myFunction() {
+    document.getElementById("teste").innerHTML=alert("foi");
+}
