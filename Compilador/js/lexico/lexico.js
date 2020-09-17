@@ -1,7 +1,7 @@
 //import * as token from './lexico/token.js';
 //import * as main from '../main.js';
 
-var programa = "se contador > 10 {teste comentario}\n" +
+var programa = "se contador > 10 /*teste comentario*/\n" +
     "entao escreva (contador)\n" +
     "senao escreva (x)";
 //para testar, chama a funcao do lexico e envia o programa
@@ -14,18 +14,27 @@ function lexico(programa) {
     let index = 0;
     let linha = 0;
     let atual = "";
+    let prox = " ";
+    let indexmais = 0;
 
     console.log("\n" + programa);
+
+    //metodos para calcular quantidade de linhas
+    //const lines = (codigo.match(/\n/g) || '').length + 1;
+    //const linhas = codigo.split(/\r\n|\r|\n/).length;
+
     //Loop linha por linha
     for (let index = 0; index < programa.length; index++) {
         //Variavel auxiliar
         let linha = programa[index];
+        //variavel para saber proximo caracter
+        indexmais = index + 1;
+        prox = programa[indexmais]; //recebe prox caracter (depois de atual)
         //console.log(linha);
 
         for (posicao = 0; posicao < linha.length; posicao++) {
-            //console.log(linha[posicao]);
-            atual = linha[posicao];
-            //console.log("posicao atual: " + typeof atual);
+
+            atual = linha[posicao]; //recebe caracter atual
 
             //caso as validacoes dentro do switch sejam true -> entra nos case
             switch (true) {
@@ -41,34 +50,48 @@ function lexico(programa) {
                         comentario = false;
                         console.log("fecha comentario");
                     }
-                    if (linha[posicao] === "*" && linha[posicao + 1] === "/") {
+                    if (atual === "*" && prox === "/") {
                         //TALVEZ AQUI: posicao atualiza pois ja validou a posicao seguinte
-                        posicao = posicao + 1;
+                        //posicao = posicao + 1;
                         //final de comentario 2
+                        console.log("fecha comentario especial");
                         comentario = false;
                     }
                     break;
 
-                case (atual == "{"):
+                case (atual === "{"):
                     //inicio de comentario 1
                     comentario = true;
                     console.log("abre comentario");
                     break;
 
-                case (linha[posicao] === "/" && linha[posicao + 1] === "*"):
+                case (atual === "/" && prox === "*"):
                     //inicio de comentario 2
                     comentario = true;
+                    console.log("abre comentario especial");
                     //TALVEZ AQUI: posicao atualiza pois ja validou a posicao seguinte
-                    posicao = posicao + 1;
+                    //posicao = posicao + 1;
+                    break;
+
+                case (atual):
+                    lexema += line[pos];
+                    simbol = "Sidentificador";
+                    console.log(lexema + " " + simbol);
                     break;
 
 
-                default: //console.log("default")
+
+
+                default: console.log("default")
                     break;
             }
 
         }
     }
+}
+
+let isAlpha = function (ch) {
+    return /^[A-Z]$/i.test(ch);
 }
 
 
