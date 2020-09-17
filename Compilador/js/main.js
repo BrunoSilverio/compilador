@@ -22,5 +22,5 @@ function main() {
 
 */
 function myFunction() {
-    document.getElementById("teste").innerHTML=alert("foi");
+    document.getElementById("teste").innerHTML=alert("Iniciando. . .");
 }
