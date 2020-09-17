@@ -16,6 +16,8 @@ function lexico(programa) {
     let atual = "";
     let prox = " ";
     let indexmais = 0;
+    let lexema = "";
+    let simbol = "";
 
     console.log("\n" + programa);
 
@@ -73,8 +75,8 @@ function lexico(programa) {
                     //posicao = posicao + 1;
                     break;
 
-                case (atual):
-                    lexema += line[pos];
+                case (isAlpha(linha[posicao])):
+                    lexema += linha[posicao];
                     simbol = "Sidentificador";
                     console.log(lexema + " " + simbol);
                     break;
@@ -82,7 +84,8 @@ function lexico(programa) {
 
 
 
-                default: console.log("default")
+                default: //aqui acontece a excecao, ou seja, erro lexico
+                    console.log("default")
                     break;
             }
 
@@ -90,7 +93,7 @@ function lexico(programa) {
     }
 }
 
-let isAlpha = function (ch) {
+function isAlpha(ch) {
     return /^[A-Z]$/i.test(ch);
 }
 
