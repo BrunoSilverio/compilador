@@ -7,7 +7,6 @@ var programa = "se contador > 10 {teste comentario}\n" +
 //para testar, chama a funcao do lexico e envia o programa
 lexico(programa);
 
-
 function lexico(programa) {
 
     let comentario = false;
@@ -17,7 +16,7 @@ function lexico(programa) {
     let atual = "";
 
     console.log("\n" + programa);
-    //Loop para andar pelo programa, linha por linha
+    //Loop linha por linha
     for (let index = 0; index < programa.length; index++) {
         //Variavel auxiliar
         let linha = programa[index];
@@ -28,7 +27,8 @@ function lexico(programa) {
             atual = linha[posicao];
             //console.log("posicao atual: " + typeof atual);
 
-            switch (atual) {
+            //caso as validacoes dentro do switch sejam true -> entra nos case
+            switch (true) {
 
                 case (atual === " " || atual === "\t" || atual === "\n"):
                     console.log("espaco ou \\t");
@@ -49,7 +49,7 @@ function lexico(programa) {
                     }
                     break;
 
-                case (atual === "{"):
+                case (atual == "{"):
                     //inicio de comentario 1
                     comentario = true;
                     console.log("abre comentario");
