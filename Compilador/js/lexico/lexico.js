@@ -90,7 +90,7 @@ function lexico(programa) {
 
                 case (atual === "("):
 
-                    lexema: palavra,
+                    lexema: palavra;
                     simbolo: "Sabre_parenteses";
 
                     console.log("( || Sabre_parenteses");
