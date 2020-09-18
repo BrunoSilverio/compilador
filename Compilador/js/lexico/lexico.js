@@ -46,7 +46,7 @@ let tabelaTokens = {
 
 var programa = "se contador > 13 /*teste comentario*/\n" +
     "entao escreva,  (contador)\n" +
-    "senao + escreva . (x)";
+    "senao + escreva >= (x)";
 //para testar, chama a funcao do lexico e envia o programa
 lexico(programa);
 
@@ -112,13 +112,10 @@ function lexico(programa) {
                 //Agrupa LETRAS em palavra (ate chegar em espaco)
                 case (atual.toUpperCase() != atual.toLowerCase() && comentario == false):
                     palavra += atual;
-                    console.log("palavra: " + palavra);
-                    console.log("atual: " + atual);
-                    console.log("prox: " + prox);
 
                     //Identificou que a palavra terminou, empilha palavras reservadas
                     if ((prox.toUpperCase() != prox.toLowerCase()) == false) {
-                        console.log("entrou na validacao de lexema");
+
                         if (palavra === "programa") {
                             token.push({
                                 lexema: palavra,
@@ -307,11 +304,14 @@ function lexico(programa) {
                             lexema: atual,
                             simbolo: "Smaior"
                         });
-                    } else if (atual === ">" && prox == "=") {
+                    } else if (atual === ">" && prox === "=") {
                         token.push({
                             lexema: atual + prox,
                             simbolo: "Smaiorig"
                         });
+                        atual = "";
+                        prox = "";
+                        console.log("valor atual: " + atual);
                     }
 
                     //Menor e Menor Igual
@@ -426,7 +426,7 @@ function lexico(programa) {
 
                 //SE CHEGOU AQUI, HA ERRO
                 default:
-                    console.log("Erro Lexico na linha: " + erro)
+                    console.log("Erro Lexico: " + atual + "na linha: " + erro);
                     break;
             }
         }
