@@ -45,8 +45,8 @@ let tabelaTokens = {
 }
 
 var programa = "se contador > 13 /*teste comentario*/\n" +
-    "entao escreva (contador)\n" +
-    "senao escreva (x)";
+    "entao escreva,  (contador)\n" +
+    "senao + escreva . (x)";
 //para testar, chama a funcao do lexico e envia o programa
 lexico(programa);
 
@@ -67,6 +67,7 @@ function lexico(programa) {
     let palavra = "";
     let numero = "";
     let token = [];
+    let erro = 1;
 
     console.log("\n" + programa);
 
@@ -86,14 +87,14 @@ function lexico(programa) {
         for (posicao = 0; posicao < linha.length; posicao++) {
 
             atual = linha[posicao]; //recebe caracter atual
+            if (atual == "\n") {
+                erro++;
+            }
 
             //caso as validacoes dentro do switch sejam true -> entra nos case
             switch (true) {
 
-                case (atual === "("):
 
-                    console.log("( || Sabre_parenteses");
-                    break;
 
                 //Agrupa NUMEROS em numero (ate chegar em espaco)
                 case (atual == "0" || atual == "1" || atual == "2" || atual == "3" || atual == "4" || atual == "5" || atual == "6" || atual == "7" || atual == "8" || atual == "9" && comentario == false && isNaN(prox)):
@@ -249,7 +250,7 @@ function lexico(programa) {
                                 simbolo: "Snao"
                             });
                             palavra = "";
-                        } 
+                        }
                         if (palavra != "") {
                             token.push({
                                 lexema: palavra,
@@ -259,13 +260,136 @@ function lexico(programa) {
                         }
                         palavra = "";
                     }
+                    break;
+
+                //Trata atribuicao (dois pontos e atribuicao)
+                case (atual === ":" && comentario == false):
+                    if (prox != "=") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sdoispontos"
+                        });
+                    }
+                    if (prox === "=")
+                        token.push({
+                            lexema: atual + prox,
+                            simbolo: "Satribuicao"
+                        });
+                    break;
+
+                //Trata Operador Aritmetico
+                case (atual === "+" || atual === "-" || atual === "*" && comentario == false):
+                    if (atual === "+") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smais"
+                        });
+                    }
+                    if (atual === "-") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smenos"
+                        });
+                    }
+                    if (atual === "*") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smult"
+                        });
+                    }
+                    break;
+
+                //Trata Operador Relacional
+                case (atual === ">" || atual === "<" || atual == "=" || atual === "!" && comentario == false):
+                    //Maior e Maior Igual
+                    if (atual === ">" && prox != "=") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smaior"
+                        });
+                    } else if (atual === ">" && prox == "=") {
+                        token.push({
+                            lexema: atual + prox,
+                            simbolo: "Smaiorig"
+                        });
+                    }
+
+                    //Menor e Menor Igual
+                    if (atual === "<" && prox != "=") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smenor"
+                        });
+                    } else if (atual === "<" && prox === "=") {
+                        token.push({
+                            lexema: atual + prox,
+                            simbolo: "Smenorig"
+                        });
+                        atual = "";
+                    }
+                    //Igual
+                    if (atual === "=") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sig"
+                        });
+                        atual = "";
+                    }
+                    //Diferente
+                    if (atual === "!" && prox === "=") {
+                        token.push({
+                            lexema: atual + prox,
+                            simbolo: "Sdif"
+                        });
+                        atual = "";
+                    }
+
+
 
                     break;
 
-                //Valida caracteres a serem desconsiderados E identifica final de palavra
-                case (atual === " " || atual === "\t" || atual === "\n"):
-                    //console.log("espaco ou \\t");
+                //Trata Pontuacao
+                case (atual === "(" || atual === ")" || atual === ";" || atual === "." || atual == "," && comentario == false):
+                    //Abre Parenteses
+                    if (atual === "(") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sabre_parenteses"
+                        });
+                    }
+                    //Fecha Parenteses
+                    if (atual === ")") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sfecha_parenteses"
+                        });
+                    }
+                    //Ponto e virgula
+                    if (atual === ";") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sponto_virgula"
+                        });
+                    }
+                    //Ponto
+                    if (atual === ".") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sponto"
+                        });
+                    }
+                    //Virgula
+                    if (atual === ",") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Svirgula"
+                        });
+                    }
 
+                    break;
+
+                //Valida caracteres a serem desconsiderados
+                case (atual === " " || atual === "\t" || atual === "\n"):
                     //caso seja espaco ou \t, sai
                     break;
 
@@ -302,13 +426,11 @@ function lexico(programa) {
 
                 //SE CHEGOU AQUI, HA ERRO
                 default:
-                    console.log("default")
+                    console.log("Erro Lexico na linha: " + erro)
                     break;
             }
-
         }
     }
-
 
     console.log(token);
 
