@@ -1,26 +1,61 @@
 //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import
 
-import * as lexico from 'js/lexico/lexico.js';
-import * as token from 'js/lexico/token.js';
+//Imports
+//import * as lexico from './js/lexico/lexico.js';
+let lexico = require('./js/lexico/lexico.js');
 
-//Variavel com o codigo fonte completo
-let programa;
-//Variavel para guardar os tokens do codigo
-export let tokens = [];
+
+//Eventos
+
+document.getElementById('import_file').addEventListener('change', function () {
+    readText(this);
+});
+
+document.getElementById('compilador').addEventListener('click', main);
+
+
+//Variaveis globais
+let programa = "se contador > 13 /*teste comentario*/\n" +
+    "entao escreva,  (contador)\n" +
+    "senao + escreva >= (x)";;
+let token = [];
+
 
 function main() {
+    document.getElementById("terminal").innerHTML = ">";
     try {
+        readProgramFile();
+        clear();
         lexico.lexico(programa);
 
-        document.getElementById("form=saida").innerHTML = "teste";
-        
-    } catch (error)
-    {
+    } catch (error) {
         //Responsavel por exibir a mensagem de erro para o usuario
     }
 }
 
 
-function myFunction() {
-    document.getElementById("teste").innerHTML=alert("Iniciando. . .");
+export function readText(that) {
+    if (that.files && that.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let output = e.target.result;
+            program = output;
+            // readProgramFile();
+            writeOnTerminal();
+        };
+        reader.readAsText(that.files[0]);
+    }
+
+}function writeOnTerminal() {
+    myCodeMirror.setValue(program.toString());
+}
+
+function readProgramFile() {
+    programa = myCodeMirror.getValue();
+    programa = programa.split("\n");
+    return;
+}
+
+function writeOnTerminal() {
+    myCodeMirror.setValue(program.toString());
 }
