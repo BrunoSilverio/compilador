@@ -1,9 +1,9 @@
 // Tabela de Tokens
 
 //"Lexema":"Simbolo"
-export let tabelaTokens={
-    "programa":"Sprograma",
-    "inicio":"Sinicio",
+module.exports.tabelaTokens={
+    programa:"Sprograma",
+    inicio:"Sinicio",
     "fim":"Sfim",
     "procedimento":"Sprocedimento",
     "funcao":"Sfuncao",
@@ -19,6 +19,7 @@ export let tabelaTokens={
     "inteiro":"Sinteiro",
     "booleano":"Sbooleano",
     "identificador":"Sidentificador",
+    "numero":"Snumero",
     ".":"Sponto",
     ";":"Sponto_virgula",
     ",":"Svirgula",
