@@ -44,7 +44,7 @@ let tabelaTokens = {
     ":": "Sdoispontos",
 }
 
-var programa = "se contador > 13 {teste comentario}\n" +
+var programa = "se contador > 13 teste {comentario}\n" +
     "entao escreva, >= (contador)\n" +
     "senao + escreva <= (x)";
 //para testar, chama a funcao do lexico e envia o programa
@@ -89,7 +89,6 @@ function lexico(programa) {
         indexmenos = index - 1;
         prox = programa[indexmais]; //recebe prox caracter (depois de atual)
         antes = programa[indexmenos];
-        //console.log(linha);
 
         for (posicao = 0; posicao < linha.length; posicao++) {
 
@@ -100,11 +99,11 @@ function lexico(programa) {
             }
 
             //Caso tenha erro, interrompe, retorna os tokens ate o momento, e a linha do erro
-            // if(foierro == true){
-            //     console.log("Foi erro: " + atual + "na linha: " + erro)
-            //     console.log(token);
-            //     return 0;
-            // }
+            if(foierro == true){
+                console.log("Foi erro: " + atual + "na linha: " + erro)
+                console.log(token);
+                return 0;
+            }
 
             //Caso as validacoes dentro do switch sejam true -> entra nos case
             switch (true) {
