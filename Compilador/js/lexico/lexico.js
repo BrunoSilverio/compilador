@@ -22,6 +22,7 @@ let tabelaTokens = {
     "inteiro": "Sinteiro",
     "booleano": "Sbooleano",
     "identificador": "Sidentificador",
+    "numero": "Snumero",
     ".": "Sponto",
     ";": "Sponto_virgula",
     ",": "Svirgula",
@@ -43,7 +44,7 @@ let tabelaTokens = {
     ":": "Sdoispontos",
 }
 
-var programa = "se contador > 12 /*teste comentario*/\n" +
+var programa = "se contador > 13 /*teste comentario*/\n" +
     "entao escreva (contador)\n" +
     "senao escreva (x)";
 //para testar, chama a funcao do lexico e envia o programa
@@ -54,7 +55,6 @@ lexico(programa);
 function lexico(programa) {
 
     let comentario = false;
-    let tipopalavra = false;
     let posicao = 0;
     let index = 0;
     let linha = 0;
@@ -92,36 +92,32 @@ function lexico(programa) {
 
                 case (atual === "("):
 
-                    lexema: palavra;
-                    simbolo: "Sabre_parenteses";
-
                     console.log("( || Sabre_parenteses");
                     break;
 
                 //Agrupa NUMEROS em numero (ate chegar em espaco)
-                case (atual == "0" || atual == "1" || atual == "2" || atual == "3" || atual == "4" || atual == "5" || atual == "6" || atual == "7" || atual == "8" || atual == "9" && comentario == false):
-                    numero += atual;
-                    console.log("numero: " + numero);
-                    console.log("atual: " + atual);
+                case (atual == "0" || atual == "1" || atual == "2" || atual == "3" || atual == "4" || atual == "5" || atual == "6" || atual == "7" || atual == "8" || atual == "9" && comentario == false && isNaN(prox)):
+                    numero = numero + atual;
 
-                    if (isNaN(prox)) {
+                    if (prox != "0" && prox && "1" && prox != "2" && prox != "3" && prox != "4" && prox != "5" && prox != "6" && prox != "7" && prox != "8" && prox != "9" && comentario == false) {
                         token.push({
                             lexema: numero,
                             simbolo: "Snumero"
                         });
-                        numero = " ";
+                        numero = "";
                     }
-
                     break;
 
                 //Agrupa LETRAS em palavra (ate chegar em espaco)
                 case (atual.toUpperCase() != atual.toLowerCase() && comentario == false):
                     palavra += atual;
-                    //console.log("palavra: " + palavra);
-                    //console.log("atual: " + atual);
+                    console.log("palavra: " + palavra);
+                    console.log("atual: " + atual);
+                    console.log("prox: " + prox);
 
                     //Identificou que a palavra terminou, empilha palavras reservadas
                     if ((prox.toUpperCase() != prox.toLowerCase()) == false) {
+                        console.log("entrou na validacao de lexema");
                         if (palavra === "programa") {
                             token.push({
                                 lexema: palavra,
@@ -155,44 +151,43 @@ function lexico(programa) {
                                 lexema: palavra,
                                 simbolo: "funcao"
                             });
-                            palavra = "";
                         }
-                        if (palavra === "se") {
+                        if (palavra.localeCompare("se") == 0) {
                             token.push({
                                 lexema: palavra,
                                 simbolo: "Sse"
                             });
                             palavra = "";
                         }
-                        if (palavra === "entao") {
+                        if (palavra.normalize() === "entao".normalize()) {
                             token.push({
                                 lexema: palavra,
                                 simbolo: "Sentao"
                             });
                             palavra = "";
                         }
-                        if (palavra === "senao") {
+                        if (palavra.normalize() === "senao".normalize()) {
                             token.push({
                                 lexema: palavra,
                                 simbolo: "Ssenao"
                             });
                             palavra = "";
                         }
-                        if (palavra === "enquanto") {
+                        if (palavra.normalize() === "enquanto".normalize()) {
                             token.push({
                                 lexema: palavra,
                                 simbolo: "Senquanto"
                             });
                             palavra = "";
                         }
-                        if (palavra === "faca") {
+                        if (palavra.normalize() === "faca".normalize()) {
                             token.push({
                                 lexema: palavra,
                                 simbolo: "Sfaca"
                             });
                             palavra = "";
                         }
-                        if (palavra === "escreva") {
+                        if (palavra.normalize() === "escreva".normalize()) {
                             token.push({
                                 lexema: palavra,
                                 simbolo: "Sescreva"
@@ -254,15 +249,15 @@ function lexico(programa) {
                                 simbolo: "Snao"
                             });
                             palavra = "";
-                        } else {
-                            //Empilha identificador
+                        } 
+                        if (palavra != "") {
                             token.push({
                                 lexema: palavra,
                                 simbolo: "Sidentificador"
                             });
                             palavra = "";
                         }
-                        palavra = " ";
+                        palavra = "";
                     }
 
                     break;
@@ -314,12 +309,8 @@ function lexico(programa) {
         }
     }
 
-    // //Final de toda a logica
-    // for(let k = 0; k < token.length; k++) {
-    //     let item = token.pop()
-    //     console.log({k, item, length: token.length});
-    // }
 
+    console.log(token);
 
 
 }
