@@ -19,7 +19,6 @@ export let tabelaTokens={
     "inteiro":"Sinteiro",
     "booleano":"Sbooleano",
     "identificador":"Sidentificador",
-    "numero":"Snumero",
     ".":"Sponto",
     ";":"Sponto_virgula",
     ",":"Svirgula",
