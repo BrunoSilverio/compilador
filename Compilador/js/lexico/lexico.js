@@ -44,46 +44,46 @@ let tabelaTokens = {
     ":": "Sdoispontos",
 }
 
-var programa = "se contador > 13 teste {comentario}\n" +
+var programa = "se contador > 13 teste /*comentario*/\n" +
     "entao escreva, >= (contador)\n" +
     "senao + escreva <= (x)";
 
-var teste1 = 
-"{Teste 1 - OK}\n" +
+var teste1 =
+    "{Teste 1 - OK}\n" +
 
-"programa test1;\n" +
+    "programa test1;\n" +
 
-"var a,b,c: inteiro;\n" +
+    "var a,b,c: inteiro;\n" +
 
-"procedimento analisa1;\n" +
-"var a, x: inteiro;\n" +
-       "z: booleano;\n" +
-"inicio\n" +
-  "se x>1  entao\n" +
-      "x:= 0;\n" +
-  "leia(z);\n" +
-  "enquanto (a != 89) e (a<= 1000)  {erro ! linha 14}\n" +
-  "faca inicio\n" +
-           "a:= x+z\n" +
-       "fim;\n" +
-  "escreva(a)\n" +
-"fim;\n" +
+    "procedimento analisa1;\n" +
+    "var a, x: inteiro;\n" +
+    "z: booleano;\n" +
+    "inicio\n" +
+    "se x>1  entao\n" +
+    "x:= 0;\n" +
+    "leia(z);\n" +
+    "enquanto (a != 89) e (a<= 1000)  {erro ! linha 14}\n" +
+    "faca inicio\n" +
+    "a:= x+z\n" +
+    "fim;\n" +
+    "escreva(a)\n" +
+    "fim;\n" +
 
-"procedimento analisa2;\n" +
-"inicio\n" +
-  "leia(a);\n" +
-  "b:= a*a+(c div b)\n" + 
-"fim;\n" +
+    "procedimento analisa2;\n" +
+    "inicio\n" +
+    "leia(a);\n" +
+    "b:= a*a+(c div b)\n" +
+    "fim;\n" +
 
-"inicio\n" +
+    "inicio\n" +
     "analisa1;\n" +
     "analisa2;\n" +
     "se b > (c+ a*a)\n" +
     "entao escreva(b)\n" +
     "senao escreva(c)\n" +
-"fim.\n" +
+    "fim.\n" +
 
-"{fim}}\n"   
+    "{fim}}\n"
 
 //para testar, chama a funcao do lexico e envia o programa
 //teste = FileReader.readAsText();
@@ -135,7 +135,7 @@ function lexico(programa) {
             }
 
             //Caso tenha erro, interrompe, retorna os tokens ate o momento, e a linha do erro
-            if(foierro == true){
+            if (foierro == true) {
                 //console.log("Foi erro: " + atual + "na linha: " + erro)
                 console.log(token);
                 return 0;
@@ -378,7 +378,7 @@ function lexico(programa) {
                         atual = "";
                     }
                     //Igual
-                    if (atual === "=" && antes != "<" && antes !=">" && comentario == false) {
+                    if (atual === "=" && antes != "<" && antes != ">" && comentario == false) {
                         token.push({
                             lexema: atual,
                             simbolo: "Sig"
@@ -453,8 +453,8 @@ function lexico(programa) {
                     //Final de comentario tipo 2
                     if (atual === "*" && prox === "/") {
                         //TALVEZ AQUI: posicao atualiza pois ja validou a posicao seguinte
-                        //posicao = posicao + 1;
                         //console.log("fecha comentario especial");
+                        index = index + 1;
                         comentario = false;
 
                     }
