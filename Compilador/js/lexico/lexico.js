@@ -50,7 +50,7 @@ var programa = "se contador > 13 teste /*comentario*/\n" +
 
 var teste1 =
     "{Teste 1 - OK}\n" +
-
+    "/* teste */\n" +
     "programa test1;\n" +
 
     "var a,b,c: inteiro;\n" +
@@ -83,11 +83,11 @@ var teste1 =
     "senao escreva(c)\n" +
     "fim.\n" +
 
-    "{fim}}\n"
+    "{fim}\n"
 
 //para testar, chama a funcao do lexico e envia o programa
 //teste = FileReader.readAsText();
-lexico(programa);
+lexico(teste1);
 
 //Inicio da analise lexica
 function lexico(programa) {
@@ -448,13 +448,17 @@ function lexico(programa) {
                     //Final de comentario tipo 1
                     if (linha[posicao] === "}") {
                         comentario = false;
-                        console.log("fecha comentario");
                     }
                     //Final de comentario tipo 2
                     if (atual === "*" && prox === "/") {
                         //TALVEZ AQUI: posicao atualiza pois ja validou a posicao seguinte
-                        //console.log("fecha comentario especial");
-                        index = index + 1;
+                        console.log("posicao atual: " + posicao);
+                        console.log("ultima: " + linha.length);
+
+                        //Caso seja o ultimo caracter da linha, pula validacao do final
+                        if (posicao + 1 === linha.length) {
+                            index = index + 1;
+                        }
                         comentario = false;
 
                     }
@@ -463,7 +467,6 @@ function lexico(programa) {
                 //Inicio de comentario tipo 1
                 case (atual === "{"):
                     comentario = true;
-                    console.log("abre comentario");
                     break;
 
                 //Inicio de comentario tipo 2
