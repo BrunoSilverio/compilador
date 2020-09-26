@@ -44,14 +44,14 @@ let tabelaTokens = {
     ":": "Sdoispontos",
 }
 
-var programa = "se contador > 13 teste /*comentario*/\n" +
+var programa = "se contador > 113 teste /*comentario*/\n" +
     "entao escreva, >= (contador)\n" +
     "senao + escreva <= (x)";
 
 var teste1 =
-    "{Teste 1 - OK}\n" +
+    "{programa 1 - OK}\n" +
     "/* teste */\n" +
-    "programa test1;\n" +
+    "programa 5 9 ' test1;\n" +
 
     "var a,b,c: inteiro;\n" +
 
@@ -104,10 +104,9 @@ function lexico(programa) {
     let indexmenos = 0;
     let lexema = "";
     let simbolo = "";
-    let pilha = 0;
-    let palavra = "";
+    let palavra = "";       //Recebe numeros
     let numero = "";
-    let token = [];
+    let token = [];         //Lista com todos os Lexemas,Simbolos e Linhas
     let erro = 1;
 
     console.log("\n" + programa);
@@ -150,10 +149,11 @@ function lexico(programa) {
                 case (atual == "0" || atual == "1" || atual == "2" || atual == "3" || atual == "4" || atual == "5" || atual == "6" || atual == "7" || atual == "8" || atual == "9" && comentario == false && isNaN(prox)):
                     numero = numero + atual;
 
-                    if (prox != "0" && prox && "1" && prox != "2" && prox != "3" && prox != "4" && prox != "5" && prox != "6" && prox != "7" && prox != "8" && prox != "9" && comentario == false) {
+                    if (prox != "0" && prox != "1" && prox != "2" && prox != "3" && prox != "4" && prox != "5" && prox != "6" && prox != "7" && prox != "8" && prox != "9" && comentario == false) {
                         token.push({
                             lexema: numero,
-                            simbolo: "Snumero"
+                            simbolo: "Snumero",
+                            linha: erro
                         });
                         numero = "";
                     }
@@ -452,8 +452,8 @@ function lexico(programa) {
                     //Final de comentario tipo 2
                     if (atual === "*" && prox === "/") {
                         //TALVEZ AQUI: posicao atualiza pois ja validou a posicao seguinte
-                        console.log("posicao atual: " + posicao);
-                        console.log("ultima: " + linha.length);
+                        //console.log("posicao atual: " + posicao);
+                        //console.log("ultima: " + linha.length);
 
                         //Caso seja o ultimo caracter da linha, pula validacao do final
                         if (posicao + 1 === linha.length) {
@@ -480,11 +480,13 @@ function lexico(programa) {
 
                 //SE CHEGOU AQUI, HA ERRO
                 default:
-                    console.log("Erro Lexico: " + atual + " na linha: " + erro);
+                    //console.log("Erro Lexico: " + atual + " na linha: " + erro);
                     foierro = true;
+                    //console.log(posicao);
                     token.push({
                         lexema: atual,
-                        simbolo: "ERRO"
+                        simbolo: "ERRO",
+                        linha : erro
                     });
                     break;
             }
