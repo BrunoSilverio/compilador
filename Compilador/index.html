@@ -1,79 +1,101 @@
 <html>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="./css/style.css">
-    <!-- CodeMirror -->
-    <script src="codemirror/lib/codemirror.js"></script>
-    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="codemirror/theme/isotope.css">
-    <script src="codemirror/mode/javascript/javascript.js"></script>
-    <script src="codemirror/mode/css/css.js"></script>
-    <link rel="stylesheet" href="codemirror/theme/dracula.css"/>
-    <script type = "text/javascript" src="js/main.js"></script>
-    <title>Compilador</title>
-</head>
-
-<body>
-    <!-- NAVBAR -->
-    <nav>
-        <div align="center">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <!-- CodeMirror -->
+        <script src="codemirror/lib/codemirror.js"></script>
+        <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+        <link rel="stylesheet" href="codemirror/theme/isotope.css">
+        <script src="codemirror/mode/javascript/javascript.js"></script>
+        <link rel="stylesheet" href="codemirror/theme/dracula.css"/>
+        <!--Imports-->
+        <script type = "text/javascript" src="js/main.js"></script>
+        <link rel="stylesheet" href="./css/style.css">
+        <title>Compilador</title>
+    </head>
+    <body>
+        <nav>  
             <h3>Compilador</h3>
-        </div>
-        <div style="position:absolute; right:20px; top:10px" class="image-upload">
-            <label for="file-input">
-                <img src="img/import.png" class="w3-button w3-black" width="50" height="50" />
-            </label>
-            <input id="file-input" type="file" accept=".txt" onchange="localLoad(this.files);"/>
-        </div>
+            
+            <div style="position:absolute; right:20px; top:10px" class="image-upload">
+                <label for="file-input">
+                    <img src="img/import.png" class="w3-button w3-black" width="50" height="50"/>
+                </label>
+                <input id="file-input" type="file" accept=".txt" onchange="localLoad(this.files);"/>
+            </div>
 
-        <div style="position:absolute; right:100px; top:10px" class="image-upload">
-            <button id="teste" type="button" onclick="myFunction()">Play</button>
-        </div>
+            <div style="position:absolute; right:130px; top:10px" class="image-upload">
+                <label for="file-save">
+                    <img src="img/save.png" class="w3-button w3-black" width="50" height="45"/>
+                </label>
+                <input id="file-save" type="file" accept=".txt" onchange="saveTextAsFile(this.files);"/>
+            </div>
 
-    </nav>
-    <hr>
-    <!-- Div Geral -->
-    <div class="container-fluid text-left" >
-        <div id="codeeditor">
-            <!--Codigo Fonte LPD - usando CodeMirror-->
-            <script>
-                var editor = CodeMirror(document.getElementById("codeeditor"),{
-                    mode: "javascript",
-                    theme: "isotope",
-                    tabSize: 5,
-                    lineNumbers: true,
-                    viewportMargin: 130
-                });
-                
-                function localLoad(files) {
-                    if (files.length == 1) {
-                        document.title = escape(files[0].name);
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                            editor.setValue(e.target.result);
-                        };
-                        reader.readAsText(files[0]);
+            <div style="position:absolute; right:250px; top:10px" class="image-upload">
+                <label for="play">
+                    <img src="img/play.png" class="w3-button w3-black" width="45" height="45"/>
+                </label>
+                <input id="file-input" type="file" onchange=""/>
+            </div>
+        </nav>
+        <hr>
+        <div class="ctnFlex">
+            <div id="codeeditor" class="op1">
+                <!--Codigo Fonte LPD - usando CodeMirror-->
+                <script>
+                    var editor = CodeMirror(document.getElementById("codeeditor"),{
+                        mode: "javascript",
+                        theme: "isotope",
+                        tabSize: 5,
+                        lineNumbers: true,
+                        viewportMargin: 150
+                    });
+                    
+                    function localLoad(files) {
+                        if (files.length == 1) {
+                            
+                            var reader = new FileReader();
+                            reader.onload = function(e) {
+                                editor.setValue(e.target.result);
+                            };
+                            reader.readAsText(files[0]);
+                        }
                     }
-                }
-                
-            </script>
-        </div>
-        <div class="col-sm-2 text-right sidenav">
-            <br>
-            <br>
 
-            <!--Saida-->
-            <!-- retirei: class="form-control form-control-lg" -->
-            <textarea id="formSaida"  type="text" rows="16" cols="260" placeholder="> Log" 
-                readonly></textarea>
+                    function saveTextAsFile() {
+                        var textToWrite = editor.getValue();
+                        var textFileAsBlob = new Blob([textToWrite], {
+                            type: "text/plain;charset=utf-8"
+                        });
+                        var fileNameToSaveAs = "myfile.txt";
 
+                        var downloadLink = document.createElement("a");
+                        downloadLink.download = fileNameToSaveAs;
+                        downloadLink.innerHTML = "Download File";
+                        if (window.webkitURL != null) {
+                            // Chrome allows the link to be clicked
+                            // without actually adding it to the DOM.
+                            downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+                        } else {
+                            // Firefox requires the link to be added to the DOM
+                            // before it can be clicked.
+                            downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+                            downloadLink.onclick = destroyClickedElement;
+                            downloadLink.style.display = "none";
+                            document.body.appendChild(downloadLink);
+                        }
+                        downloadLink.click();
+                    }
+                    
+                </script>
+            </div>
+            <div id="divSaida" class="op2">
+                <textarea id="formSaida" type="text" rows="30" cols="130" class="resize"></textarea>
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

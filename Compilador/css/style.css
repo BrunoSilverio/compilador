@@ -3,40 +3,28 @@ body {
   width: 100% !important;
   color: #06fc06;
   background-color: rgb(48, 47, 47);
+  position: fixed;
+}
+
+nav{
+  padding-left: 3em;
+  font-weight: bolder
 }
 
 button {
   height: 100%;
   width: 100%;
-
-}
-
-navbar navbar-inverse{
-  color: rgb(252, 253, 252);
-}
-
-table {
-  border-collapse: collapse;
-}
-  
-table, td, th {
-  border: 1px solid rgb(255, 255, 255);
 }
 
 textarea {
-  color: black;
+  color: rgb(255, 0, 0);
   background-color: rgb(26, 25, 25);
   border: 1px solid rgb(255, 255, 255);
+  
 }
 
 .image-upload>input {
   display: none;
-}
-
-.my-custom-scrollbar {
-  position: relative;
-  height: 400px;
-  overflow: auto;
 }
 
 .table-wrapper-scroll-y {
@@ -46,7 +34,27 @@ textarea {
 .CodeMirror {
   border: 1px solid #eee;
   font-family: monospace;
-  height: 300px;
   color: black;
   direction: ltr;
+  height: 800px;
+  max-width: 800px;
+  font-size: 16px;
+}
+
+.ctnFlex{
+  display: flex;
+  justify-content: space-between;
+   
+}
+div.op1 {
+  display: inline-block;
+  margin-left: 4vw;
+  min-width:40vw;
+}
+
+div.op2 {
+  display: inline-block;
+  margin-right: 4vw;
+  text-align: left;
+  min-width:40vw;
 }
