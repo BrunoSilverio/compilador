@@ -1,3 +1,7 @@
+//PONTOS A SEREM AJUSTADOS:
+//-Numero dentro de comentario (ex {programa 1} -> o 1 esta aparecendo como lexema tipo numero)
+//-Numero em identificador (ex. teste1 -> o teste esta aparecendo como identificador e o 1 como numero)
+
 //import * as token from './token.js';
 //import * as main from '../main.js';
 //let tabelaTokens = require ('./token.js');    //Esse funciona
@@ -44,14 +48,14 @@ let tabelaTokens = {
     ":": "Sdoispontos",
 }
 
-var programa = "se contador > 113 teste /*comentario*/\n" +
+var programa = "se contador > 13 teste1 /*comentario*/\n" +
     "entao escreva, >= (contador)\n" +
     "senao + escreva <= (x)";
 
 var teste1 =
-    "{programa 1 - OK}\n" +
+    "{programa 1 ' - OK}\n" +
     "/* teste */\n" +
-    "programa 5 9 ' test1;\n" +
+    "programa 55 test1;\n" +
 
     "var a,b,c: inteiro;\n" +
 
@@ -87,7 +91,7 @@ var teste1 =
 
 //para testar, chama a funcao do lexico e envia o programa
 //teste = FileReader.readAsText();
-lexico(teste1);
+lexico(programa);
 
 //Inicio da analise lexica
 function lexico(programa) {
@@ -147,6 +151,7 @@ function lexico(programa) {
 
                 //Agrupa NUMEROS em numero (ate chegar em espaco)
                 case (atual == "0" || atual == "1" || atual == "2" || atual == "3" || atual == "4" || atual == "5" || atual == "6" || atual == "7" || atual == "8" || atual == "9" && comentario == false && isNaN(prox)):
+
                     numero = numero + atual;
 
                     if (prox != "0" && prox != "1" && prox != "2" && prox != "3" && prox != "4" && prox != "5" && prox != "6" && prox != "7" && prox != "8" && prox != "9" && comentario == false) {
@@ -486,7 +491,7 @@ function lexico(programa) {
                     token.push({
                         lexema: atual,
                         simbolo: "ERRO",
-                        linha : erro
+                        linha: erro
                     });
                     break;
             }
