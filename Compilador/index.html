@@ -32,7 +32,7 @@
                 <label for="file-save">
                     <img src="img/save.png" class="w3-button w3-black" width="50" height="45"/>
                 </label>
-                <input id="file-save" type="file" accept=".txt" onchange="saveTextAsFile(this.files);"/>
+                <input id="file-save" type="file" accept=".txt" onchange="saveTextAsFile();"/>
             </div>
 
             <div style="position:absolute; right:250px; top:10px" class="image-upload">
@@ -65,9 +65,12 @@
                             reader.readAsText(files[0]);
                         }
                     }
+                    var textToWrite = editor.getValue(); // Salva conteudo do codemirror
+
+                    console.log(textToWrite);
 
                     function saveTextAsFile() {
-                        var textToWrite = editor.getValue();
+                        
                         var textFileAsBlob = new Blob([textToWrite], {
                             type: "text/plain;charset=utf-8"
                         });
@@ -90,7 +93,6 @@
                         }
                         downloadLink.click();
                     }
-                    
                 </script>
             </div>
             <div id="divSaida" class="op2">
