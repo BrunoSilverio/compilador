@@ -22,7 +22,7 @@ let token = [];
 
 
 function main() {
-    document.getElementById("terminal").innerHTML = ">";
+    document.getElementById("formSaida").innerHTML = ">";
     try {
         readProgramFile();
         clear();
