@@ -152,6 +152,9 @@ function lexico(programa) {
                     //Final de comentario tipo 1
                     if (atual === "}") {
                         comentario = false;
+                        if (posicao + 1 === linha.length) {
+                            index = index + 1;
+                        }
                     }
                     //Final de comentario tipo 2
                     if (atual === "*" && prox === "/") {
@@ -200,7 +203,7 @@ function lexico(programa) {
                     palavra += atual;
 
                     //Identificou que a palavra terminou, empilha palavras reservadas
-                    if (((prox.toUpperCase() != prox.toLowerCase()) == false) && !isNumber(prox)) {
+                    if (!isAlpha(prox) && !isNumber(prox)) {
 
                         if (palavra === "programa") {
                             token.push({
@@ -542,28 +545,18 @@ function lexico(programa) {
 
 
 
-// Valida caso seja letra
-// function isAlpha1(ch) {
-//     return /^[A-Z]$/i.test(ch);
-// }
-// Valida caso seja numero
-// function isNumber(palavra) {
-//     if (isNaN(palavra)) {
-//         return false;
-//     }
-//     return true;
-// }
-
-function isAlpha(palavra){
-    if (palavra.toUpperCase() != palavra.toLowerCase()){
+//Funcao para validar se caracter e letra
+function isAlpha(palavra) {
+    if (palavra.toUpperCase() != palavra.toLowerCase()) {
         return true;
-    }else{
+    } else {
         return false;
     }
 
 
 }
 
+//Funcao para validar se caracter e numero
 function isNumber(palavra) {
     if (palavra == "0" || palavra == "1" || palavra == "2" || palavra == "3" || palavra == "4" || palavra == "5" || palavra == "6" || palavra == "7" || palavra == "8" || palavra == "9") {
         return true;
@@ -571,7 +564,8 @@ function isNumber(palavra) {
         return false;
     }
 }
-// Valida se palavra eh reservada
+
+//Funcao para validar se palavra eh reservada
 function isReserved(lexema) {
     if (tabelaTokens.hasOwnProperty(lexema)) {
         return tabelaTokens[lexema];
