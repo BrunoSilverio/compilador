@@ -1,5 +1,4 @@
 //PONTOS A SEREM AJUSTADOS:
-//-Numero dentro de comentario (ex {programa 1} -> o 1 esta aparecendo como lexema tipo numero)
 //-Numero em identificador (ex. teste1 -> o teste esta aparecendo como identificador e o 1 como numero)
 
 //import * as token from './token.js';
@@ -91,27 +90,27 @@ var teste1 =
 
 //para testar, chama a funcao do lexico e envia o programa
 //teste = FileReader.readAsText();
-lexico(programa);
+lexico(teste1);
 
 //Inicio da analise lexica
 function lexico(programa) {
 
-    let comentario = false;
-    let foierro = false;
+    let comentario = false; //se comentario esta aberto
+    let foierro = false;    //se foi capturado um erro -> em breve inutil
     let posicao = 0;
     let index = 0;
     let linha = 0;
-    let atual = "";
-    let prox = " ";
-    let antes = " ";
-    let indexmais = 0;
-    let indexmenos = 0;
+    let atual = "";         //carater atual
+    let prox = "";          //caracter proximo
+    let antes = " ";        //caracter anterios
+    let indexmais = 0;      //proximo valor do index
+    let indexmenos = 0;     //valor anterior do index
     let lexema = "";
     let simbolo = "";
     let palavra = "";       //Recebe numeros
     let numero = "";
     let token = [];         //Lista com todos os Lexemas,Simbolos e Linhas
-    let erro = 1;
+    let nlinha = 1;         //numero da linha, para salvar na lista
 
     console.log("\n" + programa);
 
@@ -134,7 +133,7 @@ function lexico(programa) {
             atual = linha[posicao]; //recebe caracter atual
             //Conta a linha do erro
             if (atual == "\n") {
-                erro++;
+                nlinha++;
             }
 
             //Caso tenha erro, interrompe, retorna os tokens ate o momento, e a linha do erro
@@ -148,310 +147,10 @@ function lexico(programa) {
             switch (true) {
 
 
-
-                //Agrupa NUMEROS em numero (ate chegar em espaco)
-                case (atual == "0" || atual == "1" || atual == "2" || atual == "3" || atual == "4" || atual == "5" || atual == "6" || atual == "7" || atual == "8" || atual == "9" && comentario == false && isNaN(prox)):
-
-                    numero = numero + atual;
-
-                    if (prox != "0" && prox != "1" && prox != "2" && prox != "3" && prox != "4" && prox != "5" && prox != "6" && prox != "7" && prox != "8" && prox != "9" && comentario == false) {
-                        token.push({
-                            lexema: numero,
-                            simbolo: "Snumero",
-                            linha: erro
-                        });
-                        numero = "";
-                    }
-                    break;
-
-                //Agrupa LETRAS em palavra e trata (ate chegar em espaco)
-                case (atual.toUpperCase() != atual.toLowerCase() && comentario == false):
-                    palavra += atual;
-
-                    //Identificou que a palavra terminou, empilha palavras reservadas
-                    if ((prox.toUpperCase() != prox.toLowerCase()) == false) {
-
-                        if (palavra === "programa") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sprograma"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "inicio") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sinicio"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "fim") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sfim"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "procedimento") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sprocedimento"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "funcao") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "funcao"
-                            });
-                        }
-                        if (palavra.localeCompare("se") == 0) {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sse"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra.normalize() === "entao".normalize()) {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sentao"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra.normalize() === "senao".normalize()) {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Ssenao"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra.normalize() === "enquanto".normalize()) {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Senquanto"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra.normalize() === "faca".normalize()) {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sfaca"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra.normalize() === "escreva".normalize()) {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sescreva"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "leia") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sleia"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "var") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Svar"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "inteiro") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sinteiro"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "booleano") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sbooleano"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "div") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sdiv"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "e") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Se"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "ou") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sou"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra === "nao") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Snao"
-                            });
-                            palavra = "";
-                        }
-                        if (palavra != "") {
-                            token.push({
-                                lexema: palavra,
-                                simbolo: "Sidentificador"
-                            });
-                            palavra = "";
-                        }
-                        palavra = "";
-                    }
-                    break;
-
-                //Trata atribuicao (dois pontos e atribuicao)
-                case (atual === ":" && comentario == false):
-                    if (prox != "=") {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Sdoispontos"
-                        });
-                    }
-                    if (prox === "=")
-                        token.push({
-                            lexema: atual + prox,
-                            simbolo: "Satribuicao"
-                        });
-                    break;
-
-                //Trata Operador Aritmetico
-                case (atual === "+" || atual === "-" || atual === "*" && comentario == false):
-                    if (atual === "+" && comentario == false) {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Smais"
-                        });
-                    }
-                    if (atual === "-") {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Smenos"
-                        });
-                    }
-                    if (atual === "*") {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Smult"
-                        });
-                    }
-                    break;
-
-                //Trata Operador Relacional
-                case (atual === ">" || atual === "<" || atual == "=" || atual === "!" && comentario == false):
-                    //Maior e Maior Igual
-                    if (atual === ">" && prox != "=" && comentario == false) {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Smaior"
-                        });
-                    } else if (atual === ">" && prox === "=" && comentario == false) {
-                        token.push({
-                            lexema: atual + prox,
-                            simbolo: "Smaiorig"
-                        });
-                        atual = "";
-                        console.log("valor atual: " + atual);
-                    }
-
-                    //Menor e Menor Igual
-                    if (atual === "<" && prox != "=" && comentario == false) {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Smenor"
-                        });
-                    }
-                    if (atual === "<" && prox === "=" && comentario == false) {
-                        token.push({
-                            lexema: atual + prox,
-                            simbolo: "Smenorig"
-                        });
-                        atual = "";
-                    }
-                    //Igual
-                    if (atual === "=" && antes != "<" && antes != ">" && comentario == false) {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Sig"
-                        });
-                        atual = "";
-                    }
-                    //Diferente
-                    if (atual === "!" && prox === "=" && comentario == false) {
-                        token.push({
-                            lexema: atual + prox,
-                            simbolo: "Sdif"
-                        });
-                        atual = "";
-                    }
-
-
-
-                    break;
-
-                //Trata Pontuacao
-                case (atual === "(" || atual === ")" || atual === ";" || atual === "." || atual == "," && comentario == false):
-                    //Abre Parenteses
-                    if (atual === "(" && comentario == false) {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Sabre_parenteses"
-                        });
-                    }
-                    //Fecha Parenteses
-                    if (atual === ")" && comentario == false) {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Sfecha_parenteses"
-                        });
-                    }
-                    //Ponto e virgula
-                    if (atual === ";" && comentario == false) {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Sponto_virgula"
-                        });
-                    }
-                    //Ponto
-                    if (atual === "." && comentario == false) {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Sponto"
-                        });
-                    }
-                    //Virgula
-                    if (atual === "," && comentario == false) {
-                        token.push({
-                            lexema: atual,
-                            simbolo: "Svirgula"
-                        });
-                    }
-
-                    break;
-
-                //Valida caracteres a serem desconsiderados
-                case (atual === " " || atual === "\t" || atual === "\n"):
-                    //caso seja espaco ou \t, sai
-                    break;
-
                 //Valida final de comentario (ignorando conteudo dentro)
                 case (comentario == true):
                     //Final de comentario tipo 1
-                    if (linha[posicao] === "}") {
+                    if (atual === "}") {
                         comentario = false;
                     }
                     //Final de comentario tipo 2
@@ -460,12 +159,11 @@ function lexico(programa) {
                         //console.log("posicao atual: " + posicao);
                         //console.log("ultima: " + linha.length);
 
+                        comentario = false;
                         //Caso seja o ultimo caracter da linha, pula validacao do final
                         if (posicao + 1 === linha.length) {
                             index = index + 1;
                         }
-                        comentario = false;
-
                     }
                     break;
 
@@ -482,6 +180,344 @@ function lexico(programa) {
                     //posicao = posicao + 1;
                     break;
 
+                //Agrupa NUMEROS em numero (ate chegar em espaco)
+                case (isNumber(atual) && comentario === false):
+
+                    numero = numero + atual;
+
+                    if (prox != "0" && prox != "1" && prox != "2" && prox != "3" && prox != "4" && prox != "5" && prox != "6" && prox != "7" && prox != "8" && prox != "9" && comentario == false) {
+                        token.push({
+                            lexema: numero,
+                            simbolo: "Snumero",
+                            linha: nlinha
+                        });
+                        numero = "";
+                    }
+                    break;
+
+                //Agrupa LETRAS em palavra e trata (ate chegar em espaco)
+                case (isAlpha(atual) && comentario === false):
+                    palavra += atual;
+
+                    //Identificou que a palavra terminou, empilha palavras reservadas
+                    if (((prox.toUpperCase() != prox.toLowerCase()) == false) && !isNumber(prox)) {
+
+                        if (palavra === "programa") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sprograma",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "inicio") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sinicio",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "fim") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sfim",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "procedimento") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sprocedimento",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "funcao") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "funcao",
+                                linha: nlinha
+                            });
+                        }
+                        if (palavra.localeCompare("se") == 0) {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sse",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra.normalize() === "entao".normalize()) {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sentao",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra.normalize() === "senao".normalize()) {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Ssenao",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra.normalize() === "enquanto".normalize()) {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Senquanto",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra.normalize() === "faca".normalize()) {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sfaca",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra.normalize() === "escreva".normalize()) {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sescreva",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "leia") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sleia",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "var") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Svar",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "inteiro") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sinteiro",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "booleano") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sbooleano",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "div") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sdiv",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "e") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Se",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "ou") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sou",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra === "nao") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Snao",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        if (palavra != "") {
+                            token.push({
+                                lexema: palavra,
+                                simbolo: "Sidentificador",
+                                linha: nlinha
+                            });
+                            palavra = "";
+                        }
+                        palavra = "";
+                    }
+                    break;
+
+                //Trata atribuicao (dois pontos e atribuicao)
+                case (atual === ":" && comentario == false):
+                    if (prox != "=") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sdoispontos",
+                            linha: nlinha
+                        });
+                    }
+                    if (prox === "=")
+                        token.push({
+                            lexema: atual + prox,
+                            simbolo: "Satribuicao",
+                            linha: nlinha
+                        });
+                    break;
+
+                //Trata Operador Aritmetico
+                case ((atual === "+" || atual === "-" || atual === "*") && comentario === false):
+                    if (atual === "+" && comentario == false) {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smais",
+                            linha: nlinha
+                        });
+                    }
+                    if (atual === "-") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smenos",
+                            linha: nlinha
+                        });
+                    }
+                    if (atual === "*") {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smult",
+                            linha: nlinha
+                        });
+                    }
+                    break;
+
+                //Trata Operador Relacional
+                case ((atual === ">" || atual === "<" || atual == "=" || atual === "!") && comentario == false):
+                    //Maior e Maior Igual
+                    if (atual === ">" && prox != "=" && comentario == false) {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smaior",
+                            linha: nlinha
+                        });
+                    } else if (atual === ">" && prox === "=" && comentario == false) {
+                        token.push({
+                            lexema: atual + prox,
+                            simbolo: "Smaiorig",
+                            linha: nlinha
+                        });
+                        atual = "";
+                        console.log("valor atual: " + atual);
+                    }
+
+                    //Menor e Menor Igual
+                    if (atual === "<" && prox != "=" && comentario == false) {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Smenor",
+                            linha: nlinha
+                        });
+                    }
+                    if (atual === "<" && prox === "=" && comentario == false) {
+                        token.push({
+                            lexema: atual + prox,
+                            simbolo: "Smenorig",
+                            linha: nlinha
+                        });
+                        atual = "";
+                    }
+                    //Igual
+                    if (atual === "=" && antes != "<" && antes != ">" && comentario == false) {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sig",
+                            linha: nlinha
+                        });
+                        atual = "";
+                    }
+                    //Diferente
+                    if (atual === "!" && prox === "=" && comentario == false) {
+                        token.push({
+                            lexema: atual + prox,
+                            simbolo: "Sdif",
+                            linha: nlinha
+                        });
+                        atual = "";
+                    }
+
+
+
+                    break;
+
+                //Trata Pontuacao
+                case ((atual === "(" || atual === ")" || atual === ";" || atual === "." || atual == ",") && comentario == false):
+                    //Abre Parenteses
+                    if (atual === "(" && comentario == false) {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sabre_parenteses",
+                            linha: nlinha
+                        });
+                    }
+                    //Fecha Parenteses
+                    if (atual === ")" && comentario == false) {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sfecha_parenteses",
+                            linha: nlinha
+
+                        });
+                    }
+                    //Ponto e virgula
+                    if (atual === ";" && comentario == false) {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sponto_virgula",
+                            linha: nlinha
+                        });
+                    }
+                    //Ponto
+                    if (atual === "." && comentario == false) {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Sponto",
+                            linha: nlinha
+                        });
+                    }
+                    //Virgula
+                    if (atual === "," && comentario == false) {
+                        token.push({
+                            lexema: atual,
+                            simbolo: "Svirgula",
+                            linha: nlinha
+                        });
+                    }
+
+                    break;
+
+                //Valida caracteres a serem desconsiderados
+                case (atual === " " || atual === "\t" || atual === "\n"):
+                    //caso seja espaco ou \t, sai
+                    break;
+
+
+
 
                 //SE CHEGOU AQUI, HA ERRO
                 default:
@@ -491,7 +527,7 @@ function lexico(programa) {
                     token.push({
                         lexema: atual,
                         simbolo: "ERRO",
-                        linha: erro
+                        linha: nlinha
                     });
                     break;
             }
@@ -507,15 +543,33 @@ function lexico(programa) {
 
 
 // Valida caso seja letra
-function isAlpha(ch) {
-    return /^[A-Z]$/i.test(ch);
-}
+// function isAlpha1(ch) {
+//     return /^[A-Z]$/i.test(ch);
+// }
 // Valida caso seja numero
-function isNumber(palavra) {
-    if (isNaN(palavra)) {
+// function isNumber(palavra) {
+//     if (isNaN(palavra)) {
+//         return false;
+//     }
+//     return true;
+// }
+
+function isAlpha(palavra){
+    if (palavra.toUpperCase() != palavra.toLowerCase()){
+        return true;
+    }else{
         return false;
     }
-    return true;
+
+
+}
+
+function isNumber(palavra) {
+    if (palavra == "0" || palavra == "1" || palavra == "2" || palavra == "3" || palavra == "4" || palavra == "5" || palavra == "6" || palavra == "7" || palavra == "8" || palavra == "9") {
+        return true;
+    } else {
+        return false;
+    }
 }
 // Valida se palavra eh reservada
 function isReserved(lexema) {
