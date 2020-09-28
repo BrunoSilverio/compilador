@@ -2,8 +2,8 @@
 
 //"Lexema":"Simbolo"
 module.exports.tabelaTokens={
-    programa:"Sprograma",
-    inicio:"Sinicio",
+    "programa":"Sprograma",
+    "inicio":"Sinicio",
     "fim":"Sfim",
     "procedimento":"Sprocedimento",
     "funcao":"Sfuncao",
