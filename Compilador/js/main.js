@@ -6,7 +6,6 @@ let lexico = require('./js/lexico/lexico.js');
 
 
 //Eventos
-
 document.getElementById('import_file').addEventListener('change', function () {
     readText(this);
 });
@@ -22,7 +21,7 @@ let token = [];
 
 
 function main() {
-    document.getElementById("formSaida").innerHTML = ">";
+    document.getElementById("terminal").innerHTML = "> ";
     try {
         readProgramFile();
         clear();
