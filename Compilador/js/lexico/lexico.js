@@ -505,7 +505,6 @@ function lexico(programa) {
 
                 //SE CHEGOU AQUI, HA ERRO
                 default:
-                    console.log("Erro Lexico: " + atual + " na linha: " + erro);
                     foierro = true;
                     //console.log(posicao);
                     token.push({
