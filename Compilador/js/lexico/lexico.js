@@ -1,12 +1,7 @@
 //PONTOS A SEREM AJUSTADOS:
-//-Numero em identificador (ex. teste1 -> o teste esta aparecendo como identificador e o 1 como numero)
+//
 
-//import * as token from './token.js';
-//import * as main from '../main.js';
-//let tabelaTokens = require ('./token.js');    //Esse funciona
-
-// Tabela de Tokens
-//"Lexema":"Simbolo"
+//Tabela de tokens
 let tabelaTokens = {
     "programa": "Sprograma",
     "inicio": "Sinicio",
@@ -47,14 +42,16 @@ let tabelaTokens = {
     ":": "Sdoispontos",
 }
 
-var programa = "se contador > 13 teste1 /*comentario*/\n" +
+var teste2 = "a 55 teste1;\n"
+
+var programa = "se contador > 13 55teste /*comentario*/\n" +
     "entao escreva, >= (contador)\n" +
     "senao + escreva <= (x)";
 
 var teste1 =
     "{programa 1 ' - OK}\n" +
     "/* teste */\n" +
-    "programa 55 bruno1;\n" +
+    "programa 55 1bruno1;\n" +
 
     "var a,b,c: inteiro;\n" +
 
@@ -88,9 +85,8 @@ var teste1 =
 
     "{fim}\n"
 
-//para testar, chama a funcao do lexico e envia o programa
-//teste = FileReader.readAsText();
-lexico(programa);
+//Provisoriamente, funcao chamada aqui para ser analisada
+lexico(teste1);
 
 //Inicio da analise lexica
 function lexico(programa) {
@@ -112,26 +108,24 @@ function lexico(programa) {
     let token = [];         //Lista com todos os Lexemas,Simbolos e Linhas
     let nlinha = 1;         //numero da linha, para salvar na lista
 
-    console.log("\n" + programa);
-
-    //metodos para calcular quantidade de linhas
-    //const lines = (codigo.match(/\n/g) || '').length + 1;
-    //const linhas = codigo.split(/\r\n|\r|\n/).length;
+    //Printa programa que vai ser analisado
+    //console.log("\n" + programa);
 
     //Loop linha por linha
     for (let index = 0; index < programa.length; index++) {
         //Variavel auxiliar
         let linha = programa[index];
-        //variavel para saber proximo caracter
-        indexmais = index + 1;
-        indexmenos = index - 1;
-        prox = programa[indexmais]; //recebe prox caracter (depois de atual)
-        antes = programa[indexmenos];
+        //Variaveis para saber caracter anterior e proximo
+        indexmais = index + 1;          //posicao do prox caracter
+        indexmenos = index - 1;         //posicao do caracter anterior
+        prox = programa[indexmais];     //recebe prox caracter (depois de atual)
+        antes = programa[indexmenos];   //recebe caracter anterior (antes de atual)
 
+        //Loop dentro da linha
         for (posicao = 0; posicao < linha.length; posicao++) {
 
             atual = linha[posicao]; //recebe caracter atual
-            //Conta a linha do erro
+            //Conta o numero da linha
             if (atual == "\n") {
                 nlinha++;
             }
@@ -153,12 +147,9 @@ function lexico(programa) {
                     if (atual === "}") {
                         comentario = false;
                     }
+
                     //Final de comentario tipo 2
                     if (atual === "*" && prox === "/") {
-                        //TALVEZ AQUI: posicao atualiza pois ja validou a posicao seguinte
-                        //console.log("posicao atual: " + posicao);
-                        //console.log("ultima: " + linha.length);
-
                         comentario = false;
                         //Caso seja o ultimo caracter da linha, pula validacao do final
                         if (posicao + 1 === linha.length) {
@@ -175,13 +166,10 @@ function lexico(programa) {
                 //Inicio de comentario tipo 2
                 case (atual === "/" && prox === "*"):
                     comentario = true;
-                    //console.log("abre comentario especial");
-                    //TALVEZ AQUI: posicao atualiza pois ja validou a posicao seguinte
-                    //posicao = posicao + 1;
                     break;
 
                 //Agrupa NUMEROS em numero (ate chegar em espaco)
-                case (isNumber(atual) && comentario === false && !isAlpha(antes)):
+                case (isNumber(atual) && comentario === false && !isAlpha(antes) && !isAlpha(prox)):
 
                     numero = numero + atual;
 
@@ -423,7 +411,6 @@ function lexico(programa) {
                             linha: nlinha
                         });
                         atual = "";
-                        console.log("valor atual: " + atual);
                     }
 
                     //Menor e Menor Igual
@@ -516,9 +503,6 @@ function lexico(programa) {
                     //caso seja espaco ou \t, sai
                     break;
 
-
-
-
                 //SE CHEGOU AQUI, HA ERRO
                 default:
                     console.log("Erro Lexico: " + atual + " na linha: " + erro);
@@ -573,3 +557,9 @@ function isReserved(lexema) {
 //module.exports.lexico();
 //export {lexico};
 //export const lexic
+
+// ----- ANOTACOES -----
+//
+//metodos para calcular quantidade de linhas
+//const lines = (codigo.match(/\n/g) || '').length + 1;
+//const linhas = codigo.split(/\r\n|\r|\n/).length;
