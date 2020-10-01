@@ -54,11 +54,11 @@ var programa = "se contador > 13 teste1 /*comentario*/\n" +
 var teste1 =
     "{programa 1 ' - OK}\n" +
     "/* teste */\n" +
-    "programa 55 bruno;\n" +
+    "programa 55 bruno1;\n" +
 
     "var a,b,c: inteiro;\n" +
 
-    "procedimento analisa1;\n" +
+    "procedimento anali1sa;\n" +
     "var a, x: inteiro;\n" +
     "z: booleano;\n" +
     "inicio\n" +
@@ -90,7 +90,7 @@ var teste1 =
 
 //para testar, chama a funcao do lexico e envia o programa
 //teste = FileReader.readAsText();
-lexico(teste1);
+lexico(programa);
 
 //Inicio da analise lexica
 function lexico(programa) {
@@ -181,7 +181,7 @@ function lexico(programa) {
                     break;
 
                 //Agrupa NUMEROS em numero (ate chegar em espaco)
-                case (isNumber(atual) && comentario === false):
+                case (isNumber(atual) && comentario === false && !isAlpha(antes)):
 
                     numero = numero + atual;
 
@@ -196,7 +196,7 @@ function lexico(programa) {
                     break;
 
                 //Agrupa LETRAS em palavra e trata (ate chegar em espaco)
-                case (isAlpha(atual) && comentario === false):
+                case ((isAlpha(atual) || isNumber(atual)) && comentario === false):
                     palavra += atual;
 
                     //Identificou que a palavra terminou, empilha palavras reservadas
@@ -521,7 +521,7 @@ function lexico(programa) {
 
                 //SE CHEGOU AQUI, HA ERRO
                 default:
-                    //console.log("Erro Lexico: " + atual + " na linha: " + erro);
+                    console.log("Erro Lexico: " + atual + " na linha: " + erro);
                     foierro = true;
                     //console.log(posicao);
                     token.push({
@@ -549,8 +549,6 @@ function isAlpha(palavra) {
     } else {
         return false;
     }
-
-
 }
 
 //Funcao para validar se caracter e numero
