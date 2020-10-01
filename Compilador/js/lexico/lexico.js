@@ -54,7 +54,7 @@ var programa = "se contador > 13 teste1 /*comentario*/\n" +
 var teste1 =
     "{programa 1 ' - OK}\n" +
     "/* teste */\n" +
-    "programa 55 test1;\n" +
+    "programa 55 bruno;\n" +
 
     "var a,b,c: inteiro;\n" +
 
@@ -152,9 +152,6 @@ function lexico(programa) {
                     //Final de comentario tipo 1
                     if (atual === "}") {
                         comentario = false;
-                        if (posicao + 1 === linha.length) {
-                            index = index + 1;
-                        }
                     }
                     //Final de comentario tipo 2
                     if (atual === "*" && prox === "/") {
