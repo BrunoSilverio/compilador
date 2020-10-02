@@ -77,7 +77,20 @@ http.createServer(function (req, res) {
 	var url = req.url;
 	switch (url) {
 		case './indexGeral.html':
-		
+		case './compilador/index.html':
+			
+		case './maquina-virtual/index.html':
+			//carregarPagina(req.url.substring(1), res);
+			
+			break;
+		case '/listar.html':
+			listarUsuarios(res);
+		case '/usuariocadastrado.html':
+			cadastrarUsuarios(req, res);
+			break;
+		case '/portal.html':
+			entrarNoPortal(req, res);
+			break;
 		default:
 			carregarPagina("indexGeral.html", res);
 	}

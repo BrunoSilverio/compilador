@@ -13,10 +13,11 @@
         <script src="codemirror/mode/javascript/javascript.js"></script>
         <!--Imports-->
         <script type = "text/javascript" charset="utf-8" src="js/main.js"></script>
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <title>Compilador</title>
     </head>
-    <body onload="onLoad()">
+    <body>
         <nav>  
             <h3>Compilador</h3>
             
@@ -65,10 +66,12 @@
                             reader.readAsText(files[0]);
                         }
                     }
+                    
+                    var textToWrite = editor.getValue(); // Salva conteudo do codemirror
 
                     //FUNCAO PARA SALVAR ALTERACOES NO CODIGO
                     function saveTextAsFile() {
-                        var textToWrite = editor.getValue(); // Salva conteudo do codemirror
+                        
 
                         var textFileAsBlob = new Blob([textToWrite], {
                             type: "text/plain;charset=utf-8"
