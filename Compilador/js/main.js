@@ -1,7 +1,8 @@
 //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import
 
 //Imports
-//import * as lexico from './js/lexico/lexico.js';
+import * as front from '/index.html';
+//var codigo = require('./index.html'); 
 let lexico = require('./js/lexico/lexico.js');
 
 
@@ -14,10 +15,8 @@ document.getElementById('compilador').addEventListener('click', main);
 
 
 //Variaveis globais
-let programa = "se contador > 13 /*teste comentario*/\n" +
-    "entao escreva,  (contador)\n" +
-    "senao + escreva >= (x)";;
-let token = [];
+var programa = document.getValue(textToWrite); //arrumar
+var token = [];
 
 
 function main() {
@@ -45,7 +44,9 @@ export function readText(that) {
         reader.readAsText(that.files[0]);
     }
 
-}function writeOnTerminal() {
+}
+
+function writeOnTerminal() {
     myCodeMirror.setValue(program.toString());
 }
 
