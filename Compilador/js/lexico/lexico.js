@@ -53,7 +53,7 @@ var teste1 =
     "/* teste */\n" +
     "programa 55 1bruno1;\n" +
 
-    "var a,b,c: inteiro;\n" +
+    "var a,b,c: != inteiro;\n" +
 
     "procedimento anali1sa;\n" +
     "var a, x: inteiro;\n" +
@@ -447,8 +447,16 @@ function lexico(programa) {
                         });
                         atual = "";
                     }
-
-
+                    //Erro com caracter ! sozinho
+                    if (atual === "!" && prox != "=") {
+                        foierro = true;
+                        //console.log(posicao);
+                        token.push({
+                            lexema: atual,
+                            simbolo: "ERRO",
+                            linha: nlinha
+                        });
+                    }
 
                     break;
 
