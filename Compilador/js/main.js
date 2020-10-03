@@ -10,7 +10,7 @@
 
 
 //Variaveis globais
-var programa; //arrumar
+var programa; 
 //var token = [];
 
 function start() {
@@ -27,7 +27,6 @@ function start() {
     });
 }
 
-
 function main() {
     //programa = codigo do codemirror
     //resposta = lista de tokens
@@ -35,10 +34,8 @@ function main() {
     console.log(listatokens);
     var teste = JSON.stringify(listatokens);
     //printa no lado direito da tela (terminal)
-    document.getElementById('terminal').value = teste.split(',').join("\n");
-
+    document.getElementById('terminal').value = teste.split(',{').join("\n");
 }
-
 
 function readText(that) {
     if (that.files && that.files[0]) {

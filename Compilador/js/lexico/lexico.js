@@ -1,51 +1,14 @@
-//PONTOS A SEREM AJUSTADOS:
-//
+/*Requisitos mínimos para que os testes ocorram:
 
-var teste2 = "a 55 teste1;\n"
+- O analisador deve disponibilizar uma entrada de arquivos em formato txt, e realizar a leitura desse arquivo.  
+Neste arquivo teremos o programa escrito em LPD. Não serão aceitos analisadores que não permitam a entrada direta do arquivo. 
 
-// var programa = "se contador > 13 55teste /*comentario*/\n" +
-//     "entao escreva, >= (contador)\n" +
-//     "senao + escreva <= (x)";
+- O analisador deve realizar o processamento léxico do arquivo de entrada. Não serão aceitos analisadores que não completem o processamento.
 
-var teste1 =
-    "{programa 1 ' - OK}\n" +
-    "/* teste */\n" +
-    "programa 55 1bruno1;\n" +
+- O programa deve apresentar como saída : uma lista de tokens contendo, para cada token, pelo menos seu tipo e lexema. Se ocorrer um erro, 
+o programa deve retornar a lista de tokens até o momento do erro, e a linha em que o erro ocorreu, 
+e parar o processamento. Não serão aceitos analisadores que não apresentem uma lista de tokens, e a linha do erro, caso ele ocorra.*/
 
-    "var a,b,c: != inteiro;\n" +
-
-    "procedimento anali1sa;\n" +
-    "var a, x: inteiro;\n" +
-    "z: booleano;\n" +
-    "inicio\n" +
-    "se x>1  entao\n" +
-    "x:= 0;\n" +
-    "leia(z);\n" +
-    "enquanto (a != 89) e (a<= 1000)  {erro ! linha 14}\n" +
-    "faca inicio\n" +
-    "a:= x+z\n" +
-    "fim;\n" +
-    "escreva(a)\n" +
-    "fim;\n" +
-
-    "procedimento analisa2;\n" +
-    "inicio\n" +
-    "leia(a);\n" +
-    "b:= a*a+(c div b)\n" +
-    "fim;\n" +
-
-    "inicio\n" +
-    "analisa1;\n" +
-    "analisa2;\n" +
-    "se b > (c+ a*a)\n" +
-    "entao escreva(b)\n" +
-    "senao escreva(c)\n" +
-    "fim.\n" +
-
-    "{fim}\n"
-
-//Provisoriamente, funcao chamada aqui para ser analisada
-//lexico(teste1);
 
 //Inicio da analise lexica
 function lexico(programa) {
@@ -484,16 +447,11 @@ function lexico(programa) {
             }
         }
     }
-
     console.log(token);
     return (token);
-
-
 }
 
-
-
-//Funcao para validar se caracter e letra
+//Funcao para validar se caracter eh letra
 function isAlpha(palavra) {
     if (palavra.toUpperCase() != palavra.toLowerCase()) {
         return true;
@@ -502,7 +460,7 @@ function isAlpha(palavra) {
     }
 }
 
-//Funcao para validar se caracter e numero
+//Funcao para validar se caracter eh numero
 function isNumber(palavra) {
     if (palavra == "0" || palavra == "1" || palavra == "2" || palavra == "3" || palavra == "4" || palavra == "5" || palavra == "6" || palavra == "7" || palavra == "8" || palavra == "9") {
         return true;
