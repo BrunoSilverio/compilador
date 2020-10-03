@@ -1,52 +1,11 @@
 //PONTOS A SEREM AJUSTADOS:
 //
 
-//Tabela de tokens
-let tabelaTokens = {
-    "programa": "Sprograma",
-    "inicio": "Sinicio",
-    "fim": "Sfim",
-    "procedimento": "Sprocedimento",
-    "funcao": "Sfuncao",
-    "se": "Sse",
-    "entao": "Sentao",
-    "senao": "Ssenao",
-    "enquanto": "Senquanto",
-    "faca": "Sfaca",
-    ":=": "Satribuicao",
-    "escreva": "Sescreva",
-    "leia": "Sleia",
-    "var": "Svar",
-    "inteiro": "Sinteiro",
-    "booleano": "Sbooleano",
-    "identificador": "Sidentificador",
-    "numero": "Snumero",
-    ".": "Sponto",
-    ";": "Sponto_virgula",
-    ",": "Svirgula",
-    "(": "Sabre_parenteses",
-    ")": "Sfecha_parenteses",
-    ">": "Smaior",
-    ">=": "Smaiorig",
-    "=": "Sig",
-    "<": "Smenor",
-    "<=": "Smenorig",
-    "!=": "Sdif",
-    "+": "Smais",
-    "-": "Smenos",
-    "*": "Smult",
-    "div": "Sdiv",
-    "e": "Se",
-    "ou": "Sou",
-    "nao": "Snao",
-    ":": "Sdoispontos",
-}
-
 var teste2 = "a 55 teste1;\n"
 
-var programa = "se contador > 13 55teste /*comentario*/\n" +
-    "entao escreva, >= (contador)\n" +
-    "senao + escreva <= (x)";
+// var programa = "se contador > 13 55teste /*comentario*/\n" +
+//     "entao escreva, >= (contador)\n" +
+//     "senao + escreva <= (x)";
 
 var teste1 =
     "{programa 1 ' - OK}\n" +
@@ -86,10 +45,11 @@ var teste1 =
     "{fim}\n"
 
 //Provisoriamente, funcao chamada aqui para ser analisada
-lexico(teste1);
+//lexico(teste1);
 
 //Inicio da analise lexica
 function lexico(programa) {
+    console.log("entrou lexico");
 
     let comentario = false; //se comentario esta aberto
     let foierro = false;    //se foi capturado um erro -> em breve inutil
@@ -112,7 +72,7 @@ function lexico(programa) {
     //console.log("\n" + programa);
 
     //Loop linha por linha
-    for (let index = 0; index < programa.length; index++) {
+    for (let index = 0; index < programa.length - 1; index++) {
         //Variavel auxiliar
         let linha = programa[index];
         //Variaveis para saber caracter anterior e proximo
@@ -133,8 +93,8 @@ function lexico(programa) {
             //Caso tenha erro, interrompe, retorna os tokens ate o momento, e a linha do erro
             if (foierro == true) {
                 //console.log("Foi erro: " + atual + "na linha: " + erro)
-                console.log(token);
-                return 0;
+                //console.log(token);
+                return token;
             }
 
             //Caso as validacoes dentro do switch sejam true -> entra nos case
@@ -550,23 +510,3 @@ function isNumber(palavra) {
         return false;
     }
 }
-
-//Funcao para validar se palavra eh reservada
-function isReserved(lexema) {
-    if (tabelaTokens.hasOwnProperty(lexema)) {
-        return tabelaTokens[lexema];
-    }
-    return false;
-}
-
-//Exporta Analisador Lexico
-//module.exports = lexico(programa);
-//module.exports.lexico();
-//export {lexico};
-//export const lexic
-
-// ----- ANOTACOES -----
-//
-//metodos para calcular quantidade de linhas
-//const lines = (codigo.match(/\n/g) || '').length + 1;
-//const linhas = codigo.split(/\r\n|\r|\n/).length;
