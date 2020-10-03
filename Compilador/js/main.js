@@ -1,38 +1,46 @@
 //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import
 
 //Imports
-import * as front from '/index.html';
+//import * as front from '/index.html';
 //var codigo = require('./index.html'); 
-let lexico = require('./js/lexico/lexico.js');
+//let lexico = require('./js/lexico/lexico.js');
 
 
 //Eventos
-document.getElementById('import_file').addEventListener('change', function () {
-    readText(this);
-});
-
-document.getElementById('compilador').addEventListener('click', main);
 
 
 //Variaveis globais
-var programa = document.getValue(textToWrite); //arrumar
-var token = [];
+var programa; //arrumar
+//var token = [];
 
+function start() {
+    console.log("teste?");
 
-function main() {
-    document.getElementById("terminal").innerHTML = "> ";
-    try {
-        readProgramFile();
-        clear();
-        lexico.lexico(programa);
+    // document.getElementById('import_file').addEventListener('change', function () {
+    //     readText(this);
+    // });
 
-    } catch (error) {
-        //Responsavel por exibir a mensagem de erro para o usuario
-    }
+    // document.getElementById('compilador').addEventListener('click', main);
+
+    document.getElementById('compilar').addEventListener('click', function () {
+        main();
+    });
 }
 
 
-export function readText(that) {
+function main() {
+    //programa = codigo do codemirror
+    //resposta = lista de tokens
+    var listatokens = lexico(editor.getValue());
+    console.log(listatokens);
+    var teste = JSON.stringify(listatokens);
+    //printa no lado direito da tela (terminal)
+    document.getElementById('terminal').value = teste.split(',').join("\n");
+
+}
+
+
+function readText(that) {
     if (that.files && that.files[0]) {
         let reader = new FileReader();
         reader.onload = function (e) {
@@ -52,7 +60,7 @@ function writeOnTerminal() {
 
 function readProgramFile() {
     programa = myCodeMirror.getValue();
-    programa = programa.split("\n");
+    //programa = programa.split("\n");
     return;
 }
 
