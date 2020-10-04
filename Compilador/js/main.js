@@ -1,40 +1,21 @@
 //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import
 
-//Imports
-//import * as front from '/index.html';
-//var codigo = require('./index.html'); 
-//let lexico = require('./js/lexico/lexico.js');
-
-
-//Eventos
-
-
 //Variaveis globais
 var programa; 
-//var token = [];
+
 
 function start() {
-    console.log("teste?");
-
-    // document.getElementById('import_file').addEventListener('change', function () {
-    //     readText(this);
-    // });
-
-    // document.getElementById('compilador').addEventListener('click', main);
-
     document.getElementById('compilar').addEventListener('click', function () {
         main();
     });
 }
 
 function main() {
-    //programa = codigo do codemirror
-    //resposta = lista de tokens
     var listatokens = lexico(editor.getValue());
-    console.log(listatokens);
-    var teste = JSON.stringify(listatokens);
+    //VOU USAR DEPOIS var listasintatico = sintatico(listatokens);
+    var tokenslexico = JSON.stringify(listatokens);
     //printa no lado direito da tela (terminal)
-    document.getElementById('terminal').value = teste.split(',{').join("\n");
+    document.getElementById('terminal').value = tokenslexico.split(',{').join("\n");
 }
 
 function readText(that) {
