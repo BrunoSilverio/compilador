@@ -9,10 +9,18 @@ Neste arquivo teremos o programa escrito em LPD. Não serão aceitos analisadore
 o programa deve retornar a lista de tokens até o momento do erro, e a linha em que o erro ocorreu, 
 e parar o processamento. Não serão aceitos analisadores que não apresentem uma lista de tokens, e a linha do erro, caso ele ocorra.*/
 
+/*  Primeira fase da análise
+    •Principal função: fragmentar fonte em trecho elementares completos e com identidade própria (tokens).
+    •Funções
+    –Extração de tokens
+    –Eliminação de delimitadores e comentários
+    –Identificação de palavras reservadas
+    –Recuperação de erros*/
+
 
 //Inicio da analise lexica
 function lexico(programa) {
-    console.log("entrou lexico");
+    console.log("start LEXICO");
 
     let comentario = false; //se comentario esta aberto
     let foierro = false;    //se foi capturado um erro -> em breve inutil

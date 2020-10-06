@@ -156,9 +156,9 @@ function rd() {
 function prn() {
     // printValue(memory[s]);
     if (memory[s] == undefined) {
-        document.getElementById("terminal").innerHTML += templateTerminal("");
+        document.getElementById("formSaida").innerHTML += templateTerminal("");
     } else {
-        document.getElementById("terminal").innerHTML += templateTerminal(memory[s]);
+        document.getElementById("formSaida").innerHTML += templateTerminal(memory[s]);
     }
     s = (s-1);
 }
