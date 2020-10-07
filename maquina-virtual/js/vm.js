@@ -1,3 +1,5 @@
+// Compilador, copyright (c) by Bruno Camilo Silverio & Daniel de Arruda Fraga
+
 // Variavel que contem todo contudo do arquivo.obj
 let fileObj;
 

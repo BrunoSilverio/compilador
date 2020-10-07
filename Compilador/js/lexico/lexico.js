@@ -1,13 +1,4 @@
-/*Requisitos mínimos para que os testes ocorram:
-
-- O analisador deve disponibilizar uma entrada de arquivos em formato txt, e realizar a leitura desse arquivo.  
-Neste arquivo teremos o programa escrito em LPD. Não serão aceitos analisadores que não permitam a entrada direta do arquivo. 
-
-- O analisador deve realizar o processamento léxico do arquivo de entrada. Não serão aceitos analisadores que não completem o processamento.
-
-- O programa deve apresentar como saída : uma lista de tokens contendo, para cada token, pelo menos seu tipo e lexema. Se ocorrer um erro, 
-o programa deve retornar a lista de tokens até o momento do erro, e a linha em que o erro ocorreu, 
-e parar o processamento. Não serão aceitos analisadores que não apresentem uma lista de tokens, e a linha do erro, caso ele ocorra.*/
+// Compilador, copyright (c) by Bruno Camilo Silverio & Daniel de Arruda Fraga
 
 /*  Primeira fase da análise
     •Principal função: fragmentar fonte em trecho elementares completos e com identidade própria (tokens).
@@ -17,10 +8,20 @@ e parar o processamento. Não serão aceitos analisadores que não apresentem um
     –Identificação de palavras reservadas
     –Recuperação de erros*/
 
+/*Requisitos mínimos para que os testes ocorram:
+
+- O analisador deve disponibilizar uma entrada de arquivos em formato .txt, e realizar a leitura desse arquivo.  
+Neste arquivo teremos o programa escrito em LPD. Não serão aceitos analisadores que não permitam a entrada direta do arquivo. 
+
+- O analisador deve realizar o processamento léxico do arquivo de entrada. Não serão aceitos analisadores que não completem o processamento.
+
+- O programa deve apresentar como saída : uma lista de tokens contendo, para cada token, pelo menos seu tipo e lexema. Se ocorrer um erro, 
+o programa deve retornar a lista de tokens até o momento do erro, e a linha em que o erro ocorreu, 
+e parar o processamento. Não serão aceitos analisadores que não apresentem uma lista de tokens, e a linha do erro, caso ele ocorra.*/
 
 //Inicio da analise lexica
 function lexico(programa) {
-    console.log("start LEXICO");
+    console.log("***** start LEXICO *****");
 
     let comentario = false; //se comentario esta aberto
     let foierro = false;    //se foi capturado um erro -> em breve inutil
@@ -464,7 +465,10 @@ function lexico(programa) {
             }
         }
     }
+    console.log("====================================================================");
     console.log(token);
+    console.log("====================================================================");
+    console.log("***** end LEXICO *****");
     return (token);
 }
 

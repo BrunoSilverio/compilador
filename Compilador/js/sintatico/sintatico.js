@@ -1,3 +1,5 @@
+// Compilador, copyright (c) by Bruno Camilo Silverio & Daniel de Arruda Fraga
+
 /*  •Principal função: analisar a sequência de apresentação dos tokens, efetuando a síntese da análise sintática, com base na gramática da linguagem fonte.
     •Principais funções:
     –Identificação de sentenças
@@ -11,6 +13,9 @@
 
 //Inicio da analise sintatico
 function sintatico(programa) {
-    console.log("start SINTATICO");
+    console.log("***** start SINTATICO *****");
 
+
+
+    console.log("***** end SINTATICO *****");
 }

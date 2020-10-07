@@ -1,8 +1,11 @@
+//Compilador, copyright (c) by Bruno Camilo Silverio & Daniel de Arruda Fraga
+
 //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import
+
+// Main.js faz a conexao entre o front-end e o back-end
 
 //Variaveis globais
 var programa; 
-
 
 function start() {
     document.getElementById('compilar').addEventListener('click', function () {
@@ -14,7 +17,7 @@ function main() {
     var listatokens = lexico(editor.getValue());
     //VOU USAR DEPOIS var listasintatico = sintatico(listatokens);
     var tokenslexico = JSON.stringify(listatokens);
-    //printa no lado direito da tela (terminal)
+    //Print no front-end / textarea id=terminal
     document.getElementById('terminal').value = tokenslexico.split(',{').join("\n");
 }
 
