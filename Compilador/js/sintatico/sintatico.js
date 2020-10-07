@@ -13,19 +13,17 @@
 
 //Inicio da analise sintatico
 function Analisador_Sintatico(listatokens) {
-    console.log("***** start SINTATICO *****");
-
-    /*
-    Def rotulo inteiro
+/*
+    //Def rotulo inteiro
     início
-        rotulo:= 1
+        //rotulo:= 1
         Léxico(token)
         se token.simbolo = sprograma
         então início
             Léxico(token)
             se token.simbolo = sidentificador
             então início
-                insere_tabela(token.lexema,”nomedeprograma”,””,””)
+                //insere_tabela(token.lexema,”nomedeprograma”,””,””)
                 Léxico(token)
                 se token.simbolo = spontovirgula
                 então início
@@ -42,8 +40,8 @@ function Analisador_Sintatico(listatokens) {
         fim
         senão ERRO
     fim.
-    */
-
+*/
+    console.log("***** start SINTATICO *****");
     lexico(listaTokens)
     if(listatokens.simbolo == "Sprograma"){
 
@@ -93,10 +91,10 @@ function Analisa_Variaveis(declaração_de_variaveis){
         repita
             se token.símbolo = sidentificador
             então início
-                Pesquisa_duplicvar_ tabela(token.lexema)
-                se não encontrou duplicidade
-                então início
-                    insere_tabela(token.lexema, “variável”)
+                //Pesquisa_duplicvar_ tabela(token.lexema)
+                //se não encontrou duplicidade
+                //então início
+                    //insere_tabela(token.lexema, “variável”)
                     Léxico(token)
                     se (token.símbolo = Svírgula) ou
                         (token.símbolo = Sdoispontos)
@@ -109,8 +107,8 @@ function Analisa_Variaveis(declaração_de_variaveis){
                         fim
                     fim
                     senão ERRO
-                fim
-                senão ERRO
+                //fim
+                //senão ERRO
             senão ERRO
         até que (token.símbolo = sdoispontos)
         Léxico(token)
@@ -124,7 +122,7 @@ function Analisa_Tipo(tipo){
     início
         se (token.símbolo != sinteiro e token.símbolo != sbooleano))
         então ERRO
-        senão coloca_tipo_tabela(token.lexema)
+        //senão coloca_tipo_tabela(token.lexema)
         Léxico(token)
     fim
 */
@@ -196,14 +194,14 @@ function Analisa_leia(comando_leitura){
         então início
             Léxico(token)
             se token.simbolo = sidentificador
-            então se pesquisa_declvar_tabela(token.lexema)
-                então início (pesquisa em toda a tabela)
+            //então se pesquisa_declvar_tabela(token.lexema)
+                //então início (pesquisa em toda a tabela)
                     Léxico(token)
                     se token.simbolo = sfecha_parenteses
                     então Léxico(token)
                     senão ERRO
                 fim
-            senão ERRO
+            //senão ERRO
             senão ERRO
             fim
         senão ERRO
@@ -219,14 +217,14 @@ início
     então início
         Léxico(token)
         se token.simbolo = sidentificador
-        então se pesquisa_ declvarfunc_tabela(token.lexema)
-            então início
+        //então se pesquisa_ declvarfunc_tabela(token.lexema)
+            //então início
                 Léxico(token)
                 se token.simbolo = sfecha_parenteses
                 então Léxico(token)
                 senão ERRO
             fim
-        senão ERRO
+        //senão ERRO
         senão ERRO
     fim
     senão ERRO
@@ -236,22 +234,22 @@ fim
 
 function Analisa_enquanto(comando_repeticao){
 /*
-    Def auxrot1,auxrot2 inteiro
+    //Def auxrot1,auxrot2 inteiro
     início
-        auxrot1:= rotulo
-        Gera(rotulo,NULL,´ ´,´ ´) {início do while}
-        rotulo:= rotulo+1
+        //auxrot1:= rotulo
+        //Gera(rotulo,NULL,´ ´,´ ´) {início do while}
+        //rotulo:= rotulo+1
         Léxico(token)
         Analisa_expressão
         se token.simbolo = sfaça
         então início
-            auxrot2:= rotulo
-            Gera(´ ´,JMPF,rotulo,´ ´) {salta se falso}
-            rotulo:= rotulo+1
+            //auxrot2:= rotulo
+            //Gera(´ ´,JMPF,rotulo,´ ´) {salta se falso}
+            //rotulo:= rotulo+1
             Léxico(token)
             Analisa_comando_simples
-            Gera(´ ´,JMP,auxrot1,´ ´) {retorna início loop}
-            Gera(auxrot2,NULL,´ ´,´ ´) {fim do while}
+            //Gera(´ ´,JMP,auxrot1,´ ´) {retorna início loop}
+            //Gera(auxrot2,NULL,´ ´,´ ´) {fim do while}
         fim
         senão ERRO
     fim
@@ -361,10 +359,10 @@ function Analisa_declaracao_funcao(declaracao_de_funcao) {
                 fim
                 senão ERRO
             fim
-            senão ERRO
+            //senão ERRO
         fim
         senão ERRO
-        DESEMPILHA OU VOLTA NÍVEL
+        //DESEMPILHA OU VOLTA NÍVEL
     fim
 */
 }
