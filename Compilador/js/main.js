@@ -15,7 +15,7 @@ function start() {
 
 function main() {
     var listatokens = lexico(editor.getValue());
-    //VOU USAR DEPOIS var listasintatico = sintatico(listatokens);
+    var listasintatico = sintatico(listatokens);
     var tokenslexico = JSON.stringify(listatokens);
     //Print no front-end / textarea id=terminal
     document.getElementById('terminal').value = tokenslexico.split(',{').join("\n");
