@@ -93,7 +93,7 @@ function lexico(programa) {
                         foierro = true;
                         token.push({
                             lexema: atual,
-                            simbolo: "ERRO",
+                            simbolo: "ERRO LEXICO",
                             linha: nlinha
                         });
                     }
@@ -395,7 +395,7 @@ function lexico(programa) {
                         //console.log(posicao);
                         token.push({
                             lexema: atual,
-                            simbolo: "ERRO",
+                            simbolo: "ERRO LEXICO",
                             linha: nlinha
                         });
                     }
@@ -458,7 +458,7 @@ function lexico(programa) {
                     foierro = true;
                     token.push({
                         lexema: atual,
-                        simbolo: "ERRO",
+                        simbolo: "ERRO LEXICO",
                         linha: nlinha
                     });
                     break;
