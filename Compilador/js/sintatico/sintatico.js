@@ -43,15 +43,17 @@ function Analisador_Sintatico(listatokens) {
 */
     console.log("***** start SINTATICO *****");
     lexico(listaTokens)
-    if(listatokens.simbolo == "Sprograma"){
+   try {
+       if(listatokens.simbolo == "Sprograma"){
 
-        return true;
-    }else{
-        return false;
-    }
+       }
+   } catch (error) {
+        console.log(error);
 
-    
+        exception.exceptionJSON.sort(compareLine);
 
+        throw exception.buildException(exception.exceptionJSON.shift());
+   }
     console.log("***** end SINTATICO *****");
 }
 
