@@ -145,9 +145,15 @@ function Analisa_Bloco(bloco) {
             Analisa_comandos
         fim
     */
+    let countVar = 0;
+
+    geraToken();
+    countVar = Analisa_et_variaveis(countVar);
+    Analisa_Subrotinas();
+    Analisa_comandos();
 }
 
-function Analisa_et_variaveis(etapa_de_declaracao_de_variaveis) {
+function Analisa_et_variaveis(countVar) {
     /* 
         início
             se token.simbolo = svar
@@ -164,6 +170,26 @@ function Analisa_et_variaveis(etapa_de_declaracao_de_variaveis) {
                 senão ERRO
         fim
     */
+    if (token.simbolo == "Svar") {
+        geraToken();
+        getToken(tokensintatico);
+        if (token.simbolo == "Sidentificador") {
+            while (token.simbolo == "Sidentificador") {
+                countVar = Analisa_Variaveis(countVar);
+                if (token.simbolo == "Sponto_virgula") {
+                    geraToken();
+                    getToken(tokensintatico);
+                } else {
+                    geraErroSintatico();
+                }
+            }
+        } else {
+            geraErroSintatico();
+        }
+    } else {
+        return countVar;
+    }
+    return countVar;
 }
 
 function Analisa_Variaveis(declaração_de_variaveis) {
@@ -177,8 +203,7 @@ function Analisa_Variaveis(declaração_de_variaveis) {
                     //então início
                         //insere_tabela(token.lexema, “variável”)
                         Léxico(token)
-                        se (token.símbolo = Svírgula) ou
-                            (token.símbolo = Sdoispontos)
+                        se (token.símbolo = Svírgula) ou (token.símbolo = Sdoispontos)
                         então início
                             se token.símbolo = Svírgula
                             então início
@@ -196,6 +221,34 @@ function Analisa_Variaveis(declaração_de_variaveis) {
             Analisa_Tipo
         fim
     */
+    do {
+        if (token.simbolo == "Sidentificador") {
+            //Pesquisa_duplicvar_ tabela(token.lexema)
+                //se não encontrou duplicidade
+                //então início
+                    //insere_tabela(token.lexema, “variável”)
+                    geraToken();
+                    getToken(tokensintatico);
+                    if (token.simbolo == "Svirgula" || token.simbolo == "Sdoispontos") {
+                        if (token.simbolo == "Svirgula") {
+                            geraToken();
+                            getToken(tokensintatico);
+                            if (token.simbolo == "Sdoispontos") {
+                                geraErroSintatico();
+                            }
+                        }
+                    } else {
+                        geraErroSintatico();
+                    }
+        } else {
+            geraErroSintatico();
+        }
+    } while (token.simbolo != "Sdoispontos");
+    geraToken();
+    getToken(tokensintatico);
+    Analisa_Tipo();
+
+    return countVar;
 }
 
 function Analisa_Tipo(tipo) {
