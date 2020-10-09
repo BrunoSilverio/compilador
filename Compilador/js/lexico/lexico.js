@@ -47,7 +47,7 @@ function lexico(programa) {
     for (let index = 0; index < programa.length; index++) {
         //Variavel auxiliar
         let linha = programa[index];
-        console.log(programa + " " + programa.length);
+        //console.log(programa + " " + programa.length);
         //Variaveis para saber caracter anterior e proximo
         indexmais = index + 1;          //posicao do prox caracter
         indexmenos = index - 1;         //posicao do caracter anterior
@@ -465,9 +465,9 @@ function lexico(programa) {
             }
         }
     }
-    console.log("====================================================================");
-    console.log(token);
-    console.log("====================================================================");
+    //console.log("====================================================================");
+    //console.log(token);
+    //console.log("====================================================================");
     console.log("***** end LEXICO *****");
     return (token);
 }
