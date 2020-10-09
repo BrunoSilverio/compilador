@@ -15,7 +15,7 @@ function start() {
 
 function main() {
     var tokenslexico = lexico(editor.getValue());
-    //var tokensintatico = sintatico(tokenslexico);
+    var tokensintatico = sintatico(tokenslexico);
     var tokenslexico = JSON.stringify(tokenslexico);
     //Print no front-end / textarea id=terminal
     document.getElementById('terminal').value = tokenslexico.split(',{').join("\n");
