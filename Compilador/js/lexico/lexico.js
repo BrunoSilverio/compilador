@@ -19,6 +19,10 @@ Neste arquivo teremos o programa escrito em LPD. Não serão aceitos analisadore
 o programa deve retornar a lista de tokens até o momento do erro, e a linha em que o erro ocorreu, 
 e parar o processamento. Não serão aceitos analisadores que não apresentem uma lista de tokens, e a linha do erro, caso ele ocorra.*/
 
+let index = 0;
+let nlinha = 1;             //numero da linha, para salvar na lista
+
+
 //Inicio da analise lexica
 function lexico(programa) {
     console.log("***** start LEXICO *****");
@@ -27,16 +31,18 @@ function lexico(programa) {
     let foierro = false;    //se foi capturado um erro -> em breve inutil
     let atual = "";         //carater atual
     let prox = "";          //caracter proximo
-    let antes = " ";        //caracter anterios
+    let antes = "";         //caracter anterios
     let indexmais = 0;      //proximo valor do index
     let indexmenos = 0;     //valor anterior do index
     let palavra = "";       //Recebe caracter
     let numero = "";
     let token = [];         //Lista com todos os Lexemas,Simbolos e Linhas
-    let nlinha = 1;         //numero da linha, para salvar na lista
+
+    console.log("valor index e linha: "+ index + " " + nlinha);
+             
 
     //Loop linha por linha
-    for (let index = 0; index < programa.length; index++) {
+    for (index; index < programa.length; index++) {
         //Variavel auxiliar
         //Variaveis para saber caracter anterior e proximo
         indexmais = index + 1;          //posicao do prox caracter
@@ -81,20 +87,20 @@ function lexico(programa) {
                         linha: nlinha
                     });
                 }
-                return token;
-                //break;
+                //return token;
+                break;
 
             //Inicio de comentario tipo 1
             case (atual === "{"):
                 comentario = true;
-                return token;
-                //break;
+                //return token;
+                break;
 
             //Inicio de comentario tipo 2
             case (atual === "/" && prox === "*"):
                 comentario = true;
-                return token;
-                //break;
+                //return token;
+                break;
 
             //Agrupa NUMEROS em numero (ate chegar em espaco)
             case (isNumber(atual) && comentario === false && !isAlpha(antes) && !isAlpha(prox)):
@@ -109,7 +115,7 @@ function lexico(programa) {
                     });
                     numero = "";
                 }
-                return token;
+                //return token;
                 break;
 
             //Agrupa LETRAS em palavra e trata (ate chegar em espaco)
@@ -282,8 +288,8 @@ function lexico(programa) {
                     palavra = "";
                 }
                 console.log(token);
-                return token;
-                //break;
+                //return token;
+                break;
 
             //Trata atribuicao (dois pontos e atribuicao)
             case (atual === ":" && comentario === false):
@@ -301,8 +307,8 @@ function lexico(programa) {
                         linha: nlinha
                     });
                 }
-                return token;
-                //break;
+                //return token;
+                break;
 
             //Trata Operador Aritmetico
             case ((atual === "+" || atual === "-" || atual === "*") && comentario === false):
@@ -327,8 +333,8 @@ function lexico(programa) {
                         linha: nlinha
                     });
                 }
-                return token;
-                //break;
+                //return token;
+                break;
 
             //Trata Operador Relacional
             case ((atual === ">" || atual === "<" || atual == "=" || atual === "!") && comentario == false):
@@ -392,8 +398,8 @@ function lexico(programa) {
                         linha: nlinha
                     });
                 }
-                return token;
-                //break;
+                //return token;
+                break;
 
             //Trata Pontuacao
             case ((atual === "(" || atual === ")" || atual === ";" || atual === "." || atual == ",") && comentario == false):
@@ -438,8 +444,8 @@ function lexico(programa) {
                         linha: nlinha
                     });
                 }
-                return token;
-                //break;
+                //return token;
+                break;
 
             //Valida caracteres a serem desconsiderados
             case (atual === " " || atual === "\t" || atual === "\n"):
@@ -454,13 +460,13 @@ function lexico(programa) {
                     simbolo: "ERRO LEXICO",
                     linha: nlinha
                 });
-                return token;
-                //break;
+                //return token;
+                break;
         }
 
     }
     console.log("***** end LEXICO *****");
-    //return (token);
+    return (token);
 }
 
 //Funcao para validar se caracter eh letra
