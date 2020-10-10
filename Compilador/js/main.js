@@ -14,11 +14,20 @@ function start() {
 }
 
 function main() {
+    clearAll();
     var tokenslexico = lexico(editor.getValue() + " ");
     //var tokensintatico = sintatico(tokenslexico);
     var tokenslexico = JSON.stringify(tokenslexico);
     //Print no front-end / textarea id=terminal
     document.getElementById('terminal').value = tokenslexico.split(',{').join("\n");
+}
+
+
+//A cada nova execucao (play), limpa todas as variaveis globais (de controle)
+function clearAll(){
+    document.getElementById('terminal').value = null;
+    index = 0;
+    nlinha = 1;
 }
 
 function readText(that) {
