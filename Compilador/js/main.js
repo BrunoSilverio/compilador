@@ -7,6 +7,7 @@
 //Variaveis globais
 let programa; 
 
+
 function start() {
     document.getElementById('compilar').addEventListener('click', function () {
         main();
@@ -15,11 +16,12 @@ function start() {
 
 function main() {
     clearAll();
-    var tokenslexico = lexico();
+    //var tokenslexico = lexico();
+    sintatico();
     //var tokensintatico = sintatico(tokenslexico);
-    var tokenslexico = JSON.stringify(tokenslexico);
+    //var tokenslexico = JSON.stringify(tokenslexico);
     //Print no front-end / textarea id=terminal
-    document.getElementById('terminal').value = tokenslexico.split(',{').join("\n");
+    //document.getElementById('terminal').value = tokenslexico.split(',{').join("\n");
 }
 
 
