@@ -24,7 +24,7 @@ let nlinha = 1;             //numero da linha, para salvar na lista
 
 
 //Inicio da analise lexica
-function lexico(programa) {
+function lexico() {
     console.log("***** start LEXICO *****");
 
     let comentario = false; //se comentario esta aberto
@@ -37,8 +37,6 @@ function lexico(programa) {
     let palavra = "";       //Recebe caracter
     let numero = "";
     let token = [];         //Lista com todos os Lexemas,Simbolos e Linhas
-
-    console.log("valor index e linha: "+ index + " " + nlinha);
              
 
     //Loop linha por linha
