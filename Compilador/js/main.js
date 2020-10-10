@@ -5,7 +5,7 @@
 // Main.js faz a conexao entre o front-end e o back-end
 
 //Variaveis globais
-var programa; 
+let programa; 
 
 function start() {
     document.getElementById('compilar').addEventListener('click', function () {
@@ -15,7 +15,7 @@ function start() {
 
 function main() {
     clearAll();
-    var tokenslexico = lexico(editor.getValue() + " ");
+    var tokenslexico = lexico();
     //var tokensintatico = sintatico(tokenslexico);
     var tokenslexico = JSON.stringify(tokenslexico);
     //Print no front-end / textarea id=terminal
@@ -25,7 +25,11 @@ function main() {
 
 //A cada nova execucao (play), limpa todas as variaveis globais (de controle)
 function clearAll(){
-    document.getElementById('terminal').value = null;
+    //zerando da main
+    programa = (editor.getValue() + " ");               //programa recebe codigo do codemirror
+    document.getElementById('terminal').value = null;   //zerando terminal (onde exibe)
+
+    //zerando do lexico
     index = 0;
     nlinha = 1;
 }
