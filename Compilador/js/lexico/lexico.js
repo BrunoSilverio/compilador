@@ -25,34 +25,25 @@ function lexico(programa) {
 
     let comentario = false; //se comentario esta aberto
     let foierro = false;    //se foi capturado um erro -> em breve inutil
-    let posicao = 0;
     let atual = "";         //carater atual
     let prox = "";          //caracter proximo
     let antes = " ";        //caracter anterios
     let indexmais = 0;      //proximo valor do index
     let indexmenos = 0;     //valor anterior do index
-    let lexema = "";
-    let simbolo = "";
-    let palavra = "";       //Recebe numeros
+    let palavra = "";       //Recebe caracter
     let numero = "";
     let token = [];         //Lista com todos os Lexemas,Simbolos e Linhas
     let nlinha = 1;         //numero da linha, para salvar na lista
 
-    //Printa programa que vai ser analisado
-    //console.log("\n" + programa);
-
     //Loop linha por linha
     for (let index = 0; index < programa.length; index++) {
         //Variavel auxiliar
-        //console.log(programa + " " + programa.length);
         //Variaveis para saber caracter anterior e proximo
         indexmais = index + 1;          //posicao do prox caracter
         indexmenos = index - 1;         //posicao do caracter anterior
         prox = programa[indexmais];     //recebe prox caracter (depois de atual)
         antes = programa[indexmenos];   //recebe caracter anterior (antes de atual)
-        atual = programa[index]; //recebe caracter atual
-
-
+        atual = programa[index];    	//recebe caracter atual
 
         //Conta o numero da linha
         if (atual == "\n") {
@@ -66,8 +57,6 @@ function lexico(programa) {
 
         //Caso as validacoes dentro do switch sejam true -> entra nos case
         switch (true) {
-
-
             //Valida final de comentario (ignorando conteudo dentro)
             case (comentario == true):
                 //Final de comentario tipo 1
@@ -76,7 +65,7 @@ function lexico(programa) {
                 }
 
                 //Final de comentario tipo 2
-                if (atual === "*" && prox === "/") {
+                else if (atual === "*" && prox === "/") {
                     comentario = false;
                     //Caso seja o ultimo caracter da linha, pula validacao do final
                     index = index + 1;
@@ -92,17 +81,20 @@ function lexico(programa) {
                         linha: nlinha
                     });
                 }
-                break;
+                return token;
+                //break;
 
             //Inicio de comentario tipo 1
             case (atual === "{"):
                 comentario = true;
-                break;
+                return token;
+                //break;
 
             //Inicio de comentario tipo 2
             case (atual === "/" && prox === "*"):
                 comentario = true;
-                break;
+                return token;
+                //break;
 
             //Agrupa NUMEROS em numero (ate chegar em espaco)
             case (isNumber(atual) && comentario === false && !isAlpha(antes) && !isAlpha(prox)):
@@ -117,6 +109,7 @@ function lexico(programa) {
                     });
                     numero = "";
                 }
+                return token;
                 break;
 
             //Agrupa LETRAS em palavra e trata (ate chegar em espaco)
@@ -134,7 +127,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "inicio") {
+                    else if (palavra === "inicio") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sinicio",
@@ -142,7 +135,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "fim") {
+                    else if (palavra === "fim") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sfim",
@@ -150,7 +143,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "procedimento") {
+                    else if (palavra === "procedimento") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sprocedimento",
@@ -158,7 +151,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "funcao") {
+                    else if (palavra === "funcao") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sfuncao",
@@ -166,7 +159,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "se") {
+                    else if (palavra === "se") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sse",
@@ -174,7 +167,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "entao") {
+                    else if (palavra === "entao") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sentao",
@@ -182,7 +175,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "senao") {
+                    else if (palavra === "senao") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Ssenao",
@@ -190,7 +183,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "enquanto") {
+                    else if (palavra === "enquanto") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Senquanto",
@@ -198,7 +191,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "faca") {
+                    else if (palavra === "faca") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sfaca",
@@ -206,7 +199,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "escreva") {
+                    else if (palavra === "escreva") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sescreva",
@@ -214,7 +207,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "leia") {
+                    else if (palavra === "leia") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sleia",
@@ -222,7 +215,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "var") {
+                    else if (palavra === "var") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Svar",
@@ -230,7 +223,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "inteiro") {
+                    else if (palavra === "inteiro") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sinteiro",
@@ -238,7 +231,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "booleano") {
+                    else if (palavra === "booleano") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sbooleano",
@@ -246,7 +239,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "div") {
+                    else if (palavra === "div") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sdiv",
@@ -254,7 +247,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "e") {
+                    else if (palavra === "e") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Se",
@@ -262,7 +255,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "ou") {
+                    else if (palavra === "ou") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sou",
@@ -270,7 +263,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra === "nao") {
+                    else if (palavra === "nao") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Snao",
@@ -278,7 +271,7 @@ function lexico(programa) {
                         });
                         palavra = "";
                     }
-                    if (palavra != "") {
+                    else if (palavra != "") {
                         token.push({
                             lexema: palavra,
                             simbolo: "Sidentificador",
@@ -288,7 +281,9 @@ function lexico(programa) {
                     }
                     palavra = "";
                 }
-                break;
+                console.log(token);
+                return token;
+                //break;
 
             //Trata atribuicao (dois pontos e atribuicao)
             case (atual === ":" && comentario === false):
@@ -299,13 +294,15 @@ function lexico(programa) {
                         linha: nlinha
                     });
                 }
-                if (prox === "=")
+                else if (prox === "=") {
                     token.push({
                         lexema: atual + prox,
                         simbolo: "Satribuicao",
                         linha: nlinha
                     });
-                break;
+                }
+                return token;
+                //break;
 
             //Trata Operador Aritmetico
             case ((atual === "+" || atual === "-" || atual === "*") && comentario === false):
@@ -316,21 +313,22 @@ function lexico(programa) {
                         linha: nlinha
                     });
                 }
-                if (atual === "-") {
+                else if (atual === "-") {
                     token.push({
                         lexema: atual,
                         simbolo: "Smenos",
                         linha: nlinha
                     });
                 }
-                if (atual === "*") {
+                else if (atual === "*") {
                     token.push({
                         lexema: atual,
                         simbolo: "Smult",
                         linha: nlinha
                     });
                 }
-                break;
+                return token;
+                //break;
 
             //Trata Operador Relacional
             case ((atual === ">" || atual === "<" || atual == "=" || atual === "!") && comentario == false):
@@ -341,7 +339,8 @@ function lexico(programa) {
                         simbolo: "Smaior",
                         linha: nlinha
                     });
-                } else if (atual === ">" && prox === "=" && comentario == false) {
+                } 
+                else if (atual === ">" && prox === "=" && comentario == false) {
                     token.push({
                         lexema: atual + prox,
                         simbolo: "Smaiorig",
@@ -358,7 +357,7 @@ function lexico(programa) {
                         linha: nlinha
                     });
                 }
-                if (atual === "<" && prox === "=" && comentario == false) {
+                else if (atual === "<" && prox === "=" && comentario == false) {
                     token.push({
                         lexema: atual + prox,
                         simbolo: "Smenorig",
@@ -367,7 +366,7 @@ function lexico(programa) {
                     atual = "";
                 }
                 //Igual
-                if (atual === "=" && antes != "<" && antes != ">" && antes != "!" && antes != ":" && comentario == false) {
+                else if (atual === "=" && antes != "<" && antes != ">" && antes != "!" && antes != ":" && comentario == false) {
                     token.push({
                         lexema: atual,
                         simbolo: "Sig",
@@ -376,7 +375,7 @@ function lexico(programa) {
                     atual = "";
                 }
                 //Diferente
-                if (atual === "!" && prox === "=" && comentario == false) {
+                else if (atual === "!" && prox === "=" && comentario == false) {
                     token.push({
                         lexema: atual + prox,
                         simbolo: "Sdif",
@@ -385,17 +384,16 @@ function lexico(programa) {
                     atual = "";
                 }
                 //Erro com caracter ! sozinho
-                if (atual === "!" && prox != "=") {
+                else if (atual === "!" && prox != "=") {
                     foierro = true;
-                    //console.log(posicao);
                     token.push({
                         lexema: atual,
                         simbolo: "ERRO LEXICO",
                         linha: nlinha
                     });
                 }
-
-                break;
+                return token;
+                //break;
 
             //Trata Pontuacao
             case ((atual === "(" || atual === ")" || atual === ";" || atual === "." || atual == ",") && comentario == false):
@@ -408,7 +406,7 @@ function lexico(programa) {
                     });
                 }
                 //Fecha Parenteses
-                if (atual === ")" && comentario == false) {
+                else if (atual === ")" && comentario == false) {
                     token.push({
                         lexema: atual,
                         simbolo: "Sfecha_parenteses",
@@ -417,7 +415,7 @@ function lexico(programa) {
                     });
                 }
                 //Ponto e virgula
-                if (atual === ";" && comentario == false) {
+                else if (atual === ";" && comentario == false) {
                     token.push({
                         lexema: atual,
                         simbolo: "Sponto_virgula",
@@ -425,7 +423,7 @@ function lexico(programa) {
                     });
                 }
                 //Ponto
-                if (atual === "." && comentario == false) {
+                else if (atual === "." && comentario == false) {
                     token.push({
                         lexema: atual,
                         simbolo: "Sponto",
@@ -433,15 +431,15 @@ function lexico(programa) {
                     });
                 }
                 //Virgula
-                if (atual === "," && comentario == false) {
+                else if (atual === "," && comentario == false) {
                     token.push({
                         lexema: atual,
                         simbolo: "Svirgula",
                         linha: nlinha
                     });
                 }
-
-                break;
+                return token;
+                //break;
 
             //Valida caracteres a serem desconsiderados
             case (atual === " " || atual === "\t" || atual === "\n"):
@@ -456,15 +454,13 @@ function lexico(programa) {
                     simbolo: "ERRO LEXICO",
                     linha: nlinha
                 });
-                break;
+                return token;
+                //break;
         }
 
     }
-    //console.log("====================================================================");
-    //console.log(token);
-    //console.log("====================================================================");
     console.log("***** end LEXICO *****");
-    return (token);
+    //return (token);
 }
 
 //Funcao para validar se caracter eh letra
