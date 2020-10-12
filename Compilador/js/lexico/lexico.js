@@ -116,6 +116,7 @@ function lexico() {
                     };
                     console.log(token);
                     numero = "";
+                    index++;
                     return token;
                 }
                 break;
@@ -289,6 +290,7 @@ function lexico() {
                     }
                     palavra = "";
                     console.log(token);
+                    index++;
                     return token;
                 }
 
@@ -310,6 +312,7 @@ function lexico() {
                         linha: nlinha
                     });
                 }
+                index++;
                 return token;
                 break;
 
@@ -336,6 +339,7 @@ function lexico() {
                         linha: nlinha
                     });
                 }
+                index++;
                 return token;
                 break;
 
@@ -402,6 +406,7 @@ function lexico() {
                     // });
                     alert("Erro Lexico\nLexema: " + atual + "\nLinha: " + nlinha);
                 }
+                index++;
                 return token;
                 break;
 
@@ -448,6 +453,7 @@ function lexico() {
                         linha: nlinha
                     });
                 }
+                index++;
                 return token;
                 break;
 
