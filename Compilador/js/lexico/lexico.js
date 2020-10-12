@@ -57,7 +57,8 @@ function lexico() {
 
         //Caso tenha erro, interrompe, retorna os tokens ate o momento, e a linha do erro
         if (foierro == true) {
-            return token;
+            //return token;
+            console.log("Entrou if erro lexico");
         }
 
         //Caso as validacoes dentro do switch sejam true -> entra nos case
@@ -401,7 +402,7 @@ function lexico() {
                     // });
                     alert("Erro Lexico\nLexema: " + atual + "\nLinha: " + nlinha);
                 }
-                //return token;
+                return token;
                 break;
 
             //Trata Pontuacao
