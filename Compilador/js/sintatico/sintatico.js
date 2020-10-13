@@ -31,8 +31,8 @@ function sintatico() {
             console.log("entrou identificador: ");
 
             if (token.simbolo == "Sponto_virgula") {
+                console.log("vai entrar analisa bloco");
                 Analisa_Bloco();
-                console.log("entrou ponto virgula");
 
                 if (token.simbolo == "Sponto") {
                     getToken();
@@ -64,6 +64,7 @@ function sintatico() {
 
 function getToken() {
     token = lexico();
+    console.log(token.lexema + " " + token.simbolo);
 
 }
 
@@ -78,6 +79,7 @@ function geraToken() {
 
 function geraErroSintatico() {
     alert("Erro Sintatico.\nLexema: " + token.lexema + "\nLinha: " + token.linha);
+    throw new Error("Erro Sintatico");
 }
 
 function geraErroLexico() {
@@ -98,15 +100,13 @@ function Analisa_Bloco() {
         fim
     */
 
-    let countVar = 0;
-
     getToken();
-    countVar = Analisa_et_variaveis(countVar);
+    Analisa_et_variaveis();
     Analisa_Subrotinas();
     Analisa_comandos();
 }
 
-function Analisa_et_variaveis(countVar) {
+function Analisa_et_variaveis() {
     /* 
         início
             se token.simbolo = svar
@@ -128,7 +128,7 @@ function Analisa_et_variaveis(countVar) {
         getToken();
         if (token.simbolo == "Sidentificador") {
             while (token.simbolo == "Sidentificador") {
-                countVar = Analisa_Variaveis(countVar);
+                Analisa_Variaveis();
                 if (token.simbolo == "Sponto_virgula") {
                     getToken();
                 } else {
@@ -138,13 +138,10 @@ function Analisa_et_variaveis(countVar) {
         } else {
             geraErroSintatico();
         }
-    } else {
-        return countVar;
     }
-    return countVar;
 }
 
-function Analisa_Variaveis(declaração_de_variaveis) {
+function Analisa_Variaveis() {
     /*
         início
             repita
@@ -197,11 +194,9 @@ function Analisa_Variaveis(declaração_de_variaveis) {
     } while (token.simbolo != "Sdoispontos");
     getToken();
     Analisa_Tipo();
-
-    return countVar;
 }
 
-function Analisa_Tipo(tipo) {
+function Analisa_Tipo() {
     /*
         início
             se (token.símbolo != sinteiro e token.símbolo != sbooleano))
@@ -213,12 +208,11 @@ function Analisa_Tipo(tipo) {
 
     if (token.simbolo != "Sinteiro" && token.simbolo != "Sbooleano") {
         geraErroSintatico();
-    } /* else {
-        getToken(tokensintatico);
-    } */
+    } //senão coloca_tipo_tabela(token.lexema)
+    getToken();
 }
 
-function Analisa_comandos(comandos) {
+function Analisa_comandos() {
     /*
         início
             se token.simbolo = sinicio
@@ -260,7 +254,7 @@ function Analisa_comandos(comandos) {
     }
 }
 
-function Analisa_comando_simples(comando) {
+function Analisa_comando_simples() {
     /*
     início
         se token.simbolo = sidentificador
@@ -305,7 +299,7 @@ function Analisa_comando_simples(comando) {
     }
 }
 
-function Analisa_atrib_chprocedimento(atribuição_chprocedimento) {
+function Analisa_atrib_chprocedimento() {
     /* 
     início
         Léxico(token)
@@ -323,7 +317,7 @@ function Analisa_atrib_chprocedimento(atribuição_chprocedimento) {
     }
 }
 
-function Analisa_leia(comando_leitura) {
+function Analisa_leia() {
     /*
         início
             Léxico(token)
@@ -367,7 +361,7 @@ function Analisa_leia(comando_leitura) {
     }
 }
 
-function Analisa_escreva(comando_escrita) {
+function Analisa_escreva() {
     /*
     início
         Léxico(token)
@@ -411,7 +405,7 @@ function Analisa_escreva(comando_escrita) {
     }
 }
 
-function Analisa_enquanto(comando_repeticao) {
+function Analisa_enquanto() {
     /*
         //Def auxrot1,auxrot2 inteiro
         início
@@ -444,7 +438,7 @@ function Analisa_enquanto(comando_repeticao) {
     }
 }
 
-function Analisa_se(comando_condicional) {
+function Analisa_se() {
     /*
         início
             Léxico(token)
@@ -477,7 +471,7 @@ function Analisa_se(comando_condicional) {
     }
 }
 
-function Analisa_Subrotinas(etapa_de_declaracao_de_sub_rotinas) {
+function Analisa_Subrotinas() {
     /*
         //Def. auxrot, flag inteiro
         Início
@@ -511,7 +505,7 @@ function Analisa_Subrotinas(etapa_de_declaracao_de_sub_rotinas) {
         //rotulo:= rotulo + 1
         //flag = 1
     }
-    while ((token.simbolo == "Sprocedimento") || (tokne.simbolo == "Sfuncao")) {
+    while ((token.simbolo == "Sprocedimento") || (token.simbolo == "Sfuncao")) {
         if (token.simbolo == "Sprocedimento") {
             Analisa_declaracao_procedimento();
         } else {
@@ -530,7 +524,7 @@ function Analisa_Subrotinas(etapa_de_declaracao_de_sub_rotinas) {
     */
 }
 
-function Analisa_declaracao_procedimento(declaracao_de_procedimento) {
+function Analisa_declaracao_procedimento() {
     /*
         início
             Léxico(token)
@@ -579,7 +573,7 @@ function Analisa_declaracao_procedimento(declaracao_de_procedimento) {
     }
 }
 
-function Analisa_declaracao_funcao(declaracao_de_funcao) {
+function Analisa_declaracao_funcao() {
     /*
         início
             Léxico(token)
@@ -643,7 +637,7 @@ function Analisa_declaracao_funcao(declaracao_de_funcao) {
     }
 }
 
-function Analisa_expressao(xpressao) {
+function Analisa_expressao() {
     /*
         início
             Analisa_expressão_simples
@@ -662,7 +656,7 @@ function Analisa_expressao(xpressao) {
     }
 }
 
-function Analisa_expressao_simples(expressao_simples) {
+function Analisa_expressao_simples() {
     /*
         início
             se (token.simbolo = smais) ou (token.simbolo = smenos)
@@ -686,7 +680,7 @@ function Analisa_expressao_simples(expressao_simples) {
     }
 }
 
-function Analisa_termo(termo) {
+function Analisa_termo() {
     /*
         início
             Analisa_fator
@@ -705,7 +699,7 @@ function Analisa_termo(termo) {
     }
 }
 
-function Analisa_fator(fator) {
+function Analisa_fator() {
     /*
         Início
         Se token.simbolo = sidentificador (* Variável ou Função*)
@@ -761,4 +755,10 @@ function Analisa_fator(fator) {
     } else {
         geraErroSintatico();
     }
+}
+
+function Chamada_procedimento(){
+
+
+    
 }
