@@ -2,18 +2,17 @@
 
 //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import
 
-// Main.js faz a conexao entre o front-end e o back-end
-
 //Variaveis globais
 let programa; 
 
-
+//Funcao para chamar a Main.js, quando o botao compilar no front-end for executado. 
 function start() {
     document.getElementById('compilar').addEventListener('click', function () {
         main();
     });
 }
 
+// Main.js faz a conexao entre o front-end e o back-end (lexico, sintatico)
 function main() {
     clearAll();
     //var tokenslexico = lexico();
@@ -24,8 +23,7 @@ function main() {
     //document.getElementById('terminal').value = tokenslexico.split(',{').join("\n");
 }
 
-
-//A cada nova execucao (play), limpa todas as variaveis globais (de controle)
+//A cada nova execucao (play/compilar), limpa todas as variaveis globais (de controle)
 function clearAll(){
     //zerando da main
     programa = (editor.getValue() + " ");               //programa recebe codigo do codemirror

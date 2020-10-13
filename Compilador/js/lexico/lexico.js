@@ -1,30 +1,30 @@
 // Compilador, copyright (c) by Bruno Camilo Silverio & Daniel de Arruda Fraga
 
-/*  Primeira fase da análise
+/*  
+    Primeira fase da análise
     •Principal função: fragmentar fonte em trecho elementares completos e com identidade própria (tokens).
     •Funções
     –Extração de tokens
     –Eliminação de delimitadores e comentários
     –Identificação de palavras reservadas
-    –Recuperação de erros*/
-
-/*Requisitos mínimos para que os testes ocorram:
-
+    –Recuperação de erros
+*/
+/*
+Requisitos mínimos para que os testes ocorram:
 - O analisador deve disponibilizar uma entrada de arquivos em formato .txt, e realizar a leitura desse arquivo.  
 Neste arquivo teremos o programa escrito em LPD. Não serão aceitos analisadores que não permitam a entrada direta do arquivo. 
-
 - O analisador deve realizar o processamento léxico do arquivo de entrada. Não serão aceitos analisadores que não completem o processamento.
-
 - O programa deve apresentar como saída : uma lista de tokens contendo, para cada token, pelo menos seu tipo e lexema. Se ocorrer um erro, 
 o programa deve retornar a lista de tokens até o momento do erro, e a linha em que o erro ocorreu, 
-e parar o processamento. Não serão aceitos analisadores que não apresentem uma lista de tokens, e a linha do erro, caso ele ocorra.*/
+e parar o processamento. Não serão aceitos analisadores que não apresentem uma lista de tokens, e a linha do erro, caso ele ocorra.
+*/
 
+//Variaveis Globais
 let index = 0;
-let nlinha = 1;             //numero da linha, para salvar na lista
+let nlinha = 1; //numero da linha, para salvar na lista
 let token;
 
-
-//Inicio da analise lexica
+//Funcao principal do Lexico
 function lexico() {
     console.log("***** start LEXICO *****");
 
@@ -36,9 +36,8 @@ function lexico() {
     let indexmais = 0;      //proximo valor do index
     let indexmenos = 0;     //valor anterior do index
     let palavra = "";       //Recebe caracter
-    let numero = "";
-    token = "";         //Lista com todos os Lexemas,Simbolos e Linhas
-
+    let numero = "";        //Guarda o numero da linha
+    token = "";             //Lista com todos os Lexemas,Simbolos e Linhas
 
     //Loop linha por linha
     for (index; index < programa.length; index++) {
@@ -58,7 +57,7 @@ function lexico() {
         //Caso tenha erro, interrompe, retorna os tokens ate o momento, e a linha do erro
         if (foierro == true) {
             //return token;
-            console.log("Entrou if erro lexico");
+            console.log("ERRO LEXICO [foierro == true]");
         }
 
         //Caso as validacoes dentro do switch sejam true -> entra nos case
@@ -69,7 +68,6 @@ function lexico() {
                 if (atual === "}") {
                     comentario = false;
                 }
-
                 //Final de comentario tipo 2
                 else if (atual === "*" && prox === "/") {
                     comentario = false;
@@ -77,7 +75,6 @@ function lexico() {
                     index = index + 1;
 
                 }
-
                 //Erro de comentario nao finalizado
                 if (index === (programa.length - 1)) {
                     // foierro = true;
@@ -86,7 +83,7 @@ function lexico() {
                     //     simbolo: "ERRO LEXICO",
                     //     linha: nlinha
                     // });
-                    alert("Erro Lexico\nComentario nao finalizado\nLinha: " + nlinha);
+                    alert("ERRO LEXICO\nComentario nao finalizado\nLinha: " + nlinha);
                 }
                 //return token;
                 break;
@@ -105,7 +102,6 @@ function lexico() {
 
             //Agrupa NUMEROS em numero (ate chegar em espaco)
             case (isNumber(atual) && comentario === false && !isAlpha(antes) && !isAlpha(prox)):
-
                 numero = numero + atual;
 
                 if (prox != "0" && prox != "1" && prox != "2" && prox != "3" && prox != "4" && prox != "5" && prox != "6" && prox != "7" && prox != "8" && prox != "9" && comentario == false) {
@@ -293,7 +289,6 @@ function lexico() {
                     index++;
                     return token;
                 }
-
                 break;
 
             //Trata atribuicao (dois pontos e atribuicao)
@@ -462,7 +457,7 @@ function lexico() {
                 //caso seja espaco ou \t, sai
                 break;
 
-            //SE CHEGOU AQUI, HA ERRO
+            //Apenas em caso de ERROS LEXICOS
             default:
                 // foierro = true;
                 // token.push({
@@ -470,8 +465,8 @@ function lexico() {
                 //     simbolo: "ERRO LEXICO",
                 //     linha: nlinha
                 // });
-                alert("Erro Lexico\nLexema: " + atual + "\nLinha: " + nlinha);
-                throw new Error("Erro lexico");
+                alert("ERRO LEXICO\nLexema: " + atual + "\nLinha: " + nlinha);
+                throw new Error("ERRO LEXICO");
                 //return token;
                 break;
         }
