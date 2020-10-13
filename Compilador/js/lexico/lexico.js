@@ -471,6 +471,7 @@ function lexico() {
                 //     linha: nlinha
                 // });
                 alert("Erro Lexico\nLexema: " + atual + "\nLinha: " + nlinha);
+                throw new Error("Erro lexico");
                 //return token;
                 break;
         }
