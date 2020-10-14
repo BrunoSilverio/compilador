@@ -307,8 +307,9 @@ function lexico() {
                         simbolo: "Satribuicao",
                         linha: nlinha
                     });
+                    index++;
                 }
-                index += 2;
+                index++;
                 return token;
                 break;
 
@@ -356,6 +357,7 @@ function lexico() {
                         linha: nlinha
                     });
                     atual = "";
+                    index++;
                 }
 
                 //Menor e Menor Igual
@@ -373,6 +375,7 @@ function lexico() {
                         linha: nlinha
                     });
                     atual = "";
+                    index++;
                 }
                 //Igual
                 else if (atual === "=" && antes != "<" && antes != ">" && antes != "!" && antes != ":" && comentario == false) {
@@ -391,6 +394,7 @@ function lexico() {
                         linha: nlinha
                     });
                     atual = "";
+                    index++;
                 }
                 //Erro com caracter ! sozinho
                 else if (atual === "!" && prox != "=") {

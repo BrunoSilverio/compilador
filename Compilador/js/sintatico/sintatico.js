@@ -451,16 +451,22 @@ function Analisa_fator() {
     }
 }
 
-
 function Analisa_chamada_funcao() {
     getToken();
-
-
+    if (token.simbolo == "Sidentificador") {
+        
+    } else {
+        geraErroSintatico();
+    }
 }
 
-
 function Chamada_procedimento() {
-    //vazio
+    getToken();
+    if (token.simbolo == "Sidentificador") {
+        
+    } else {
+        geraErroSintatico();
+    }
 }
 
 function Analisa_atribuicao() {
