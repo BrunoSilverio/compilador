@@ -84,6 +84,7 @@ function lexico() {
                     //     linha: nlinha
                     // });
                     alert("ERRO LEXICO\nComentario nao finalizado\nLinha: " + nlinha);
+                    throw new Error("ERRO LEXICO");
                 }
                 //return token;
                 break;
@@ -307,7 +308,7 @@ function lexico() {
                         linha: nlinha
                     });
                 }
-                index++;
+                index += 2;
                 return token;
                 break;
 
@@ -400,6 +401,7 @@ function lexico() {
                     //     linha: nlinha
                     // });
                     alert("Erro Lexico\nLexema: " + atual + "\nLinha: " + nlinha);
+                    throw new Error("ERRO LEXICO");
                 }
                 index++;
                 return token;
