@@ -11,6 +11,8 @@
     –Ativação de rotinas da síntese do código objeto 
 */
 
+let listatokens = [];
+
 //Funcao principal do Sintatico
 function sintatico() {
     console.log("***** start SINTATICO *****");
@@ -18,6 +20,8 @@ function sintatico() {
     //tokenslexico = JSON.stringify(tokenslexico);  //Para transformar em String
     //Def rotulo inteiro
     //rotulo:= 1 
+    listatokens = [];
+
     getToken();
     console.log("inicio");
 
@@ -37,7 +41,7 @@ function sintatico() {
                 if (token.simbolo == "Sponto") {
                     console.log("entrou ponto: ");
                     getToken();
-                    
+
                     //então se acabou arquivo ou é comentário 
                     if (token.simbolo == undefined) {
                         console.log("***** end SINTATICO *****");
@@ -56,12 +60,18 @@ function sintatico() {
         }
     } else {
         geraErroSintatico();
-    }    
+    }
 }
 
-//Funcao para fazer pedido de Token no lexico
+//Funcao para fazer pedido de Token no lexico, aproveita para colocar tokens na lista, para exibir no terminal (front-end)
 function getToken() {
     token = lexico();
+    console.log("ENTROU GETTOKEN " + token.simbolo);
+    listatokens.push({
+        lexema: token.lexema,
+        simbolo: token.simbolo,
+        linha: token.nlinha
+    });
     console.log(token.lexema + " " + token.simbolo);
 
 }
@@ -78,18 +88,13 @@ function geraToken() {
 //Funcao para erros sintaticos
 function geraErroSintatico() {
     alert("ERRO SINTATICO\nLexema: " + token.lexema + "\nLinha: " + token.linha);
+    document.getElementById('terminal').value = "Erro SINTATICO:\n" + "Lexema: " + token.lexema + "\nLinha: " + token.linha;
+    //var listatokens = JSON.stringify(listatokens);
+    //document.getElementById('terminal').value = listatokens.split(',{').join("\n");
     console.log("***** end SINTATICO *****");
     throw new Error("ERRO SINTATICO");
 }
 
-//NAO ESTA USANDO AQUI
-function geraErroLexico() {
-    tokensintatico.push({
-        lexema: token.lexema,
-        simbolo: "ERRO LEXICO",
-        linha: token.linha
-    });
-}
 
 function Analisa_Bloco() {
     getToken();
@@ -124,18 +129,18 @@ function Analisa_Variaveis() {
             //Pesquisa_duplicvar_ tabela(token.lexema)
             //se não encontrou duplicidade
             //então início
-                //insere_tabela(token.lexema, “variável”)
-                getToken();
-                if ((token.simbolo == "Svirgula") || (token.simbolo == "Sdoispontos")) {
-                    if (token.simbolo == "Svirgula") {
-                        getToken();
-                        if (token.simbolo == "Sdoispontos") {
-                            geraErroSintatico();
-                        }
+            //insere_tabela(token.lexema, “variável”)
+            getToken();
+            if ((token.simbolo == "Svirgula") || (token.simbolo == "Sdoispontos")) {
+                if (token.simbolo == "Svirgula") {
+                    getToken();
+                    if (token.simbolo == "Sdoispontos") {
+                        geraErroSintatico();
                     }
-                } else {
-                    geraErroSintatico();
                 }
+            } else {
+                geraErroSintatico();
+            }
             //fim
             //senão ERRO 
         } else {
@@ -150,7 +155,7 @@ function Analisa_Variaveis() {
 function Analisa_Tipo() {
     if ((token.simbolo != "Sinteiro") && (token.simbolo != "Sbooleano")) {
         geraErroSintatico();
-    } 
+    }
     //senão coloca_tipo_tabela(token.lexema)
     getToken();
 }
@@ -205,9 +210,9 @@ function Analisa_comando_simples() {
 function Analisa_atrib_chprocedimento() {
     getToken();
     if (token.simbolo == "Satribuicao") {
-        Analisa_atribuicao(); //CRIAR FUNCAO
+        Analisa_atribuicao();
     } else {
-        Chamada_procedimento(); //CRIAR FUNCAO
+        Chamada_procedimento();
     }
 }
 
@@ -219,12 +224,12 @@ function Analisa_leia() {
         if (token.simbolo == "Sidentificador") {
             //então se pesquisa_declvar_tabela(token.lexema)
             //então início (pesquisa em toda a tabela)
+            getToken();
+            if (token.simbolo == "Sfecha_parenteses") {
                 getToken();
-                if (token.simbolo == "Sfecha_parenteses") {
-                    getToken();
-                } else {
-                    geraErroSintatico();
-                }
+            } else {
+                geraErroSintatico();
+            }
             //fim
             //senao ERRO
         } else {
@@ -243,12 +248,12 @@ function Analisa_escreva() {
         if (token.simbolo == "Sidentificador") {
             //então se pesquisa_ declvarfunc_tabela(token.lexema)
             //então início
+            getToken();
+            if (token.simbolo == "Sfecha_parenteses") {
                 getToken();
-                if (token.simbolo == "Sfecha_parenteses") {
-                    getToken();
-                } else {
-                    geraErroSintatico();
-                }
+            } else {
+                geraErroSintatico();
+            }
             //fim
             //senão ERRO
         } else {
@@ -305,17 +310,18 @@ function Analisa_Subrotinas() {
         //GERA(´ ´,JMP,rotulo,´ ´) {Salta sub-rotinas}
         //rotulo:= rotulo + 1;
         //flag = 1;
-    }
-    while ((token.simbolo == "Sprocedimento") || (token.simbolo == "Sfuncao")) {
-        if (token.simbolo == "Sprocedimento") {
-            Analisa_declaracao_procedimento();
-        } else {
-            Analisa_declaracao_funcao();
-        }
-        if (token.simbolo == "Sponto_virgula") {
-            getToken();
-        } else {
-            geraErroSintatico();
+
+        while ((token.simbolo == "Sprocedimento") || (token.simbolo == "Sfuncao")) {
+            if (token.simbolo == "Sprocedimento") {
+                Analisa_declaracao_procedimento();
+            } else {
+                Analisa_declaracao_funcao();
+            }
+            if (token.simbolo == "Sponto_virgula") {
+                getToken();
+            } else {
+                geraErroSintatico();
+            }
         }
     }
     /*
@@ -333,17 +339,17 @@ function Analisa_declaracao_procedimento() {
         //pesquisa_declproc_tabela(token.lexema)
         //se não encontrou
         //então início
-            //Insere_tabela(token.lexema,”procedimento”,nível, rótulo)
-            //{guarda na TabSimb}
-            //Gera(rotulo,NULL,´ ´,´ ´)
-            //{CALL irá buscar este rótulo na TabSimb}
-            //rotulo:= rotulo+1;
-            getToken();
-            if (token.simbolo == "Sponto_virgula") {
-                Analisa_Bloco();
-            } else {
-                geraErroSintatico();
-            }
+        //Insere_tabela(token.lexema,”procedimento”,nível, rótulo)
+        //{guarda na TabSimb}
+        //Gera(rotulo,NULL,´ ´,´ ´)
+        //{CALL irá buscar este rótulo na TabSimb}
+        //rotulo:= rotulo+1;
+        getToken();
+        if (token.simbolo == "Sponto_virgula") {
+            Analisa_Bloco();
+        } else {
+            geraErroSintatico();
+        }
         //fim
         //senao ERRO
     } else {
@@ -360,24 +366,24 @@ function Analisa_declaracao_funcao() {
         //pesquisa_declfunc_tabela(token.lexema)
         //se não encontrou
         //então início
-            //Insere_tabela(token.lexema,””,nível,rótulo)
+        //Insere_tabela(token.lexema,””,nível,rótulo)
+        getToken();
+        if (token.simbolo == "Sdoispontos") {
             getToken();
-            if (token.simbolo == "Sdoispontos") {
+            if ((token.simbolo == "Sinteiro") || (token.simbolo == "Sbooleano")) {
+                //se (token.símbolo = Sinteger)
+                //então TABSIMB[pc].tipo:= “função inteiro”
+                //senão TABSIMB[pc].tipo:= “função boolean”
                 getToken();
-                if ((token.simbolo == "Sinteiro") || (token.simbolo == "Sbooleano")) {
-                    //se (token.símbolo = Sinteger)
-                    //então TABSIMB[pc].tipo:= “função inteiro”
-                    //senão TABSIMB[pc].tipo:= “função boolean”
-                    getToken();
-                    if (token.simbolo == "Sponto_virgula") {
-                        Analisa_Bloco();
-                    }
-                } else {
-                    geraErroSintatico();
+                if (token.simbolo == "Sponto_virgula") {
+                    Analisa_Bloco();
                 }
             } else {
                 geraErroSintatico();
             }
+        } else {
+            geraErroSintatico();
+        }
         //fim
         //senao ERRO
     } else {
@@ -399,12 +405,13 @@ function Analisa_expressao() {
 function Analisa_expressao_simples() {
     if ((token.simbolo == "Smais") || (token.simbolo == "Smenos")) {
         getToken();
-        Analisa_termo();
-        while ((token.simbolo == "Smais") || (token.simbolo == "Smenos") || (token.simbolo == "Sou")) {
-            getToken();
-            Analisa_termo();
-        }
     }
+    Analisa_termo();
+    while ((token.simbolo == "Smais") || (token.simbolo == "Smenos") || (token.simbolo == "Sou")) {
+        getToken();
+        Analisa_termo();
+    }
+
 }
 
 //Termo
@@ -421,8 +428,8 @@ function Analisa_fator() {
     if (token.simbolo == "Sidentificador") {
         //Se pesquisa_tabela(token.lexema,nível,ind)
         //Então Se (TabSimb[ind].tipo = “função inteiro”) ou (TabSimb[ind].tipo = “função booleano”)
-            //Então Analisa_chamada_função
-            //Senão Léxico(token)
+        Analisa_chamada_funcao();
+        //Senão Léxico(token)
         //Senão ERRO
     } else if (token.simbolo == "Snumero") {
         getToken();
@@ -444,11 +451,19 @@ function Analisa_fator() {
     }
 }
 
-function Chamada_procedimento() {
 
-    
+function Analisa_chamada_funcao() {
+    getToken();
+
+
+}
+
+
+function Chamada_procedimento() {
+    //vazio
 }
 
 function Analisa_atribuicao() {
-
+    getToken();
+    Analisa_expressao();
 }
