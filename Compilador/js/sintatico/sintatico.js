@@ -45,14 +45,21 @@ function sintatico() {
                     //então se acabou arquivo ou é comentário 
                     if (token.simbolo == undefined) {
                         console.log("***** end SINTATICO *****");
+                        alert("Executado com sucesso!");
                         //tratar se o codigo de fato acabou (depois do ponto)
                     } else {
                         geraErroSintatico();
                     }
                 } else {
-                    geraErroSintatico();
+                    alert("ERRO SINTATICO:\n" + "Lexema: fim " + "\nEsperado '.' ");
+                    document.getElementById('terminal').value = "Erro SINTATICO:\n" + "Lexema: fim " + "\nEsperado '.' ";
+                    //var listatokens = JSON.stringify(listatokens);
+                    //document.getElementById('terminal').value = listatokens.split(',{').join("\n");
+                    console.log("***** end SINTATICO *****");
+                    throw new Error("ERRO SINTATICO");
                 }
             } else {
+
                 geraErroSintatico();
             }
         } else {
@@ -165,7 +172,7 @@ function Analisa_comandos() {
     if (token.simbolo == "Sinicio") {
         getToken();
         Analisa_comando_simples();
-        while (token.sintatico != "Sfim") {
+        while (token.simbolo != "Sfim") {
             if (token.simbolo == "Sponto_virgula") {
                 getToken();
                 if (token.simbolo != "Sfim") {
@@ -174,8 +181,8 @@ function Analisa_comandos() {
                     geraErroSintatico();
                 }
             }
-            getToken();
         }
+        getToken();
     } else {
         geraErroSintatico();
     }
@@ -426,11 +433,7 @@ function Analisa_termo() {
 //Fator
 function Analisa_fator() {
     if (token.simbolo == "Sidentificador") {
-        //Se pesquisa_tabela(token.lexema,nível,ind)
-        //Então Se (TabSimb[ind].tipo = “função inteiro”) ou (TabSimb[ind].tipo = “função booleano”)
         Analisa_chamada_funcao();
-        //Senão Léxico(token)
-        //Senão ERRO
     } else if (token.simbolo == "Snumero") {
         getToken();
     } else if (token.simbolo == "Snao") {
@@ -444,7 +447,7 @@ function Analisa_fator() {
         } else {
             geraErroSintatico();
         }
-    } else if ((token.simbolo == "verdadeiro") || (token.simbolo == "falso")) {
+    } else if (token.lexema == "verdadeiro" || token.lexema == "falso") {
         getToken();
     } else {
         geraErroSintatico();
@@ -453,20 +456,16 @@ function Analisa_fator() {
 
 function Analisa_chamada_funcao() {
     getToken();
-    if (token.simbolo == "Sidentificador") {
-        
-    } else {
-        geraErroSintatico();
-    }
+    // if (token.simbolo == "Sidentificador") {
+
+    // } else {
+    //     console.log("O erro esta aqui");
+    //     geraErroSintatico();
+    // }
 }
 
 function Chamada_procedimento() {
-    getToken();
-    if (token.simbolo == "Sidentificador") {
-        
-    } else {
-        geraErroSintatico();
-    }
+
 }
 
 function Analisa_atribuicao() {
