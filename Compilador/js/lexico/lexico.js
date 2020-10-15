@@ -72,7 +72,7 @@ function lexico() {
                 else if (atual === "*" && prox === "/") {
                     comentario = false;
                     //Caso seja o ultimo caracter da linha, pula validacao do final
-                    index = index + 1;
+                    index += 2;
 
                 }
                 //Erro de comentario nao finalizado
