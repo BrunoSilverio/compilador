@@ -177,9 +177,9 @@ function Analisa_comandos() {
                 getToken();
                 if (token.simbolo != "Sfim") {
                     Analisa_comando_simples();
-                } else {
-                    geraErroSintatico();
                 }
+            } else {
+                geraErroSintatico();
             }
         }
         getToken();
