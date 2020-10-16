@@ -46,6 +46,7 @@ function sintatico() {
                     if (token.simbolo == undefined) {
                         console.log("***** end SINTATICO *****");
                         alert("Executado com sucesso!");
+                        document.getElementById('terminal').value = "Realizado com sucesso!";
                         //tratar se o codigo de fato acabou (depois do ponto)
                     } else {
                         geraErroSintatico();
