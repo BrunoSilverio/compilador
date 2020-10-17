@@ -3,6 +3,7 @@ body {
   width: 100% !important;
   color: #06fc06;
   background-color: rgb(48, 47, 47);
+  position: fixed;
 }
 
 button {
@@ -11,8 +12,9 @@ button {
 
 }
 
-navbar navbar-inverse{
-  color: rgb(252, 253, 252);
+nav {
+  padding-left: 3em;
+  font-weight: bolder;
 }
 
 table {

@@ -25,6 +25,15 @@ let exec = true;
 // Contador para lista de instruções
 let numInst = 1;
 
+//Iniciar programa principal
+function start() {
+    s = -1;
+    //document.getElementById("formDados").innerHTML = "> ";
+    document.getElementById('compilar').addEventListener('click', function () {
+        main();
+    });
+}
+
 // Função main controla um loop para as operações das instruções
 function main(){
     while (condition) {
@@ -139,11 +148,6 @@ function readFile(that) {
 //===== Função basicas VM =====
 //=============================
 
-//Iniciar programa principal
-function start() {
-    s = -1;
-    document.getElementById("terminal").innerHTML = "> ";
-}
 //Parar - “Para a execução da MVD”
 function hlt(params) {
     exec = false;
