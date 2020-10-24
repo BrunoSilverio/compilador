@@ -9,6 +9,36 @@
         – Representar tipos de dados
 */
 
-function semantico() {
+function insere_tabela(token_lexema,String,nivel) {
     
+}
+
+function Pesquisa_duplicvar_tabela(token_lexema) {
+    let duplicidade;
+
+
+}
+
+function coloca_tipo_tabela(token_lexema) {
+
+}
+
+function pesquisa_declvar_tabela(token_lexema) {
+
+}
+
+function pesquisa_declvarfunc_tabela(token_lexema) {
+
+}
+
+function pesquisa_declproc_tabela(token_lexema) {
+
+}
+
+function pesquisa_declfunc_tabela(token_lexema)  {
+
+}
+
+function pesquisa_tabela(token_lexema,nivel,ind) {
+ 
 }
