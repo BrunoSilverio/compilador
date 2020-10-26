@@ -231,7 +231,7 @@ function divi() {
 }
 //Operacao inversão
 function inv() {
-    memory[s] = memory[s] * -1;
+    memory[s] = memory[s] * (-1);
 }
 
 //==========================
