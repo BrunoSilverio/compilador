@@ -25,6 +25,20 @@ let exec = true;
 // Contador para lista de instruções
 let numInst = 1;
 
+//Função para leitura de arquivo .obj para manipualcao no JS
+function readFile(that) {
+    if (that.files && that.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var output = e.target.result;
+            fileContent = output;
+            readObjectFile(fileContent);
+        };
+        reader.readAsText(that.files[0]);
+    }
+}
+
+
 //Iniciar programa principal
 function start() {
     s = -1;
@@ -128,19 +142,6 @@ function main(){
                 break;
         }
         
-    }
-}
-
-//Função para leitura de arquivo
-function readFile(that) {
-    if (that.files && that.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var output = e.target.result;
-            fileContent = output;
-            readObjectFile(fileContent);
-        };
-        reader.readAsText(that.files[0]);
     }
 }
 

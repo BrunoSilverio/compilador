@@ -19,7 +19,7 @@
             <label for="file-input">
                 <img src="img/import.png" class="w3-button w3-black" width="50" height="50" />
             </label>
-            <input id="file-input" type="file" accept=".obj" onchange="readText(this)">
+            <input id="file-input" type="file" accept=".txt" onchange="readFile(this.files);"/>
         </div>
     </nav>
     <hr>
@@ -47,23 +47,17 @@
                 <br>
                 <br>
             </div>
-            <div class="col-sm-2 text-right sidenav">
-                <!--Entrada-->
-                <textarea id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada" rows="12"></textarea>
-
-                <br>
-            
-                <!--Saida-->
-                <textarea id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" rows="12" readonly></textarea>
-                
-            </div>
-
             <div class="col-sm-2 text-left sidenav"> 
                 <!--Dados-->
                 <textarea id="formDados" class="form-control form-control-lg" type="text" placeholder="> Dados" rows="26" readonly></textarea>
-                
             </div>
-
+            <div class="col-sm-2 text-right sidenav">
+                <!--Entrada-->
+                <textarea id="formEntrada" class="form-control form-control-lg"  type="text" placeholder="> Entrada" rows="12" ></textarea>
+                <br>
+                <!--Saida-->
+                <textarea id="formSaida" class="form-control form-control-lg" type="text" placeholder="> Saida" rows="12" readonly></textarea>     
+            </div>
         </div>
 
         <div class="container-fluid">
