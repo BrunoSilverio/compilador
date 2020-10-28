@@ -49,7 +49,7 @@ function start() {
 }
 
 // Função main controla um loop para as operações das instruções
-function main(){
+function main() {
     while (condition) {
         operation = instructions[i].operation;
 
@@ -89,7 +89,7 @@ function main(){
                 break;
             case "CMA":
                 cma();
-                break;    
+                break;
             case "CEQ":
                 ceq();
                 break;
@@ -136,12 +136,12 @@ function main(){
                 break;
             case "RETURN":
                 retn();
-                i = i-1;
+                i = i - 1;
                 break;
             default:
                 break;
         }
-        
+
     }
 }
 
@@ -156,7 +156,7 @@ function hlt(params) {
 //Operação RD - Ultimo valor entrado pelo usuario.
 function rd() {
     entryValue = readEntry();
-    s = (s+1);
+    s = (s + 1);
     memory[s] = entryValue;
 }
 //Saida - Impressão
@@ -167,7 +167,7 @@ function prn() {
     } else {
         document.getElementById("formSaida").innerHTML += templateTerminal(memory[s]);
     }
-    s = (s-1);
+    s = (s - 1);
 }
 
 //==============================
@@ -176,24 +176,24 @@ function prn() {
 
 //Carregar constante
 //k = instruction[i].parameters.p1
-function ldc(){
-    s = (s+1); 
+function ldc() {
+    s = (s + 1);
     memory[s] = k;
 }
 //Carregar valor
-function ldv(){
-    s = (s+1);
+function ldv() {
+    s = (s + 1);
     memory[s] = memory[n];
 }
 //Atribuição - Armazenar valor
-function str(){
-    memory[n] = memory[s]; 
-    s = (s-1); 
+function str() {
+    memory[n] = memory[s];
+    s = (s - 1);
 }
 //Alocação de Variáveis
 function alloc() {
     for (let j = 0; j < instructions[i].parameters.p2; j++) {
-        s = (s+1);
+        s = (s + 1);
         memory[s] = memory[instructions[i].parameters.p1 + j];
     }
 }
@@ -202,7 +202,7 @@ function dalloc() {
     for (let j = instructions[i].parameters.p2 - 1; j >= 0; j--) {
 
         memory[instructions[i].parameters.p1 + j] = memory[s];
-        s = (s-1);
+        s = (s - 1);
     }
 }
 
@@ -212,23 +212,23 @@ function dalloc() {
 
 //Operacao adição
 function add() {
-    memory[s-1] = parseInt(memory[s-1] + memory[s]);
-    s = (s-1);
+    memory[s - 1] = parseInt(memory[s - 1] + memory[s]);
+    s = (s - 1);
 }
 //Operacao subtração
 function sub() {
-    memory[s-1] = parseInt(memory[s-1] - memory[s]);
-    s = (s-1);
+    memory[s - 1] = parseInt(memory[s - 1] - memory[s]);
+    s = (s - 1);
 }
 //Operacao multiplicação
 function mult() {
-    memory[s-1] = parseInt(memory[s-1] * memory[s]);
-    s = (s-1);
+    memory[s - 1] = parseInt(memory[s - 1] * memory[s]);
+    s = (s - 1);
 }
 //Operacao divisão
 function divi() {
-    memory[s-1] = parseInt(memory[s-1] / memory[s]); 
-    s = (s-1);
+    memory[s - 1] = parseInt(memory[s - 1] / memory[s]);
+    s = (s - 1);
 }
 //Operacao inversão
 function inv() {
@@ -241,21 +241,21 @@ function inv() {
 
 //Operacao AND
 function and() {
-    if (memory[s-1] == 1 && memory[s] == 1) {
-        memory[s-1] = 1;
+    if (memory[s - 1] == 1 && memory[s] == 1) {
+        memory[s - 1] = 1;
     } else {
-        memory[s-1] = 0;
+        memory[s - 1] = 0;
     }
-    s = (s-1);
+    s = (s - 1);
 }
 //Operacao OR
 function or() {
-    if (memory[s-1] == 1 || memory[s] == 1) {
-        memory[s-1] = 1;
+    if (memory[s - 1] == 1 || memory[s] == 1) {
+        memory[s - 1] = 1;
     } else {
-        memory[s-1] = 0;
+        memory[s - 1] = 0;
     }
-    s = (s-1);
+    s = (s - 1);
 }
 //Operacao NEG
 function neg(params) {
@@ -267,64 +267,64 @@ function neg(params) {
 //=============================
 
 //Comparar menor
-function cme(){
-    if(memory[s-1] < memory[s]){
-        memory[s-1] = 1;
+function cme() {
+    if (memory[s - 1] < memory[s]) {
+        memory[s - 1] = 1;
     }
-    else{
-        memory[s-1] = 0; 
+    else {
+        memory[s - 1] = 0;
     }
-    s = (s-1);
+    s = (s - 1);
 }
 //Comparar maior
-function cma(){
-    if (memory[s-1] > memory[s]){
-        memory[s-1] = 1;
+function cma() {
+    if (memory[s - 1] > memory[s]) {
+        memory[s - 1] = 1;
     }
-    else{
-        memory[s-1] = 0; 
-    } 
-    s = (s-1);
+    else {
+        memory[s - 1] = 0;
+    }
+    s = (s - 1);
 }
 //Comparar igual
-function ceq(){
-    if (memory[s-1] == memory[s]){
-        memory[s-1] = 1;
-    }  
-    else{
-        memory[s-1] = 0; 
+function ceq() {
+    if (memory[s - 1] == memory[s]) {
+        memory[s - 1] = 1;
     }
-    s = (s-1);
+    else {
+        memory[s - 1] = 0;
+    }
+    s = (s - 1);
 }
 //Comparar desigual
-function cdif(){
-    if (memory[s-1] != memory[s]){
-        memory[s-1] = 1;
+function cdif() {
+    if (memory[s - 1] != memory[s]) {
+        memory[s - 1] = 1;
     }
-    else{
-        memory[s-1] = 0;
+    else {
+        memory[s - 1] = 0;
     }
-    s = (s-1);
+    s = (s - 1);
 }
 //Comparar menor ou igual
-function cmeq(){
-    if (memory[s-1] <= memory[s]){
-        memory[s-1] = 1;
+function cmeq() {
+    if (memory[s - 1] <= memory[s]) {
+        memory[s - 1] = 1;
     }
-    else{
-        memory[s-1] = 0;
+    else {
+        memory[s - 1] = 0;
     }
-    s = (s-1);
+    s = (s - 1);
 }
 //Comparar maior ou igual
-function cmaq(){
-    if (memory[s-1] >= memory[s]) {
-        memory[s-1] = 1;
+function cmaq() {
+    if (memory[s - 1] >= memory[s]) {
+        memory[s - 1] = 1;
     }
-    else{
-        memory[s-1] = 0;
+    else {
+        memory[s - 1] = 0;
     }
-    s = (s-1);
+    s = (s - 1);
 }
 
 //============================
@@ -341,14 +341,14 @@ function jmpf() {
     if (memory[s] == 0) {
         i = findLabel(instructions[i].parameters.p1).index;
         // Decrementa pois será incrementado na main.
-        i = (i-1);
+        i = (i - 1);
         //i = i + 1;
     }
     else {
         // Não faz nada pois será incrementado na main
         // i = i - 1;
     }
-    s = (s-1);
+    s = (s - 1);
 }
 
 //===============================
@@ -357,13 +357,13 @@ function jmpf() {
 
 //Chamar procedimento ou função
 function call() {
-    s = (s+1);
-    memory[s] = (i+1);
+    s = (s + 1);
+    memory[s] = (i + 1);
     i = findLabel(instructions[i].parameters.p1).index;
 }
 
 //Retornar de procedimento
 function retn() {
     i = memory[s];
-    s = (s-1);
+    s = (s - 1);
 }
