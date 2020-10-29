@@ -1,7 +1,7 @@
 // Compilador, copyright (c) by Bruno Camilo Silverio & Daniel de Arruda Fraga
 
 // Variavel que contem todo contudo do arquivo.obj
-let fileObj;
+let arquivo;
 
 //Variavel de controle para percorrer a pilha de memoria, indicando elemento do topo da pilha: M[s]
 let s = -1;
@@ -25,18 +25,6 @@ let exec = true;
 // Contador para lista de instruções
 let numInst = 1;
 
-//Função para leitura de arquivo .obj para manipualcao no JS
-function readFile(that) {
-    if (that.files && that.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var output = e.target.result;
-            fileContent = output;
-            readObjectFile(fileContent);
-        };
-        reader.readAsText(that.files[0]);
-    }
-}
 
 
 //Iniciar programa principal
@@ -144,6 +132,51 @@ function main() {
 
     }
 }
+
+//Função para leitura de arquivo .obj para manipualcao no JS
+function readFile() {
+    var fileToLoad = document.getElementById("file-input").files[0];  //a intenção é não precisar de botões pra escolher arquivo e nem para
+    var fileReader = new FileReader();                                //executar o script, tudo deve acontecer quando cricar para abrir a aplicação
+    fileReader.onload = function(fileLoadedEvent) {
+        var textFromFileLoaded = fileLoadedEvent.target.result;
+        var texto = textFromFileLoaded; // Variavel com o conteudo do arquivo
+        //console.log(texto);
+        arquivo = texto;
+        tabelaInstrucoes(texto);
+    };
+    fileReader.readAsText(fileToLoad, "UTF-8");
+}
+
+//Função para printar na tabela o conteudo do arquivo .obj
+function tabelaInstrucoes(texto){
+    let comentario = "";
+    var quantidade = document.getElementById("tabelaInstrucoes").rows.length;// está pré definido que será usado o tamanho total do arquivo
+    if (quantidade>1){ // quantidade representa o número indefinido de linhas que pode haver
+        for(var cont=1;cont<=quantidade;cont++){
+            document.getElementById("tabelaInstrucoes").deleteRow(cont);
+        }
+    }
+    var itens = texto.split("\n"); // define que linhas devem ser consultadas
+    document.getElementById("tabelaInstrucoes").innerHTML +='<tr><td style="border: 2px solid; font-weight: bold">'+"Breakpoint"+'</td>'+
+                                                                '<td style="border: 2px solid; font-weight: bold">'+" L "+'</td>'+
+                                                                '<td style="border: 2px solid; font-weight: bold">'+"Instruçao"+'</td>'+
+                                                                '<td style="border: 2px solid; font-weight: bold">'+"Comentario"+'</td></tr>';
+    for(var i=0;i<itens.length;i++){
+        var valores = itens[i];// espaços TAB definem colunas que serão consultadas
+        console.log(valores);
+        comentario = "TESTE";
+        if (valores === "START") {
+            console.log("entrouSTART");
+            comentario = "Iniciar programa principal";
+        } else if (valores === "NULL") {
+            console.log("entrouNULL");
+            comentario = "Nada";
+        } 
+        document.getElementById("tabelaInstrucoes").innerHTML +='<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>'+
+                                                                    '<td>'+(i+1)+'</td><td>'+valores+'</td><td>'+comentario+'</td></tr>';
+    }
+}
+
 
 //=============================
 //===== Função basicas VM =====
