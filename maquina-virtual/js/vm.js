@@ -25,8 +25,6 @@ let exec = true;
 // Contador para lista de instruções
 let numInst = 1;
 
-
-
 //Iniciar programa principal
 function start() {
     s = -1;
@@ -150,6 +148,14 @@ function readFile() {
 //Função para printar na tabela o conteudo do arquivo .obj
 function tabelaInstrucoes(texto){
     let comentario = "";
+    let linha = "";
+    let atual = "";     //carater atual
+    let prox = "";      //caracter proximo
+    let indexmais = 0;  //proximo valor do index
+    let auxNum = 0;     //auxiliar para pegar primeiro/unico numero na linha
+    let auxNum2 = 0;    //auxiliar para pegar o segundo numero na linha 
+    let auxStr = "";    //auxiliar para desvios na linha
+
     var quantidade = document.getElementById("tabelaInstrucoes").rows.length;// está pré definido que será usado o tamanho total do arquivo
     if (quantidade>1){ // quantidade representa o número indefinido de linhas que pode haver
         for(var cont=1;cont<=quantidade;cont++){
@@ -161,19 +167,78 @@ function tabelaInstrucoes(texto){
                                                                 '<td style="border: 2px solid; font-weight: bold">'+" L "+'</td>'+
                                                                 '<td style="border: 2px solid; font-weight: bold">'+"Instruçao"+'</td>'+
                                                                 '<td style="border: 2px solid; font-weight: bold">'+"Comentario"+'</td></tr>';
-    for(var i=0;i<itens.length;i++){
-        var valores = itens[i];// espaços TAB definem colunas que serão consultadas
-        console.log(valores);
-        comentario = "TESTE";
-        if (valores === "START") {
+    
+    
+    indexmais = i + 1;      //posicao do prox caracter
+    prox = itens[indexmais]; //recebe prox caracter (depois de atual)
+    atual = itens[i];    //recebe caracter atual
+
+    for(i;i<itens.length;i++){
+        linha = itens[i];// espaços TAB definem colunas que serão consultadas
+        console.log(linha);
+        
+        if (linha === "START ") {
             console.log("entrouSTART");
-            comentario = "Iniciar programa principal";
-        } else if (valores === "NULL") {
+            comentario = "(Iniciar programa principal): S:=-1 ";
+        } else if (linha === "NULL") {
             console.log("entrouNULL");
             comentario = "Nada";
+        } else if (linha === "LDC") {
+            comentario = "(Carregar constante): S:= s + 1 ; M [s]: = "+auxNum;
+        } else if (linha === "LDV") {
+            comentario = "(Carregar valor): S:=s + 1 ; M[s]:=M["+auxNum+"]";
+        } else if (linha === "ADD") {
+            comentario = "(Somar): M[s-1]:=M[s-1] + M[s]; s:=s - 1";
+        } else if (linha === "SUB") {
+            comentario = "(Subtrair): M[s-1]:=M[s-1] - M[s]; s:=s - 1";
+        } else if (linha === "MULT") {
+            comentario = "(Multiplicar): M[s-1]:=M[s-1] * M[s]; s:=s - 1";
+        } else if (linha === "DIVI") {
+            comentario = "(Dividir): M[s-1]:=M[s-1] div M[s]; s:=s - 1";
+        } else if (linha === "INV") {
+            comentario = "(Inverter sinal): M[s]:= -M[s]";
+        } else if (linha === "AND") {
+            comentario = "(Conjunção): se M [s-1] = 1 e M[s] = 1\nentão M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
+        } else if (linha === "OR") {
+            comentario = "(Disjunção): se M[s-1] = 1 ou M[s] = 1\nentão M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
+        } else if (linha === "NEG") {
+            comentario = "(Negação): M[s]:=1 - M[s]";
+        } else if (linha === "CME") {
+            comentario = "(Comparar menor): se M[s-1] < M[s]\nentão M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
+        } else if (linha === "CMA") {
+            comentario = "(Comparar maior): se M[s-1] > M[s]\nentão M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
+        } else if (linha === "CEQ") {
+            comentario = "(Comparar igual): se M[s-1] = M[s]\nentão M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
+        } else if (linha === "CDIF") {
+            comentario = "(Comparar desigual): se M[s-1] ≠ M[s]\nentão M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
+        } else if (linha === "CMEQ") {
+            comentario = "(Comparar menor ou igual) se M[s-1] ≤ M[s]\nentão M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
+        } else if (linha === "CMAQ") {
+            comentario = "(Comparar maior ou igual): se M[s-1] ≥ M[s]\nentão M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
+        } else if (linha === "HLT") {
+            comentario = "(Parar): “Para a execução da MVD”";
+        } else if (linha === "STR") {
+            comentario = "(Armazenar valor): M["+auxNum+"]:=M[s]; s:=s-1";
+        } else if (linha === "JMP") {
+            comentario = "(Desviar sempre): i:= "+auxStr;
+        } else if (linha === "JMPF") {
+            comentario = "(Desviar se falso): se M[s] = 0\nentão i:="+auxStr+"\nsenão i:=i + 1;\ns:=s-1";
+        } else if (linha === "RD") {
+            comentario = "(Leitura): S:=s + 1; M[s]:= “próximo valor de entrada”.";
+        } else if (linha === "PRN") {
+            comentario = "(Impressão): “Imprimir M[s]”; s:=s-1 ";
+        } else if (linha === "ALLOC") {
+            comentario = "(Alocar memória): Para k:=0 até "+auxNum2+"-1\nfaça {s:=s + 1; M[s]:=M["+auxNum+"+k]}";
+        } else if (linha === "DALLOC") {
+            comentario = "(Desalocar memória): Para k:="+auxNum2+"-1 até 0\nfaça {M["+auxNum+"+k]:=M[s]; s:=s - 1}";
+        } else if (linha === "CALL") {
+            comentario = "(Chamar procedimento ou função): S:=s + 1; M[s]:=i + 1; i:= "+auxStr;
+        } else if (linha === "RETURN") {
+            comentario = "(Retornar de procedimento): i:=M[s]; s:=s - 1";
         } 
+
         document.getElementById("tabelaInstrucoes").innerHTML +='<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>'+
-                                                                    '<td>'+(i+1)+'</td><td>'+valores+'</td><td>'+comentario+'</td></tr>';
+                                                                    '<td>'+(i+1)+'</td><td>'+linha+'</td><td>'+comentario+'</td></tr>';
     }
 }
 
