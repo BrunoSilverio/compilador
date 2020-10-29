@@ -18,10 +18,14 @@ nav {
 }
 
 table {
-  border-collapse: collapse;
+  border-top: 2px solid rgb(255, 255, 255);
+  border-bottom: 2px solid rgb(255, 255, 255);
+  border-left: 2px solid rgb(255, 255, 255);
+  height: 530px !important;
+  width: 750px !important;
 }
   
-table, td, th {
+td, th {
   border: 1px solid rgb(255, 255, 255);
 }
 
@@ -35,6 +39,12 @@ table, td, th {
   overflow: auto;
 }
 
-.table-wrapper-scroll-y {
+thead, tbody{
   display: block;
+  width: 750px;
+}
+
+tbody{
+  overflow-y: scroll;
+  height: 530px !important;
 }
