@@ -27,12 +27,11 @@ function sintatico() {
 
     if (token.simbolo == "Sprograma") {
         console.log("entrou programa: ");
-        let nomedeprograma = token.lexema; //semantico
         getToken();
 
         if (token.simbolo == "Sidentificador") {
             console.log("entrou identificador: ");
-            insere_tabela(token.lexema,nomedeprograma,) //semantico
+            //insere_tabela(token.lexema,nomedeprograma,) //semantico
             getToken();
 
             if (token.simbolo == "Sponto_virgula") {
@@ -135,10 +134,10 @@ function Analisa_et_variaveis() {
 function Analisa_Variaveis() {
     do {
         if (token.simbolo == "Sidentificador") {
-            pesquisa_duplicvar_tabela(token.lexema) // SEMANTICO
+            //pesquisa_duplicvar_tabela(token.lexema) // SEMANTICO
             //se não encontrou duplicidade
-            if (duplicidade == false) { //SEMANTICO
-                insere_tabela(token.lexema, "variavel") //SEMANTICO
+            //if (duplicidade == false) { //SEMANTICO
+                //insere_tabela(token.lexema, "variavel") //SEMANTICO
                 getToken();
                 if ((token.simbolo == "Svirgula") || (token.simbolo == "Sdoispontos")) {
                     if (token.simbolo == "Svirgula") {
@@ -150,9 +149,9 @@ function Analisa_Variaveis() {
                 } else {
                     geraErroSintatico();
                 }
-            } else { // AQUI É ERRO SEMANTICO
-                geraErroSintatico(); 
-            }
+            //} else { // AQUI É ERRO SEMANTICO
+                //geraErroSintatico(); 
+            //}
         } else {
             geraErroSintatico();
         }
@@ -165,9 +164,9 @@ function Analisa_Variaveis() {
 function Analisa_Tipo() {
     if ((token.simbolo != "Sinteiro") && (token.simbolo != "Sbooleano")) {
         geraErroSintatico();
-    } else { //SEMANTICO
-        coloca_tipo_tabela(token.lexema) 
-    }
+    } //else { //SEMANTICO
+        //coloca_tipo_tabela(token.lexema) 
+    //}
     
     getToken();
 }
@@ -234,18 +233,18 @@ function Analisa_leia() {
     if (token.simbolo == "Sabre_parenteses") {
         getToken();
         if (token.simbolo == "Sidentificador") {
-            if (condition) {  //então se pesquisa_declvar_tabela(token.lexema)
-                if (condition) {//então início (pesquisa em toda a tabela)
+            //if (condition) {  //então se pesquisa_declvar_tabela(token.lexema)
+                //if (condition) {//então início (pesquisa em toda a tabela)
                     getToken();
                     if (token.simbolo == "Sfecha_parenteses") {
                         getToken();
                     } else {
                         geraErroSintatico();
                     }
-                }
-            } else {
-                geraErroSintatico(); //AQUI É ERRO SEMANTICO
-            }
+                //}
+            //} else {
+                //geraErroSintatico(); //AQUI É ERRO SEMANTICO
+            //}
         } else {
             geraErroSintatico();
         }
@@ -260,7 +259,7 @@ function Analisa_escreva() {
     if (token.simbolo == "Sabre_parenteses") {
         getToken();
         if (token.simbolo == "Sidentificador") {
-            if (pesquisa_declvarfunc_tabela(token.lexema)) { //então se pesquisa_ declvarfunc_tabela(token.lexema)
+            //if (pesquisa_declvarfunc_tabela(token.lexema)) { //então se pesquisa_ declvarfunc_tabela(token.lexema)
             //então início
                 getToken();
                 if (token.simbolo == "Sfecha_parenteses") {
@@ -268,9 +267,9 @@ function Analisa_escreva() {
                 } else {
                     geraErroSintatico();
                 }
-            } else {
-                geraErroSintatico(); //AQUI É ERRO SEMANTICO
-            }
+            //} else {
+                //geraErroSintatico(); //AQUI É ERRO SEMANTICO
+            //}
         } else {
             geraErroSintatico();
         }
@@ -349,12 +348,12 @@ function Analisa_Subrotinas() {
 //Declaração de procedimento
 function Analisa_declaracao_procedimento() {
     getToken();
-    let nível = "L"; //(marca ou novo galho)
+    //let nível = "L"; //(marca ou novo galho)
     if (token.simbolo == "Sidentificador") {
-        pesquisa_declproc_tabela(token.lexema) //SEMANTICO
-        if (returno == false) { //se não encontrou
+        //pesquisa_declproc_tabela(token.lexema) //SEMANTICO
+        //if (returno == false) { //se não encontrou
         //então início
-            insere_tabela(token.lexema,"procedimento",nível) //SEMANTICO
+            //insere_tabela(token.lexema,"procedimento",nível) //SEMANTICO
             //{guarda na TabSimb}
             //Gera(rotulo,NULL,´ ´,´ ´)
             //{CALL irá buscar este rótulo na TabSimb}
@@ -365,9 +364,9 @@ function Analisa_declaracao_procedimento() {
             } else {
                 geraErroSintatico();
             }
-        } else {
-            geraErroSintatico(); //AQUI É ERRO SEMANTICO
-        }
+        //} else {
+            //geraErroSintatico(); //AQUI É ERRO SEMANTICO
+        //}
     } else {
         geraErroSintatico();
     }
@@ -377,20 +376,20 @@ function Analisa_declaracao_procedimento() {
 //Declaração de função
 function Analisa_declaracao_funcao() {
     getToken();
-    let nível = "L" //(marca ou novo galho) SEMANTICO
+    //let nível = "L" //(marca ou novo galho) SEMANTICO
     if (token.simbolo == "Sidentificador") {
-        pesquisa_declfunc_tabela(token.lexema) //SEMANTICO
-        if (retorno == false) { //se não encontrou
-            insere_tabela(token.lexema,"",nível)
+        //pesquisa_declfunc_tabela(token.lexema) //SEMANTICO
+        //if (retorno == false) { //se não encontrou
+            //insere_tabela(token.lexema,"",nível)
             getToken();
             if (token.simbolo == "Sdoispontos") {
                 getToken();
                 if ((token.simbolo == "Sinteiro") || (token.simbolo == "Sbooleano")) {
-                    if (token.símbolo = "Sinteger") { //SEMANTICO
-                        TABSIMB[pc].tipo = "função inteiro"; //SEMANTICO
-                    } else { //SEMANTICO
-                        TABSIMB[pc].tipo = "função boolean";
-                    }
+                    //if (token.símbolo = "Sinteger") { //SEMANTICO
+                        //TABSIMB[pc].tipo = "função inteiro"; //SEMANTICO
+                    //} else { //SEMANTICO
+                        //TABSIMB[pc].tipo = "função boolean";
+                    //}
                     getToken();
                     if (token.simbolo == "Sponto_virgula") {
                         Analisa_Bloco();
@@ -401,9 +400,9 @@ function Analisa_declaracao_funcao() {
             } else {
                 geraErroSintatico();
             }
-        } else { 
-            geraErroSintatico(); // AQUI É ERRO SEMANTICO
-        }
+        //} else { 
+            //geraErroSintatico(); // AQUI É ERRO SEMANTICO
+        //}
     } else {
         geraErroSintatico();
     }
@@ -444,15 +443,15 @@ function Analisa_termo() {
 //Fator
 function Analisa_fator() {
     if (token.simbolo == "Sidentificador") {
-        if (pesquisa_tabela(token.lexema,nível,ind)) { //SEMANTICO
-            if ((TabSimb[ind].tipo == "função inteiro") || (TabSimb[ind].tipo == "função booleano")) { //SEMANTICO
+        //if (pesquisa_tabela(token.lexema,nível,ind)) { //SEMANTICO
+            //if ((TabSimb[ind].tipo == "função inteiro") || (TabSimb[ind].tipo == "função booleano")) { //SEMANTICO
                 Analisa_chamada_funcao();
-            } else {
-                getToken(); //SEMANTICO
-            }
-        } else {
-            geraErroSintatico(); //AQUI É ERRO SEMANTICO
-        }
+            //} else {
+                //getToken(); //SEMANTICO
+            //}
+        //} else {
+            //geraErroSintatico(); //AQUI É ERRO SEMANTICO
+        //}
     } else if (token.simbolo == "Snumero") {
         getToken();
     } else if (token.simbolo == "Snao") {
