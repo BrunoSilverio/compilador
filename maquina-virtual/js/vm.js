@@ -187,7 +187,7 @@ function tabelaInstrucoes(texto){
             palavra += linha[j];           
         }
         
-        if (palavra == "START") {
+        if (palavra === "START") {
             console.log("entrouSTART");
             comentario = "(Iniciar programa principal): S:=-1 ";
         } else if (palavra === "NULL") {
