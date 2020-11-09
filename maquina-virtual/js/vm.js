@@ -135,7 +135,7 @@ function main() {
 function readFile() {
     var fileToLoad = document.getElementById("file-input").files[0];  //a intenção é não precisar de botões pra escolher arquivo e nem para
     var fileReader = new FileReader();                                //executar o script, tudo deve acontecer quando cricar para abrir a aplicação
-    fileReader.onload = function(fileLoadedEvent) {
+    fileReader.onload = function (fileLoadedEvent) {
         var textFromFileLoaded = fileLoadedEvent.target.result;
         var texto = textFromFileLoaded; // Variavel com o conteudo do arquivo
         //console.log(texto);
@@ -146,7 +146,7 @@ function readFile() {
 }
 
 //Função para printar na tabela o conteudo do arquivo .obj
-function tabelaInstrucoes(texto){
+function tabelaInstrucoes(texto) {
     let comentario = "";
     let linha = "";
     let atual = "";     //carater atual
@@ -158,35 +158,35 @@ function tabelaInstrucoes(texto){
     let palavra = "";
 
     var quantidade = document.getElementById("tabelaInstrucoes").rows.length;// está pré definido que será usado o tamanho total do arquivo
-    if (quantidade>1){ // quantidade representa o número indefinido de linhas que pode haver
-        for(var cont=1;cont<=quantidade;cont++){
+    if (quantidade > 1) { // quantidade representa o número indefinido de linhas que pode haver
+        for (var cont = 1; cont <= quantidade; cont++) {
             document.getElementById("tabelaInstrucoes").deleteRow(cont);
         }
     }
 
     var itens = texto.split("\n"); // define que linhas devem ser consultadas
-    document.getElementById("tabelaInstrucoes").innerHTML +='<tr><td style="border: 2px solid; font-weight: bold">'+"Breakpoint"+'</td>'+
-                                                                '<td style="border: 2px solid; font-weight: bold">'+" L "+'</td>'+
-                                                                '<td style="border: 2px solid; font-weight: bold">'+"Instruçao"+'</td>'+
-                                                                '<td style="border: 2px solid; font-weight: bold">'+"Comentario"+'</td></tr>';
-    
+    document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="border: 2px solid; font-weight: bold">' + "Breakpoint" + '</td>' +
+        '<td style="border: 2px solid; font-weight: bold">' + " L " + '</td>' +
+        '<td style="border: 2px solid; font-weight: bold">' + "Instruçao" + '</td>' +
+        '<td style="border: 2px solid; font-weight: bold">' + "Comentario" + '</td></tr>';
+
     indexmais = i + 1;      //posicao do prox caracter
     prox = itens[indexmais]; //recebe prox caracter (depois de atual)
     atual = itens[i];    //recebe caracter atual
 
-    for(i;i<itens.length;i++){
+    for (i; i < itens.length; i++) {
         linha = itens[i];// espaços TAB definem colunas que serão consultadas
-        
+
         console.log(linha);//conteudo linha
         console.log(linha.length);//tamanho conteudo linha
 
-        for (let j = 0; j < linha.length ; j++) { //percorre na linha, para pegar apenas a palavra
+        for (let j = 0; j < linha.length; j++) { //percorre na linha, para pegar apenas a palavra
             if (linha[j] == " ") {
                 break; //aqui dentro a gente manipula os numeros (pilha, entrada e saidas)
             }
-            palavra += linha[j];           
+            palavra += linha[j];
         }
-        
+
         if (palavra === "START") {
             console.log("entrouSTART");
             comentario = "(Iniciar programa principal): S:=-1 ";
@@ -194,9 +194,9 @@ function tabelaInstrucoes(texto){
             console.log("entrouNULL");
             comentario = "Nada";
         } else if (palavra === "LDC") {
-            comentario = "(Carregar constante): S:= s + 1 ; M [s]: = "+auxNum;
+            comentario = "(Carregar constante): S:= s + 1 ; M [s]: = " + auxNum;
         } else if (palavra === "LDV") {
-            comentario = "(Carregar valor): S:=s + 1 ; M[s]:=M["+auxNum+"]";
+            comentario = "(Carregar valor): S:=s + 1 ; M[s]:=M[" + auxNum + "]";
         } else if (palavra === "ADD") {
             comentario = "(Somar): M[s-1]:=M[s-1] + M[s]; s:=s - 1";
         } else if (palavra === "SUB") {
@@ -228,29 +228,31 @@ function tabelaInstrucoes(texto){
         } else if (palavra === "HLT") {
             comentario = "(Parar): “Para a execução da MVD”";
         } else if (palavra === "STR") {
-            comentario = "(Armazenar valor): M["+auxNum+"]:=M[s]; s:=s-1";
+            comentario = "(Armazenar valor): M[" + auxNum + "]:=M[s]; s:=s-1";
         } else if (palavra === "JMP") {
-            comentario = "(Desviar sempre): i:= "+auxStr;
+            comentario = "(Desviar sempre): i:= " + auxStr;
         } else if (palavra === "JMPF") {
-            comentario = "(Desviar se falso): se M[s] = 0\nentão i:="+auxStr+"\n senão i:=i + 1;\ns:=s-1";
+            comentario = "(Desviar se falso): se M[s] = 0\nentão i:=" + auxStr + "\n senão i:=i + 1;\ns:=s-1";
         } else if (palavra === "RD") {
             comentario = "(Leitura): S:=s + 1; M[s]:= “próximo valor de entrada”.";
         } else if (palavra === "PRN") {
             comentario = "(Impressão): “Imprimir M[s]”; s:=s-1 ";
         } else if (palavra === "ALLOC") {
-            comentario = "(Alocar memória): Para k:=0 até "+auxNum2+"-1\n faça {s:=s + 1; M[s]:=M["+auxNum+"+k]}";
+            comentario = "(Alocar memória): Para k:=0 até " + auxNum2 + "-1\n faça {s:=s + 1; M[s]:=M[" + auxNum + "+k]}";
         } else if (palavra === "DALLOC") {
-            comentario = "(Desalocar memória): Para k:="+auxNum2+"-1 até 0\n faça {M["+auxNum+"+k]:=M[s]; s:=s - 1}";
+            comentario = "(Desalocar memória): Para k:=" + auxNum2 + "-1 até 0\n faça {M[" + auxNum + "+k]:=M[s]; s:=s - 1}";
         } else if (palavra === "CALL") {
-            comentario = "(Chamar procedimento ou função): S:=s + 1; M[s]:=i + 1; i:= "+auxStr;
+            comentario = "(Chamar procedimento ou função): S:=s + 1; M[s]:=i + 1; i:= " + auxStr;
         } else if (palavra === "RETURN") {
             comentario = "(Retornar de procedimento): i:=M[s]; s:=s - 1";
-        } 
+        }
 
         palavra = "";
 
-        document.getElementById("tabelaInstrucoes").innerHTML +='<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>'+
-                                                                    '<td>'+(i+1)+'</td><td>'+linha+'</td><td>'+comentario+'</td></tr>';
+        document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>' +
+            '<td>' + (i + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
+
+        comentario = "";
     }
 }
 
