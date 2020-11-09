@@ -182,7 +182,7 @@ function tabelaInstrucoes(texto){
 
         for (let j = 0; j < linha.length ; j++) { //percorre na linha, para pegar apenas a palavra
             if (linha[j] == " ") {
-                break;
+                break; //aqui dentro a gente manipula os numeros (pilha, entrada e saidas)
             }
             palavra += linha[j];           
         }
