@@ -22,7 +22,7 @@ table {
   border-bottom: 2px solid rgb(255, 255, 255);
   border-left: 2px solid rgb(255, 255, 255);
   height: 530px !important;
-  width: 750px !important;
+  width: 770px !important;
 }
   
 td, th {
@@ -41,7 +41,7 @@ td, th {
 
 thead, tbody{
   display: block;
-  width: 750px;
+  width: 770px;
 }
 
 tbody{
