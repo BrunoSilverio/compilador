@@ -34,7 +34,7 @@ function sintatico() {
             tabelasimbolos.push({
                 lexema: token.lexema,
                 simbolo: token.simbolo,
-                linha: token.nlinha
+                linha: token.linha
             });
             getToken();
 
@@ -82,10 +82,10 @@ function getToken() {
     tabelasimbolos.push({
         lexema: token.lexema,
         simbolo: token.simbolo,
-        linha: token.nlinha
+        linha: token.linha
     });
     console.log(tabelasimbolos);
-    console.log(token.lexema + " " + token.simbolo);
+    console.log(token.lexema + " " + token.simbolo + " " + token.linha);
 
 }
 
