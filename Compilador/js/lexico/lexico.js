@@ -57,7 +57,7 @@ function lexico() {
         //Caso tenha erro, interrompe, retorna os tokens ate o momento, e a linha do erro
         if (foierro == true) {
             //return token;
-            console.log("ERRO LEXICO [foierro == true]");
+            //console.log("ERRO LEXICO [foierro == true]");
         }
 
         //Caso as validacoes dentro do switch sejam true -> entra nos case
@@ -111,7 +111,6 @@ function lexico() {
                         simbolo: "Snumero",
                         linha: nlinha
                     };
-                    console.log(token);
                     numero = "";
                     index++;
                     return token;
@@ -286,7 +285,6 @@ function lexico() {
                         palavra = "";
                     }
                     palavra = "";
-                    console.log(token);
                     index++;
                     return token;
                 }
