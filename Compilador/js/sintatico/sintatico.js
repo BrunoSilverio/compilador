@@ -46,16 +46,19 @@ function sintatico() {
                     console.log("entrou ponto: ");
                     getToken();
 
-                    //então se acabou arquivo ou é comentário 
                     if (token.simbolo == undefined) {
+                        //Caso chegue aqui, programa termina e retira ultimo token do final
+                        tabelasimbolos.pop();
                         console.log("***** end SINTATICO *****");
                         alert("Executado com sucesso!");
                         document.getElementById('terminal').value = "Realizado com sucesso!";
-                        //tratar se o codigo de fato acabou (depois do ponto)
+                        //Valida se programa realmente acabou depois do ultimo ponto
                     } else {
+                        //Erro pois tem coisa depois do ponto final
                         geraErroSintatico();
                     }
                 } else {
+                    //Faltou sponto
                     alert("ERRO SINTATICO:\n" + "Lexema: fim " + "\nEsperado '.' ");
                     document.getElementById('terminal').value = "Erro SINTATICO:\n" + "Lexema: fim " + "\nEsperado '.' ";
                     //var listatokens = JSON.stringify(listatokens);
@@ -64,13 +67,15 @@ function sintatico() {
                     throw new Error("ERRO SINTATICO");
                 }
             } else {
-
+                //Faltou sponto_virgula
                 geraErroSintatico();
             }
         } else {
+            //Faltou sidentificador
             geraErroSintatico();
         }
     } else {
+        //Faltou sprograma
         geraErroSintatico();
     }
 }
@@ -86,7 +91,6 @@ function getToken() {
     });
     console.log(tabelasimbolos);
     console.log(token.lexema + " " + token.simbolo + " " + token.linha);
-
 }
 
 //Funcao para erros sintaticos
@@ -129,10 +133,14 @@ function Analisa_et_variaveis() {
 function Analisa_Variaveis() {
     do {
         if (token.simbolo == "Sidentificador") {
-            //pesquisa_duplicvar_tabela(token.lexema) // SEMANTICO
+            //pesquisa_duplicvar_tabela(token.lexema) -- OU CONJUNTO DE FUNCOES - EX .txt // SEMANTICO
             //se não encontrou duplicidade
             //if (duplicidade == false) { //SEMANTICO
-            //insere_tabela(token.lexema, "variavel") //SEMANTICO
+            tabelasimbolos.push({
+                lexema: token.lexema,
+                simbolo: token.simbolo,
+                linha: token.linha
+            });
             getToken();
             if ((token.simbolo == "Svirgula") || (token.simbolo == "Sdoispontos")) {
                 if (token.simbolo == "Svirgula") {
