@@ -14,6 +14,7 @@ function insere_tabela(token_lexema, String, nivel) {
 
 }
 
+//Valores duplicados na tabela de simbolos (lexema e nivel)
 function pesquisa_duplicvar_tabela(lexema, nivel) {
     console.log(tabelasimbolos);
     const item = tabelasimbolos.find(function (item) {
@@ -37,11 +38,26 @@ function coloca_tipo_tabela(token_lexema) {
 
 }
 
+//Valores duplicados na tabela de simbolos (lexema e id)
 function pesquisa_declvar_tabela(lexema) {
+    const item = main.simbolTable.find(function (item) {
+        if (item.lexema == lexema && item.id == "var") {
+            //Existe igual (lexema e tipo)
+            //console.log(item);
+            return item;
+        }
+    });
 
+    if (item == undefined) {
+        //Retorna que nao encontrou igual
+        return false;
+    } else {
+        //Retorna que encontrou igual
+        return true;
+    }
 }
 
-function pesquisa_declvarfunc_tabela(token_lexema) {
+function pesquisa_declvarfunc_tabela(lexema) {
 
 }
 
