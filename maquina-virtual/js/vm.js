@@ -149,9 +149,6 @@ function readFile() {
 function tabelaInstrucoes(texto) {
     let comentario = "";
     let linha = "";
-    let atual = "";     //carater atual
-    let prox = "";      //caracter proximo
-    let indexmais = 0;  //proximo valor do index
     let auxNum = 0;     //auxiliar para pegar primeiro/unico numero na linha
     let auxNum2 = 0;    //auxiliar para pegar o segundo numero na linha 
     let auxStr = "";    //auxiliar para desvios na linha
@@ -165,97 +162,81 @@ function tabelaInstrucoes(texto) {
     }
 
     var itens = texto.split("\n"); // define que linhas devem ser consultadas
+    console.log(itens);
     document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="border: 2px solid; font-weight: bold">' + "Breakpoint" + '</td>' +
         '<td style="border: 2px solid; font-weight: bold">' + " L " + '</td>' +
         '<td style="border: 2px solid; font-weight: bold">' + "Instruçao" + '</td>' +
         '<td style="border: 2px solid; font-weight: bold">' + "Comentario" + '</td></tr>';
 
-    indexmais = i + 1;      //posicao do prox caracter
-    prox = itens[indexmais]; //recebe prox caracter (depois de atual)
-    atual = itens[i];    //recebe caracter atual
-
     for (i; i < itens.length; i++) {
         linha = itens[i];// espaços TAB definem colunas que serão consultadas
 
-        console.log(linha);//conteudo linha
-        console.log(linha.length);//tamanho conteudo linha
-
-        for (let j = 0; j < linha.length; j++) { //percorre na linha, para pegar apenas a palavra
-            if (linha[j] == " ") {
-                break; //aqui dentro a gente manipula os numeros (pilha, entrada e saidas)
-            }
-            palavra += linha[j];
-        }
-
-        if (palavra === "START") {
-            console.log("entrouSTART");
+        if (linha.includes("START")) {
             comentario = "(Iniciar programa principal): S:=-1 ";
-        } else if (palavra === "NULL") {
-            console.log("entrouNULL");
+        } else if (linha.includes("NULL")) {
             comentario = "Nada";
-        } else if (palavra === "LDC") {
+        } else if (linha.includes("LDC")) {
             comentario = "(Carregar constante): S:= s + 1 ; M [s]: = " + auxNum;
-        } else if (palavra === "LDV") {
+        } else if (linha.includes("LDV")) {
             comentario = "(Carregar valor): S:=s + 1 ; M[s]:=M[" + auxNum + "]";
-        } else if (palavra === "ADD") {
+        } else if (linha.includes("ADD")) {
             comentario = "(Somar): M[s-1]:=M[s-1] + M[s]; s:=s - 1";
-        } else if (palavra === "SUB") {
+        } else if (linha.includes("SUB")) {
             comentario = "(Subtrair): M[s-1]:=M[s-1] - M[s]; s:=s - 1";
-        } else if (palavra === "MULT") {
+        } else if (linha.includes("MULT")) {
             comentario = "(Multiplicar): M[s-1]:=M[s-1] * M[s]; s:=s - 1";
-        } else if (palavra === "DIVI") {
+        } else if (linha.includes("DIVI")) {
             comentario = "(Dividir): M[s-1]:=M[s-1] div M[s]; s:=s - 1";
-        } else if (palavra === "INV") {
+        } else if (linha.includes("INV")) {
             comentario = "(Inverter sinal): M[s]:= -M[s]";
-        } else if (palavra === "AND") {
+        } else if (linha.includes("AND")) {
             comentario = "(Conjunção): se M [s-1] = 1 e M[s] = 1\n então M[s-1]:=1\n senão M[s-1]:=0; s:=s - 1";
-        } else if (palavra === "OR") {
+        } else if (linha.includes("OR")) {
             comentario = "(Disjunção): se M[s-1] = 1 ou M[s] = 1\n então M[s-1]:=1\n senão M[s-1]:=0; s:=s - 1";
-        } else if (palavra === "NEG") {
+        } else if (linha.includes("NEG")) {
             comentario = "(Negação): M[s]:=1 - M[s]";
-        } else if (palavra === "CME") {
+        } else if (linha.includes("CME")) {
             comentario = "(Comparar menor): se M[s-1] < M[s]\n então M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
-        } else if (palavra === "CMA") {
+        } else if (linha.includes("CMA")) {
             comentario = "(Comparar maior): se M[s-1] > M[s]\n então M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
-        } else if (palavra === "CEQ") {
+        } else if (linha.includes("CEQ")) {
             comentario = "(Comparar igual): se M[s-1] = M[s]\n então M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
-        } else if (palavra === "CDIF") {
+        } else if (linha.includes("CDIF")) {
             comentario = "(Comparar desigual): se M[s-1] ≠ M[s]\n então M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
-        } else if (palavra === "CMEQ") {
+        } else if (linha.includes("CMEQ")) {
             comentario = "(Comparar menor ou igual) se M[s-1] ≤ M[s]\n então M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
-        } else if (palavra === "CMAQ") {
+        } else if (linha.includes("CMAQ")) {
             comentario = "(Comparar maior ou igual): se M[s-1] ≥ M[s]\n então M[s-1]:=1\nsenão M[s-1]:=0; s:=s - 1";
-        } else if (palavra === "HLT") {
+        } else if (linha.includes("HLT")) {
             comentario = "(Parar): “Para a execução da MVD”";
-        } else if (palavra === "STR") {
+        } else if (linha.includes("STR")) {
             comentario = "(Armazenar valor): M[" + auxNum + "]:=M[s]; s:=s-1";
-        } else if (palavra === "JMP") {
+        } else if (linha.includes("JMP")) {
             comentario = "(Desviar sempre): i:= " + auxStr;
-        } else if (palavra === "JMPF") {
+        } else if (linha.includes("JMPF")) {
             comentario = "(Desviar se falso): se M[s] = 0\nentão i:=" + auxStr + "\n senão i:=i + 1;\ns:=s-1";
-        } else if (palavra === "RD") {
+        } else if (linha.includes("RD")) {
             comentario = "(Leitura): S:=s + 1; M[s]:= “próximo valor de entrada”.";
-        } else if (palavra === "PRN") {
+        } else if (linha.includes("PRN")) {
             comentario = "(Impressão): “Imprimir M[s]”; s:=s-1 ";
-        } else if (palavra === "ALLOC") {
+        } else if (linha.includes("ALLOC")) {
             comentario = "(Alocar memória): Para k:=0 até " + auxNum2 + "-1\n faça {s:=s + 1; M[s]:=M[" + auxNum + "+k]}";
-        } else if (palavra === "DALLOC") {
+            //document.getElementById("formDados").innerHTML = "teste";
+        } else if (linha.includes("DALLOC")) {
             comentario = "(Desalocar memória): Para k:=" + auxNum2 + "-1 até 0\n faça {M[" + auxNum + "+k]:=M[s]; s:=s - 1}";
-        } else if (palavra === "CALL") {
+        } else if (linha.includes("CALL")) {
             comentario = "(Chamar procedimento ou função): S:=s + 1; M[s]:=i + 1; i:= " + auxStr;
-        } else if (palavra === "RETURN") {
+        } else if (linha.includes("RETURN")) {
             comentario = "(Retornar de procedimento): i:=M[s]; s:=s - 1";
         }
-
-        palavra = "";
 
         document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>' +
             '<td>' + (i + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
 
         comentario = "";
+        palavra = "";
     }
 }
-
 
 //=============================
 //===== Função basicas VM =====
