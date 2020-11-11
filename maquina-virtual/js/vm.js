@@ -170,15 +170,17 @@ function tabelaInstrucoes(texto) {
 
     for (i; i < itens.length; i++) {
         linha = itens[i];// espaços TAB definem colunas que serão consultadas
-
+        console.log(linha);
         if (linha.includes("START")) {
             comentario = "(Iniciar programa principal): S:=-1 ";
         } else if (linha.includes("NULL")) {
             comentario = "Nada";
         } else if (linha.includes("LDC")) {
             comentario = "(Carregar constante): S:= s + 1 ; M [s]: = " + auxNum;
+            document.getElementById("formDados").innerHTML += "testeCarregarConstante\n";
         } else if (linha.includes("LDV")) {
             comentario = "(Carregar valor): S:=s + 1 ; M[s]:=M[" + auxNum + "]";
+            document.getElementById("formDados").innerHTML += "CarregarValor\n";
         } else if (linha.includes("ADD")) {
             comentario = "(Somar): M[s-1]:=M[s-1] + M[s]; s:=s - 1";
         } else if (linha.includes("SUB")) {
@@ -211,19 +213,23 @@ function tabelaInstrucoes(texto) {
             comentario = "(Parar): “Para a execução da MVD”";
         } else if (linha.includes("STR")) {
             comentario = "(Armazenar valor): M[" + auxNum + "]:=M[s]; s:=s-1";
+            document.getElementById("formDados").innerHTML += "teste\n";
         } else if (linha.includes("JMP")) {
             comentario = "(Desviar sempre): i:= " + auxStr;
         } else if (linha.includes("JMPF")) {
             comentario = "(Desviar se falso): se M[s] = 0\nentão i:=" + auxStr + "\n senão i:=i + 1;\ns:=s-1";
         } else if (linha.includes("RD")) {
             comentario = "(Leitura): S:=s + 1; M[s]:= “próximo valor de entrada”.";
+            document.getElementById("formEntrada").innerHTML += "testeEntrada\n";
         } else if (linha.includes("PRN")) {
             comentario = "(Impressão): “Imprimir M[s]”; s:=s-1 ";
+            document.getElementById("formSaida").innerHTML += "testeSaida\n";
         } else if (linha.includes("ALLOC")) {
             comentario = "(Alocar memória): Para k:=0 até " + auxNum2 + "-1\n faça {s:=s + 1; M[s]:=M[" + auxNum + "+k]}";
-            //document.getElementById("formDados").innerHTML = "teste";
+            document.getElementById("formDados").innerHTML += "teste\n";
         } else if (linha.includes("DALLOC")) {
             comentario = "(Desalocar memória): Para k:=" + auxNum2 + "-1 até 0\n faça {M[" + auxNum + "+k]:=M[s]; s:=s - 1}";
+            document.getElementById("formDados").innerHTML += "teste\n";
         } else if (linha.includes("CALL")) {
             comentario = "(Chamar procedimento ou função): S:=s + 1; M[s]:=i + 1; i:= " + auxStr;
         } else if (linha.includes("RETURN")) {
