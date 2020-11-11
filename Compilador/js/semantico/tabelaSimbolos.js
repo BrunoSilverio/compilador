@@ -58,15 +58,57 @@ function pesquisa_declvar_tabela(lexema) {
 }
 
 function pesquisa_declvarfunc_tabela(lexema) {
+    const item = main.simbolTable.find(function (item) {
+        if (item.lexema == lexema && (item.id = "var" && item.id == "func")) {
+            //Existe igual (lexema e tipo)
+            //console.log(item);
+            return item;
+        }
+    });
 
+    if (item == undefined) {
+        //Retorna que nao encontrou igual
+        return false;
+    } else {
+        //Retorna que encontrou igual
+        return true;
+    }
 }
 
-function pesquisa_declproc_tabela(token_lexema) {
+function pesquisa_declproc_tabela(lexema) {
+    const item = main.simbolTable.find(function (item) {
+        if (item.lexema == lexema && item.id == "proc") {
+            //Existe igual (lexema e tipo)
+            //console.log(item);
+            return item;
+        }
+    });
 
+    if (item == undefined) {
+        //Retorna que nao encontrou igual
+        return false;
+    } else {
+        //Retorna que encontrou igual
+        return true;
+    }
 }
 
-function pesquisa_declfunc_tabela(token_lexema) {
+function pesquisa_declfunc_tabela(lexema) {
+    const item = main.simbolTable.find(function (item) {
+        if (item.lexema == lexema && item.id == "func") {
+            //Existe igual (lexema e tipo)
+            //console.log(item);
+            return item;
+        }
+    });
 
+    if (item == undefined) {
+        //Retorna que nao encontrou igual
+        return false;
+    } else {
+        //Retorna que encontrou igual
+        return true;
+    }
 }
 
 function pesquisa_tabela(token_lexema, nivel, ind) {
