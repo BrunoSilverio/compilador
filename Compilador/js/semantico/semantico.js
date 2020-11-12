@@ -9,8 +9,19 @@
         – Representar tipos de dados
 */
 
-function insere_tabela(token_lexema,String,nivel) {
-    
+function geraErroSemantico() {
+
+    alert("ERRO SEMANTICO\nLexema: " + token.lexema + "\nLinha: " + token.linha);
+    document.getElementById('terminal').value = "Erro SEMANTICO:\n" + "Lexema: " + token.lexema + "\nLinha: " + token.linha;
+    //var listatokens = JSON.stringify(listatokens);
+    //document.getElementById('terminal').value = listatokens.split(',{').join("\n");
+    throw new Error("ERRO SEMANTICO");
+
+}
+
+
+function insere_tabela(token_lexema, String, nivel) {
+
 }
 
 function Pesquisa_duplicvar_tabela(token_lexema) {
@@ -35,10 +46,10 @@ function pesquisa_declproc_tabela(token_lexema) {
 
 }
 
-function pesquisa_declfunc_tabela(token_lexema)  {
+function pesquisa_declfunc_tabela(token_lexema) {
 
 }
 
-function pesquisa_tabela(token_lexema,nivel,ind) {
- 
+function pesquisa_tabela(token_lexema, nivel, ind) {
+
 }
