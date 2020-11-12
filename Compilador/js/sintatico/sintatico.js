@@ -187,7 +187,6 @@ function Analisa_Tipo() {
     } else {
         coloca_tipo_tabela(token.lexema);
     }
-
     getToken();
 }
 
