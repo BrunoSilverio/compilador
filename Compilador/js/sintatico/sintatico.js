@@ -402,36 +402,42 @@ function Analisa_declaracao_procedimento() {
 function Analisa_declaracao_funcao() {
     getToken();
     //let nível = "L" //(marca ou novo galho) SEMANTICO
+    nivel++;
     if (token.simbolo == "Sidentificador") {
-        //pesquisa_declfunc_tabela(token.lexema) //SEMANTICO
-        //if (retorno == false) { //se não encontrou
-        //insere_tabela(token.lexema,"",nível)
-        getToken();
-        if (token.simbolo == "Sdoispontos") {
+        if (!pesquisa_declfunc_tabela(token.lexema)) {
+            tabelasimbolos.push({
+                lexema: token.lexema,
+                id: "",
+                nivel: nivel
+            });
+
+
             getToken();
-            if ((token.simbolo == "Sinteiro") || (token.simbolo == "Sbooleano")) {
-                //if (token.símbolo = "Sinteger") { //SEMANTICO
-                //TABSIMB[pc].tipo = "função inteiro"; //SEMANTICO
-                //} else { //SEMANTICO
-                //TABSIMB[pc].tipo = "função boolean";
-                //}
+            if (token.simbolo == "Sdoispontos") {
                 getToken();
-                if (token.simbolo == "Sponto_virgula") {
-                    Analisa_Bloco();
+                if ((token.simbolo == "Sinteiro") || (token.simbolo == "Sbooleano")) {
+                    //if (token.símbolo = "Sinteiro") { //SEMANTICO
+                    //TABSIMB[pc].tipo = "função inteiro"; //SEMANTICO
+                    //} else { //SEMANTICO
+                    //TABSIMB[pc].tipo = "função boolean";
+                    //}
+                    getToken();
+                    if (token.simbolo == "Sponto_virgula") {
+                        Analisa_Bloco();
+                    }
+                } else {
+                    geraErroSintatico();
                 }
             } else {
                 geraErroSintatico();
             }
         } else {
-            geraErroSintatico();
+            geraErroSemantico();
         }
-        //} else { 
-        //geraErroSintatico(); // AQUI É ERRO SEMANTICO
-        //}
     } else {
         geraErroSintatico();
     }
-    //DESEMPILHA OU VOLTA NÍVEL 
+    nivel--;
 }
 
 //Expressão
