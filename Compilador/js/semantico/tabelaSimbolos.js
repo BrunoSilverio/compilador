@@ -34,7 +34,17 @@ function pesquisa_duplicvar_tabela(lexema, nivel) {
     }
 }
 
-function coloca_tipo_tabela(token_lexema) {
+function coloca_tipo_tabela(tipo) {
+
+    for (let i = tabelasimbolos.length - 1; i >= 0; i--) {
+
+        if (tabelasimbolos[i] == undefined) {
+            break;
+        }
+        if (tabelasimbolos[i].tipo == "" && tabelasimbolos[i].id == "var") {
+            tabelasimbolos[i].tipo = tipo;
+        }
+    }
 
 }
 
