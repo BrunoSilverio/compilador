@@ -154,7 +154,7 @@ function Analisa_Variaveis() {
                 tabelasimbolos.push({
                     lexema: token.lexema,
                     id: "var",
-                    level: level,
+                    nivel: nivel,
                     tipo: "",
                 });
 
@@ -369,28 +369,33 @@ function Analisa_Subrotinas() {
 function Analisa_declaracao_procedimento() {
     getToken();
     //let nível = "L"; //(marca ou novo galho)
+    nivel++;
     if (token.simbolo == "Sidentificador") {
-        //pesquisa_declproc_tabela(token.lexema) //SEMANTICO
-        //if (returno == false) { //se não encontrou
-        //então início
-        //insere_tabela(token.lexema,"procedimento",nível) //SEMANTICO
-        //{guarda na TabSimb}
-        //Gera(rotulo,NULL,´ ´,´ ´)
-        //{CALL irá buscar este rótulo na TabSimb}
-        //rotulo:= rotulo+1;
-        getToken();
-        if (token.simbolo == "Sponto_virgula") {
-            Analisa_Bloco();
+
+        if (!pesquisa_declproc_tabela(token.lexema)) {
+            tabelasimbolos.push({
+                lexema: token.lexema,
+                id: "procecimento",
+                nivel: nivel
+            });
+
+            //{guarda na TabSimb}
+            //Gera(rotulo,NULL,´ ´,´ ´)
+            //{CALL irá buscar este rótulo na TabSimb}
+            //rotulo:= rotulo+1;
+            getToken();
+            if (token.simbolo == "Sponto_virgula") {
+                Analisa_Bloco();
+            } else {
+                geraErroSintatico();
+            }
         } else {
-            geraErroSintatico();
+            geraErroSemantico();
         }
-        //} else {
-        //geraErroSintatico(); //AQUI É ERRO SEMANTICO
-        //}
     } else {
         geraErroSintatico();
     }
-    //DESEMPILHA OU VOLTA NÍVEL 
+    nivel--;
 }
 
 //Declaração de função
