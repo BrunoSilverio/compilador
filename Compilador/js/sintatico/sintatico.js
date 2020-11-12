@@ -21,7 +21,29 @@ function sintatico() {
     //Def rotulo inteiro
     //rotulo:= 1 
     tabelasimbolos = [];
+    let nivel = 0;
 
+    tabelasimbolos.push({
+        lexema: "teste",
+        simbolo: "simbolo",
+        nivel: 1
+    });
+
+    tabelasimbolos.push({
+        lexema: "teste",
+        simbolo: "simbolo",
+        nivel: 1
+    });
+
+    pesquisa_duplicvar_tabela("coisa", 1);
+    pesquisa_duplicvar_tabela("teste", 1);
+
+
+    return 0;
+
+
+
+    //COMECA AQUI
     getToken();
     console.log("inicio");
 
@@ -33,8 +55,8 @@ function sintatico() {
             console.log("entrou identificador: ");
             tabelasimbolos.push({
                 lexema: token.lexema,
-                simbolo: token.simbolo,
-                linha: token.linha
+                id: "nomePrograma",
+                nivel: nivel
             });
             getToken();
 
@@ -84,11 +106,6 @@ function sintatico() {
 function getToken() {
     token = lexico();
     console.log("ENTROU GETTOKEN " + token.simbolo);
-    tabelasimbolos.push({
-        lexema: token.lexema,
-        simbolo: token.simbolo,
-        linha: token.linha
-    });
     console.log(tabelasimbolos);
     console.log(token.lexema + " " + token.simbolo + " " + token.linha);
 }
@@ -133,28 +150,28 @@ function Analisa_et_variaveis() {
 function Analisa_Variaveis() {
     do {
         if (token.simbolo == "Sidentificador") {
-            //pesquisa_duplicvar_tabela(token.lexema) -- OU CONJUNTO DE FUNCOES - EX .txt // SEMANTICO
-            //se não encontrou duplicidade
-            //if (duplicidade == false) { //SEMANTICO
-            tabelasimbolos.push({
-                lexema: token.lexema,
-                simbolo: token.simbolo,
-                linha: token.linha
-            });
-            getToken();
-            if ((token.simbolo == "Svirgula") || (token.simbolo == "Sdoispontos")) {
-                if (token.simbolo == "Svirgula") {
-                    getToken();
-                    if (token.simbolo == "Sdoispontos") {
-                        geraErroSintatico();
+            if (!pesquisa_duplicvar_tabela(token.lexema, nivel) && !pesquisa_declvarfunc_tabela(token.lexema) && !pesquisa_declproc_tabela(token.lexema)) {
+                tabelasimbolos.push({
+                    lexema: token.lexema,
+                    id: "var",
+                    level: level,
+                    tipo: "",
+                });
+
+                getToken();
+                if ((token.simbolo == "Svirgula") || (token.simbolo == "Sdoispontos")) {
+                    if (token.simbolo == "Svirgula") {
+                        getToken();
+                        if (token.simbolo == "Sdoispontos") {
+                            geraErroSintatico();
+                        }
                     }
+                } else {
+                    geraErroSintatico();
                 }
             } else {
-                geraErroSintatico();
+                geraErroSemantico();
             }
-            //} else { // AQUI É ERRO SEMANTICO
-            //geraErroSintatico(); 
-            //}
         } else {
             geraErroSintatico();
         }
