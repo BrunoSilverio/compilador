@@ -184,9 +184,9 @@ function Analisa_Variaveis() {
 function Analisa_Tipo() {
     if ((token.simbolo != "Sinteiro") && (token.simbolo != "Sbooleano")) {
         geraErroSintatico();
-    } //else { //SEMANTICO
-    //coloca_tipo_tabela(token.lexema) 
-    //}
+    } else {
+        coloca_tipo_tabela(token.lexema);
+    }
 
     getToken();
 }
