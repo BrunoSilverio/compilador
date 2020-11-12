@@ -252,19 +252,19 @@ function Analisa_leia() {
     if (token.simbolo == "Sabre_parenteses") {
         getToken();
         if (token.simbolo == "Sidentificador") {
-            //if (condition) {  //então se pesquisa_declvar_tabela(token.lexema)
-            //if (condition) {//então início (pesquisa em toda a tabela)
-            getToken();
-            if (token.simbolo == "Sfecha_parenteses") {
+            if (pesquisa_declvar_tabela(token.lexema)) {
+                //PESQUISA TODA A TABELA - duvida
                 getToken();
+                if (token.simbolo == "Sfecha_parenteses") {
+                    getToken();
+                } else {
+                    geraErroSintatico();
+                }
             } else {
-                geraErroSintatico();
+                geraErroSemantico(); //AQUI É ERRO SEMANTICO
             }
-            //}
-            //} else {
-            //geraErroSintatico(); //AQUI É ERRO SEMANTICO
-            //}
-        } else {
+        }
+        else {
             geraErroSintatico();
         }
     } else {
@@ -272,23 +272,24 @@ function Analisa_leia() {
     }
 }
 
+
+
 //Comando escrita
 function Analisa_escreva() {
     getToken();
     if (token.simbolo == "Sabre_parenteses") {
         getToken();
         if (token.simbolo == "Sidentificador") {
-            //if (pesquisa_declvarfunc_tabela(token.lexema)) { //então se pesquisa_ declvarfunc_tabela(token.lexema)
-            //então início
-            getToken();
-            if (token.simbolo == "Sfecha_parenteses") {
+            if (pesquisadeclvarfunc_tabela(token.lexema)) {
                 getToken();
+                if (token.simbolo == "Sfecha_parenteses") {
+                    getToken();
+                } else {
+                    geraErroSintatico();
+                }
             } else {
-                geraErroSintatico();
+                geraErroSemantico();
             }
-            //} else {
-            //geraErroSintatico(); //AQUI É ERRO SEMANTICO
-            //}
         } else {
             geraErroSintatico();
         }
