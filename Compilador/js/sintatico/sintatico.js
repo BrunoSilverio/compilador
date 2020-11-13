@@ -368,14 +368,13 @@ function Analisa_Subrotinas() {
 //Declaração de procedimento
 function Analisa_declaracao_procedimento() {
     getToken();
-    //let nível = "L"; //(marca ou novo galho)
     nivel++;
     if (token.simbolo == "Sidentificador") {
 
         if (!pesquisa_declproc_tabela(token.lexema)) {
             tabelasimbolos.push({
                 lexema: token.lexema,
-                id: "procecimento",
+                id: "procedimento",
                 nivel: nivel
             });
 
@@ -401,26 +400,26 @@ function Analisa_declaracao_procedimento() {
 //Declaração de função
 function Analisa_declaracao_funcao() {
     getToken();
-    //let nível = "L" //(marca ou novo galho) SEMANTICO
     nivel++;
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declfunc_tabela(token.lexema)) {
             tabelasimbolos.push({
                 lexema: token.lexema,
+                id: "func",
                 tipo: "",
                 nivel: nivel
             });
-
 
             getToken();
             if (token.simbolo == "Sdoispontos") {
                 getToken();
                 if ((token.simbolo == "Sinteiro") || (token.simbolo == "Sbooleano")) {
-                    //if (token.símbolo = "Sinteiro") { //SEMANTICO
-                    //TABSIMB[pc].tipo = "função inteiro"; //SEMANTICO
-                    //} else { //SEMANTICO
-                    //TABSIMB[pc].tipo = "função boolean";
-                    //}
+
+                    if (token.simbolo == "Sinteiro") {
+                        tabelasimbolos[tabelasimbolos.length - 1].tipo = "inteiro";
+                    } else {
+                        tabelasimbolos[tabelasimbolos.length - 1].tipo = "booleano";
+                    }
                     getToken();
                     if (token.simbolo == "Sponto_virgula") {
                         Analisa_Bloco();
@@ -438,6 +437,7 @@ function Analisa_declaracao_funcao() {
         geraErroSintatico();
     }
     nivel--;
+    //desempilha tudo do nivel? so subtrai nivel?
 }
 
 //Expressão
