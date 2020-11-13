@@ -407,7 +407,7 @@ function Analisa_declaracao_funcao() {
         if (!pesquisa_declfunc_tabela(token.lexema)) {
             tabelasimbolos.push({
                 lexema: token.lexema,
-                id: "",
+                tipo: "",
                 nivel: nivel
             });
 
