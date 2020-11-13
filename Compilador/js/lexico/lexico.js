@@ -276,6 +276,22 @@ function lexico() {
                         });
                         palavra = "";
                     }
+                    else if (palavra === "verdadeiro") {
+                        token = ({
+                            lexema: palavra,
+                            simbolo: "Sverdadeiro",
+                            linha: nlinha
+                        });
+                        palavra = "";
+                    }
+                    else if (palavra === "falso") {
+                        token = ({
+                            lexema: palavra,
+                            simbolo: "Sfalso",
+                            linha: nlinha
+                        });
+                        palavra = "";
+                    }
                     else if (palavra != "") {
                         token = ({
                             lexema: palavra,
