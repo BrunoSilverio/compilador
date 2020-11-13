@@ -474,15 +474,15 @@ function Analisa_termo() {
 //Fator
 function Analisa_fator() {
     if (token.simbolo == "Sidentificador") {
-        //if (pesquisa_tabela(token.lexema,nível,ind)) { //SEMANTICO
-        //if ((TabSimb[ind].tipo == "função inteiro") || (TabSimb[ind].tipo == "função booleano")) { //SEMANTICO
-        Analisa_chamada_funcao();
-        //} else {
-        //getToken(); //SEMANTICO
-        //}
-        //} else {
-        //geraErroSintatico(); //AQUI É ERRO SEMANTICO
-        //}
+        if (pesquisa_tabela(token.lexema, nível, ind)) { //o que faz pesquisa tabela?
+            if ((tabelasimbolos[ind].tipo == "inteiro") || (TabSimb[ind].tipo == "booleano")) { //qual index de busca? (ind)
+                Analisa_chamada_funcao();
+            } else {
+                getToken(); //SEMANTICO
+            }
+        } else {
+            geraErroSemantico(); //AQUI É ERRO SEMANTICO
+        }
     } else if (token.simbolo == "Snumero") {
         getToken();
     } else if (token.simbolo == "Snao") {
