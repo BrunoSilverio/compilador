@@ -15,7 +15,7 @@ let i = 0;
 let memory = [];
 
 // Vetor responsavel por simular a lista de instruções a serem executadas
-let instructions = [];
+let intrucoes = [];
 
 // Variavel de controle para identificar qual operação deve ser executada
 let operation = '';
@@ -32,18 +32,27 @@ function main() {
     //let auxNum = 0;     //auxiliar para pegar primeiro/unico numero na linha
     //let auxNum2 = 0;    //auxiliar para pegar o segundo numero na linha 
     //let auxStr = "";    //auxiliar para desvios na linha
+    
     var teste = arquivo.split("\n"); // define que linhas devem ser consultadas
     
-    console.log(teste);
+    //console.log(teste);
     
-    for (i; i < teste.length; i++) { //percorre por quantidade de linhas
-        comando = teste[j]; //contem a linha atual
-        let testeFinal = comando.substring(comando.lastIndexOf(" ")+1); // Pega os valores depois do comando da linha atual
-        console.log(testeFinal);
+    for (let k=0; k < teste.length; k++) { //percorre por quantidade de linhas
+        comando = teste[k]; //contem a linha atual
+        
+        //Pega a intrucao da linha
+        intrucoes = comando.split(" ", 1);
+        console.log("Comando: "+intrucoes);
 
-        switch (comando) {
+        // Pega os valores da instrucao
+        let parametros = comando.substring(comando.lastIndexOf(" ")+1);
+        console.log("Valores: "+parametros);
+
+        switch (intrucoes) {
+            case "START":
+                start();
+                break;
             case "LDC":
-                
                 ldc();
                 break;
             case "LDV":
@@ -90,9 +99,6 @@ function main() {
                 break;
             case "CMAQ":
                 cmaq();
-                break;
-            case "START":
-                start();
                 break;
             case "HLT":
                 hlt();
@@ -243,6 +249,7 @@ function tabelaInstrucoes(texto) {
 //===== Função basicas VM =====
 //=============================
 function start() {
+    console.log("*entrou func start*");
     s = -1;
     document.getElementById("formDados").innerHTML = "Iniciando...";    
 }
