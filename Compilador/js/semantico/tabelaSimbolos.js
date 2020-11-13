@@ -50,7 +50,7 @@ function coloca_tipo_tabela(tipo) {
 
 //Valores duplicados na tabela de simbolos (lexema e id)
 function pesquisa_declvar_tabela(lexema) {
-    const item = main.simbolTable.find(function (item) {
+    const item = tabelasimbolos.find(function (item) {
         if (item.lexema == lexema && item.id == "var") {
             //Existe igual (lexema e tipo)
             //console.log(item);
@@ -68,7 +68,7 @@ function pesquisa_declvar_tabela(lexema) {
 }
 
 function pesquisa_declvarfunc_tabela(lexema) {
-    const item = main.simbolTable.find(function (item) {
+    const item = tabelasimbolos.find(function (item) {
         if (item.lexema == lexema && (item.id = "var" && item.id == "func")) {
             //Existe igual (lexema e tipo)
             //console.log(item);
@@ -86,7 +86,7 @@ function pesquisa_declvarfunc_tabela(lexema) {
 }
 
 function pesquisa_declproc_tabela(lexema) {
-    const item = main.simbolTable.find(function (item) {
+    const item = tabelasimbolos.find(function (item) {
         if (item.lexema == lexema && item.id == "proc") {
             //Existe igual (lexema e tipo)
             //console.log(item);
@@ -104,7 +104,7 @@ function pesquisa_declproc_tabela(lexema) {
 }
 
 function pesquisa_declfunc_tabela(lexema) {
-    const item = main.simbolTable.find(function (item) {
+    const item = tabelasimbolos.find(function (item) {
         if (item.lexema == lexema && item.id == "func") {
             //Existe igual (lexema e tipo)
             //console.log(item);
