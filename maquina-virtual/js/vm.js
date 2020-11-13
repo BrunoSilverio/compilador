@@ -1,8 +1,8 @@
 // Compilador, copyright (c) by Bruno Camilo Silverio & Daniel de Arruda Fraga
 
 // Variavel que contem todo contudo do arquivo.obj
-let arquivo;
-let comando;
+let arquivo = "";
+let comando = "";
 
 //Variavel de controle para percorrer a pilha de memoria, indicando elemento do topo da pilha: M[s]
 let s = -1;
@@ -28,19 +28,22 @@ let numInst = 1;
 
 // Função main controla um loop para as operações das instruções
 function main() {
-    console.log("VM executada");
-    let auxNum = 0;     //auxiliar para pegar primeiro/unico numero na linha
-    let auxNum2 = 0;    //auxiliar para pegar o segundo numero na linha 
-    let auxStr = "";    //auxiliar para desvios na linha
-    let teste = arquivo.split("\n"); // define que linhas devem ser consultadas
+    console.log("Executando...");
+    //let auxNum = 0;     //auxiliar para pegar primeiro/unico numero na linha
+    //let auxNum2 = 0;    //auxiliar para pegar o segundo numero na linha 
+    //let auxStr = "";    //auxiliar para desvios na linha
+    var teste = arquivo.split("\n"); // define que linhas devem ser consultadas
     
-    for (let j; j < teste.length; j++) {
-        let comando = teste[j];// espaços TAB definem colunas que serão consultadas
-        console.log(comando);
+    console.log(teste);
+    
+    for (i; i < teste.length; i++) { //percorre por quantidade de linhas
+        comando = teste[j]; //contem a linha atual
+        let testeFinal = comando.substring(comando.lastIndexOf(" ")+1); // Pega os valores depois do comando da linha atual
+        console.log(testeFinal);
 
         switch (comando) {
             case "LDC":
-
+                
                 ldc();
                 break;
             case "LDV":
@@ -171,6 +174,7 @@ function tabelaInstrucoes(texto) {
     for (i; i<itens.length; i++) {
         linha = itens[i];// espaços TAB definem colunas que serão consultadas
         console.log("Linha: "+linha);
+
         if (linha.includes("START")) {
             comentario = "(Iniciar programa principal): S:= -1";
         } else if (linha.includes("NULL")) {
