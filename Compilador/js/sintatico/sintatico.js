@@ -12,6 +12,7 @@
 */
 
 let tabelasimbolos = [];
+let nivel = 0;
 
 //Funcao principal do Sintatico
 function sintatico() {
@@ -21,27 +22,7 @@ function sintatico() {
     //Def rotulo inteiro
     //rotulo:= 1 
     tabelasimbolos = [];
-    let nivel = 0;
-
-    tabelasimbolos.push({
-        lexema: "teste",
-        simbolo: "simbolo",
-        nivel: 1
-    });
-
-    tabelasimbolos.push({
-        lexema: "teste",
-        simbolo: "simbolo",
-        nivel: 1
-    });
-
-    pesquisa_duplicvar_tabela("coisa", 1);
-    pesquisa_duplicvar_tabela("teste", 1);
-
-
-    return 0;
-
-
+    
 
     //COMECA AQUI
     getToken();
@@ -474,14 +455,14 @@ function Analisa_termo() {
 //Fator
 function Analisa_fator() {
     if (token.simbolo == "Sidentificador") {
-        if (pesquisa_tabela(token.lexema, nível, ind)) { //o que faz pesquisa tabela?
+        if (pesquisa_tabela(token.lexema, nivel, ind)) { //o que faz pesquisa tabela?
             if ((tabelasimbolos[ind].tipo == "inteiro") || (TabSimb[ind].tipo == "booleano")) { //qual index de busca? (ind)
                 Analisa_chamada_funcao();
             } else {
                 getToken(); //SEMANTICO
             }
         } else {
-            geraErroSemantico(); //AQUI É ERRO SEMANTICO
+            geraErroSemantico();
         }
     } else if (token.simbolo == "Snumero") {
         getToken();
