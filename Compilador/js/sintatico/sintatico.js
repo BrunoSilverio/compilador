@@ -233,7 +233,6 @@ function Analisa_leia() {
         getToken();
         if (token.simbolo == "Sidentificador") {
             if (pesquisa_declvar_tabela(token.lexema)) { //mesmo nivel? Outros niveis?
-                //PESQUISA TODA A TABELA - duvida
                 getToken();
                 if (token.simbolo == "Sfecha_parenteses") {
                     getToken();
@@ -241,7 +240,7 @@ function Analisa_leia() {
                     geraErroSintatico();
                 }
             } else {
-                geraErroSemantico(); //AQUI É ERRO SEMANTICO
+                geraErroSemantico();
             }
         }
         else {
@@ -374,6 +373,7 @@ function Analisa_declaracao_procedimento() {
     } else {
         geraErroSintatico();
     }
+    //finalizaProcFunc(nivel);
     nivel--;
 }
 
@@ -416,8 +416,8 @@ function Analisa_declaracao_funcao() {
     } else {
         geraErroSintatico();
     }
+    //finalizaProcFunc(nivel);
     nivel--;
-    //desempilha tudo do nivel? so subtrai nivel?
 }
 
 //Expressão
@@ -454,8 +454,8 @@ function Analisa_termo() {
 //Fator
 function Analisa_fator() {
     if (token.simbolo == "Sidentificador") {
-        if (pesquisa_tabela(token.lexema, nivel, ind)) { //o que faz pesquisa tabela?
-            if ((tabelasimbolos[ind].tipo == "inteiro") || (TabSimb[ind].tipo == "booleano")) { //qual index de busca? (ind)
+        if (pesquisa_tabela(token.lexema, nivel)) { //o que faz pesquisa tabela?
+            if ((tabelasimbolos.tipo == "func inteiro") || (TabSimb[ind].tipo == "func booleano")) { //qual index de busca? (ind)
                 Analisa_chamada_funcao();
             } else {
                 getToken(); //SEMANTICO
