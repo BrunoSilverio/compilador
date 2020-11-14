@@ -55,8 +55,7 @@ function pesquisa_declvar_tabela(lexema) {
 
 function pesquisa_declvarfunc_tabela(lexema) {
     const item = tabelasimbolos.find(function (item) {
-        if (item.lexema == lexema && (item.tipo == "var inteiro" || item.id == "var booleano")) { //adicionar OU FUNCAO?
-
+        if (item.lexema == lexema && (item.tipo == "var inteiro" || item.tipo == "var booleano")) { //adicionar OU FUNCAO?
             return item;
         }
     });
@@ -93,6 +92,25 @@ function pesquisa_declfunc_tabela(lexema) {
     }
 }
 
-function pesquisa_tabela(token_lexema, nivel, ind) {
+function pesquisa_tabela(token_lexema, nivel) {
+    for (simbolo in tabelasimbolos) {
+        if (simbolo.lexema === token_lexema) {
+            if (simbolo.nivel >= nivel) {
+                return true;
+            } else {
+                if (simbolo.nivel === 0) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function finalizaProcFunc(nivel) {
+
+    while (tabelasimbolos[tabelasimbolos.length - 1].nivel > nivel) {
+        tabelasimbolos.pop();
+    }
 
 }
