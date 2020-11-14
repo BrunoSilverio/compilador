@@ -22,7 +22,7 @@ function sintatico() {
     //Def rotulo inteiro
     //rotulo:= 1 
     tabelasimbolos = [];
-    
+
 
     //COMECA AQUI
     getToken();
@@ -36,7 +36,7 @@ function sintatico() {
             console.log("entrou identificador: ");
             tabelasimbolos.push({
                 lexema: token.lexema,
-                id: "nomePrograma",
+                tipo: "nomePrograma",
                 nivel: nivel
             });
             getToken();
@@ -131,12 +131,11 @@ function Analisa_et_variaveis() {
 function Analisa_Variaveis() {
     do {
         if (token.simbolo == "Sidentificador") {
-            if (!pesquisa_duplicvar_tabela(token.lexema, nivel) && !pesquisa_declvarfunc_tabela(token.lexema) && !pesquisa_declproc_tabela(token.lexema)) {
+            if (!pesquisa_duplicvar_tabela(token.lexema, nivel)) {
                 tabelasimbolos.push({
                     lexema: token.lexema,
-                    id: "var",
+                    tipo: "var",
                     nivel: nivel,
-                    tipo: "",
                 });
 
                 getToken();
@@ -233,7 +232,7 @@ function Analisa_leia() {
     if (token.simbolo == "Sabre_parenteses") {
         getToken();
         if (token.simbolo == "Sidentificador") {
-            if (pesquisa_declvar_tabela(token.lexema)) {
+            if (pesquisa_declvar_tabela(token.lexema)) { //mesmo nivel? Outros niveis?
                 //PESQUISA TODA A TABELA - duvida
                 getToken();
                 if (token.simbolo == "Sfecha_parenteses") {
@@ -261,7 +260,7 @@ function Analisa_escreva() {
     if (token.simbolo == "Sabre_parenteses") {
         getToken();
         if (token.simbolo == "Sidentificador") {
-            if (pesquisadeclvarfunc_tabela(token.lexema)) {
+            if (pesquisa_declvarfunc_tabela(token.lexema)) {
                 getToken();
                 if (token.simbolo == "Sfecha_parenteses") {
                     getToken();
@@ -355,7 +354,7 @@ function Analisa_declaracao_procedimento() {
         if (!pesquisa_declproc_tabela(token.lexema)) {
             tabelasimbolos.push({
                 lexema: token.lexema,
-                id: "procedimento",
+                tipo: "proc",
                 nivel: nivel
             });
 
@@ -382,12 +381,12 @@ function Analisa_declaracao_procedimento() {
 function Analisa_declaracao_funcao() {
     getToken();
     nivel++;
+    let tokenantigo = token;
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declfunc_tabela(token.lexema)) {
             tabelasimbolos.push({
                 lexema: token.lexema,
-                id: "func",
-                tipo: "",
+                tipo: "func",
                 nivel: nivel
             });
 
@@ -397,9 +396,9 @@ function Analisa_declaracao_funcao() {
                 if ((token.simbolo == "Sinteiro") || (token.simbolo == "Sbooleano")) {
 
                     if (token.simbolo == "Sinteiro") {
-                        tabelasimbolos[tabelasimbolos.length - 1].tipo = "inteiro";
+                        tabelasimbolos[tabelasimbolos.length - 1].tipo = "func inteiro";
                     } else {
-                        tabelasimbolos[tabelasimbolos.length - 1].tipo = "booleano";
+                        tabelasimbolos[tabelasimbolos.length - 1].tipo = "func booleano";
                     }
                     getToken();
                     if (token.simbolo == "Sponto_virgula") {
