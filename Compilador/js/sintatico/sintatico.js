@@ -504,17 +504,31 @@ function Analisa_fator() {
 }
 
 function Analisa_chamada_funcao() {
-    getToken();
-    // if (token.simbolo == "Sidentificador") {
 
-    // } else {
-    //     console.log("O erro esta aqui");
-    //     geraErroSintatico();
-    // }
+    if (token.simbolo == "Sidentificador") {
+        if (pesquisa_declfunc_tabela(token.lexema)) {
+            getToken();
+        } else {
+            geraErroSemantico();
+        }
+    } else {
+        console.log("O erro esta aqui");
+        geraErroSintatico();
+    }
 }
 
 function Chamada_procedimento() {
 
+    if (token.simbolo == "Sidentificador") {
+        if (pesquisa_declproc_tabela(token.lexema)) {
+            getToken();
+        } else {
+            geraErroSemantico();
+        }
+    } else {
+        console.log("O erro esta aqui");
+        geraErroSintatico();
+    }
 }
 
 function Analisa_atribuicao() {
