@@ -81,7 +81,7 @@ function sintatico() {
 //Funcao para fazer pedido de Token no lexico, aproveita para colocar tokens na lista, para exibir no terminal (front-end)
 function getToken() {
     token = lexico();
-    console.log("TOKEN: " + token.lexema + "SIMBOLO: " + token.linha);
+    console.log("TOKEN: " + token.lexema + " LINHA: " + token.linha);
 }
 
 //Funcao para erros sintaticos
@@ -171,7 +171,6 @@ function Analisa_comandos() {
         while (token.simbolo != "Sfim") {
             if (token.simbolo == "Sponto_virgula") {
                 getToken();
-                console.log("token anl com: " + token);
                 if (token.simbolo != "Sfim") {
                     Analisa_comando_simples();
                 }
@@ -188,7 +187,6 @@ function Analisa_comandos() {
 //Comando
 function Analisa_comando_simples() {
     if (token.simbolo == "Sidentificador") {
-        console.log("comando simples: " + token.simbolo);
         Analisa_atrib_chprocedimento();
     } else {
         if (token.simbolo == "Sse") {
@@ -218,7 +216,6 @@ function Analisa_atrib_chprocedimento() {
     if (token.simbolo == "Satribuicao") {
         Analisa_atribuicao();
     } else {
-        console.log("enviado para chproc " + token.simbolo);
         Chamada_procedimento(tokenantigo);
     }
 }
@@ -365,13 +362,12 @@ function Analisa_declaracao_procedimento() {
                 geraErroSintatico();
             }
         } else {
-            console.log("erro semn");
             geraErroSemantico();
         }
     } else {
         geraErroSintatico();
     }
-    finalizaProcFunc(nivel);
+    //finalizaProcFunc(nivel);
     nivel--;
 }
 
@@ -414,7 +410,7 @@ function Analisa_declaracao_funcao() {
     } else {
         geraErroSintatico();
     }
-    finalizaProcFunc(nivel);
+    //finalizaProcFunc(nivel);
     nivel--;
 }
 
