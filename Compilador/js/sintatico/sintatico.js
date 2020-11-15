@@ -26,14 +26,11 @@ function sintatico() {
 
     //COMECA AQUI
     getToken();
-    console.log("inicio");
 
     if (token.simbolo == "Sprograma") {
-        console.log("entrou programa: ");
         getToken();
 
         if (token.simbolo == "Sidentificador") {
-            console.log("entrou identificador: ");
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "nomePrograma",
@@ -42,16 +39,14 @@ function sintatico() {
             getToken();
 
             if (token.simbolo == "Sponto_virgula") {
-                console.log("entrou ponto_virgula");
                 Analisa_Bloco();
 
                 if (token.simbolo == "Sponto") {
-                    console.log("entrou ponto: ");
                     getToken();
 
                     if (token.simbolo == undefined) {
                         //Caso chegue aqui, programa termina e retira ultimo token do final
-                        tabelasimbolos.pop();
+                        console.log(tabelasimbolos);
                         console.log("***** end SINTATICO *****");
                         alert("Executado com sucesso!");
                         document.getElementById('terminal').value = "Realizado com sucesso!";
@@ -86,9 +81,7 @@ function sintatico() {
 //Funcao para fazer pedido de Token no lexico, aproveita para colocar tokens na lista, para exibir no terminal (front-end)
 function getToken() {
     token = lexico();
-    console.log("ENTROU GETTOKEN " + token.simbolo);
-    console.log(tabelasimbolos);
-    console.log(token.lexema + " " + token.simbolo + " " + token.linha);
+    console.log("TOKEN: " + token.lexema + "SIMBOLO: " + token.linha);
 }
 
 //Funcao para erros sintaticos
@@ -178,6 +171,7 @@ function Analisa_comandos() {
         while (token.simbolo != "Sfim") {
             if (token.simbolo == "Sponto_virgula") {
                 getToken();
+                console.log("token anl com: " + token);
                 if (token.simbolo != "Sfim") {
                     Analisa_comando_simples();
                 }
@@ -194,6 +188,7 @@ function Analisa_comandos() {
 //Comando
 function Analisa_comando_simples() {
     if (token.simbolo == "Sidentificador") {
+        console.log("comando simples: " + token.simbolo);
         Analisa_atrib_chprocedimento();
     } else {
         if (token.simbolo == "Sse") {
@@ -218,11 +213,13 @@ function Analisa_comando_simples() {
 
 //atribuição_chamada_procedimento
 function Analisa_atrib_chprocedimento() {
+    let tokenantigo = token;
     getToken();
     if (token.simbolo == "Satribuicao") {
         Analisa_atribuicao();
     } else {
-        Chamada_procedimento();
+        console.log("enviado para chproc " + token.simbolo);
+        Chamada_procedimento(tokenantigo);
     }
 }
 
@@ -368,12 +365,13 @@ function Analisa_declaracao_procedimento() {
                 geraErroSintatico();
             }
         } else {
+            console.log("erro semn");
             geraErroSemantico();
         }
     } else {
         geraErroSintatico();
     }
-    //finalizaProcFunc(nivel);
+    finalizaProcFunc(nivel);
     nivel--;
 }
 
@@ -416,7 +414,7 @@ function Analisa_declaracao_funcao() {
     } else {
         geraErroSintatico();
     }
-    //finalizaProcFunc(nivel);
+    finalizaProcFunc(nivel);
     nivel--;
 }
 
@@ -454,14 +452,16 @@ function Analisa_termo() {
 //Fator
 function Analisa_fator() {
     if (token.simbolo == "Sidentificador") {
-        if (pesquisa_tabela(token.lexema, nivel)) { //o que faz pesquisa tabela?
-            if ((tabelasimbolos.tipo == "func inteiro") || (TabSimb[ind].tipo == "func booleano")) { //qual index de busca? (ind)
+        if (!pesquisa_declvar_tabela(token.lexema)) { //o que faz pesquisa tabela?
+            if (pesquisa_declfunc_tabela(token.lexema)) { //qual index de busca? (ind)
                 Analisa_chamada_funcao();
             } else {
-                getToken(); //SEMANTICO
+                //getToken(); //SEMANTICO
+                geraErroSemantico();
             }
         } else {
-            geraErroSemantico();
+            //geraErroSemantico();
+            getToken()
         }
     } else if (token.simbolo == "Snumero") {
         getToken();
@@ -492,23 +492,18 @@ function Analisa_chamada_funcao() {
             geraErroSemantico();
         }
     } else {
-        console.log("O erro esta aqui");
         geraErroSintatico();
     }
 }
 
-function Chamada_procedimento() {
+function Chamada_procedimento(tokenantigo) {
 
-    if (token.simbolo == "Sidentificador") {
-        if (pesquisa_declproc_tabela(token.lexema)) {
-            getToken();
-        } else {
-            geraErroSemantico();
-        }
+    if (pesquisa_declproc_tabela(tokenantigo.lexema)) {
+        //getToken();
     } else {
-        console.log("O erro esta aqui");
-        geraErroSintatico();
+        geraErroSemantico();
     }
+
 }
 
 function Analisa_atribuicao() {
