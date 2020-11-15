@@ -36,6 +36,7 @@ function sintatico() {
                 tipo: "nomePrograma",
                 nivel: nivel
             });
+            //geraSTART();
             getToken();
 
             if (token.simbolo == "Sponto_virgula") {
@@ -45,7 +46,7 @@ function sintatico() {
                     getToken();
 
                     if (token.simbolo == undefined) {
-                        //Caso chegue aqui, programa termina e retira ultimo token do final
+                        //geraHLT();
                         console.log(tabelasimbolos);
                         console.log("***** end SINTATICO *****");
                         alert("Executado com sucesso!");
@@ -57,6 +58,7 @@ function sintatico() {
                     }
                 } else {
                     //Faltou sponto
+                    //geraErroSintatico();
                     alert("ERRO SINTATICO:\n" + "Lexema: fim " + "\nEsperado '.' ");
                     document.getElementById('terminal').value = "Erro SINTATICO:\n" + "Lexema: fim " + "\nEsperado '.' ";
                     //var listatokens = JSON.stringify(listatokens);
@@ -78,7 +80,7 @@ function sintatico() {
     }
 }
 
-//Funcao para fazer pedido de Token no lexico, aproveita para colocar tokens na lista, para exibir no terminal (front-end)
+
 function getToken() {
     token = lexico();
     console.log("TOKEN: " + token.lexema + " LINHA: " + token.linha);
@@ -88,8 +90,6 @@ function getToken() {
 function geraErroSintatico() {
     alert("ERRO SINTATICO\nLexema: " + token.lexema + "\nLinha: " + token.linha);
     document.getElementById('terminal').value = "Erro SINTATICO:\n" + "Lexema: " + token.lexema + "\nLinha: " + token.linha;
-    //var listatokens = JSON.stringify(listatokens);
-    //document.getElementById('terminal').value = listatokens.split(',{').join("\n");
     console.log("***** end SINTATICO *****");
     throw new Error("ERRO SINTATICO");
 }
@@ -124,7 +124,7 @@ function Analisa_et_variaveis() {
 function Analisa_Variaveis() {
     do {
         if (token.simbolo == "Sidentificador") {
-            if (!pesquisa_duplicvar_tabela(token.lexema, nivel)) {
+            if (!pesquisa_duplicvar_tabela(token.lexema, nivel)) { //validar em funcoes, proc e nomeprograma?
                 tabelasimbolos.push({
                     lexema: token.lexema,
                     tipo: "var",
@@ -212,7 +212,7 @@ function Analisa_comando_simples() {
 //atribuição_chamada_procedimento
 function Analisa_atrib_chprocedimento() {
     let tokenantigo = token;
-    getToken();
+    getToken();   //talvez esse gettoken nao fique aqui ???
     if (token.simbolo == "Satribuicao") {
         Analisa_atribuicao();
     } else {
@@ -344,7 +344,7 @@ function Analisa_declaracao_procedimento() {
     nivel++;
     if (token.simbolo == "Sidentificador") {
 
-        if (!pesquisa_declproc_tabela(token.lexema)) {
+        if (!pesquisa_declproc_tabela(token.lexema)) { //procura tmbm var, fun ou programa?
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "proc",
@@ -354,7 +354,7 @@ function Analisa_declaracao_procedimento() {
             //{guarda na TabSimb}
             //Gera(rotulo,NULL,´ ´,´ ´)
             //{CALL irá buscar este rótulo na TabSimb}
-            //rotulo:= rotulo+1;
+            nivel++;
             getToken();
             if (token.simbolo == "Sponto_virgula") {
                 Analisa_Bloco();
@@ -374,7 +374,6 @@ function Analisa_declaracao_procedimento() {
 //Declaração de função
 function Analisa_declaracao_funcao() {
     getToken();
-    nivel++;
     let tokenantigo = token;
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declfunc_tabela(token.lexema)) {
@@ -383,7 +382,7 @@ function Analisa_declaracao_funcao() {
                 tipo: "func",
                 nivel: nivel
             });
-
+            nivel++;
             getToken();
             if (token.simbolo == "Sdoispontos") {
                 getToken();
@@ -472,7 +471,7 @@ function Analisa_fator() {
         } else {
             geraErroSintatico();
         }
-    } else if (token.lexema == "verdadeiro" || token.lexema == "falso") {
+    } else if (token.simbolo == "Sverdadeiro" || token.simbolo == "Sfalso") {
         getToken();
     } else {
         geraErroSintatico();
