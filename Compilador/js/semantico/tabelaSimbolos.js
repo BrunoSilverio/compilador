@@ -109,8 +109,23 @@ function pesquisa_tabela(token_lexema, nivel) {
 
 function finalizaProcFunc(nivel) {
 
-    while (tabelasimbolos[tabelasimbolos.length - 1].nivel > nivel) {
-        tabelasimbolos.pop();
+    //exlui vars
+    for (let i = 0; i < tabelasimbolos.length; i++) {
+        if (tabelasimbolos[i].nivel == nivel) {
+            if (tabelasimbolos[i].tipo === "func inteiro" || tabelasimbolos[i].tipo === "func booleano" || tabelasimbolos[i].tipo === "proc") {
+            } else {
+                tabelasimbolos.splice(i);
+                i = 0;
+            }
+        }
     }
-
+    //exclui funcoes e proc
+    for (let i = 0; i < tabelasimbolos.length; i++) {
+        if (tabelasimbolos[i].nivel == nivel + 1) {
+            if (tabelasimbolos[i].tipo === "func inteiro" || tabelasimbolos[i].tipo === "func booleano" || tabelasimbolos[i].tipo === "proc") {
+                tabelasimbolos.splice(i);
+                i = 0;
+            }
+        }
+    }
 }
