@@ -367,7 +367,7 @@ function Analisa_declaracao_procedimento() {
     } else {
         geraErroSintatico();
     }
-    //finalizaProcFunc(nivel);
+    finalizaProcFunc(nivel);
     nivel--;
 }
 
@@ -410,7 +410,7 @@ function Analisa_declaracao_funcao() {
     } else {
         geraErroSintatico();
     }
-    //finalizaProcFunc(nivel);
+    finalizaProcFunc(nivel);
     nivel--;
 }
 
