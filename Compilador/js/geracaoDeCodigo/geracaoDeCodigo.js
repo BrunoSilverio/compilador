@@ -117,3 +117,79 @@ function geraCMEQ(params) {
 function geraCMAQ(params) {
     
 }
+
+//Armazenar valor
+//M[n]:=M[s]; s:=s-1
+function geraSTR(params) {
+    
+}
+
+//Desviar sempre
+function geraJMP(params) {
+    
+}
+
+//Desviar se falso
+//Se M[s]=0 então 
+//i:=p senão
+//i:=i+1;
+//S:=s-1 
+function geraJMPF(params) {
+    
+}
+
+function geraNULL(params) {
+    
+}
+
+//Leitura
+//S:=s+1; M[s]:= “próximo valor de entrada”
+function geraRD(params) {
+    
+}
+
+//Impressao
+//“Imprimir M[s]”; s:=s-1 
+function geraPRN(params) {
+    
+}
+
+//Iniciar programa principal
+//s:=-1 
+function geraSTART(params) {
+    
+}
+
+//Alocar memoria
+//s:=s+m
+function geraALLOC(params) {
+    
+}
+
+//Desalocar memoria
+//Para k:=n-1 até 0 
+//faça {M[m+k]:=M[s];
+//s:=s-1} 
+function geraDALLOC(params) {
+    
+}
+
+//Parar
+function geraHLT(params) {
+    
+}
+
+//Chamar procedimento ou funcao
+//s:=s+1; 
+//M[s]:=i+1
+//i:=p
+function geraCALL(params) {
+    
+} 
+
+//Retornar de procedimento
+//i:=M[s]; 
+//s:=s-1
+function geraRETURN(params) {
+    
+} 
