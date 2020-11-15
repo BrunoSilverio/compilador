@@ -156,7 +156,7 @@ function geraPRN(params) {
 
 //Iniciar programa principal
 //s:=-1 
-function geraSTART(params) {
+function geraSTART() {
     
 }
 
