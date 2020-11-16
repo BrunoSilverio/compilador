@@ -1,12 +1,9 @@
 // Compilador, copyright (c) by Bruno Camilo Silverio & Daniel de Arruda Fraga
 
 /*
-    • Objetivo: captar significado das ações do código fonte
-    • É uma fase de difícil formalização →  especificações informais.
-    • Utiliza a tabela de símbolos construída pelos outros analisadores.
-    • Principais funções:
-        – Manter informações sobre o escopo dos identificadores
-        – Representar tipos de dados
+    • Objetivo: conter um registro para cada identificador
+    – distinguir o escopo de validade de cada símbolo
+    – Reconhecer o escopo para o qual um símbolo é ativado  
 */
 
 //Valores duplicados na tabela de simbolos (lexema e nivel)
@@ -17,7 +14,6 @@ function pesquisa_duplicvar_tabela(lexema, nivel) {
             return item;
         }
     });
-
     if (item == undefined) {
         return false;
     } else {
@@ -26,9 +22,7 @@ function pesquisa_duplicvar_tabela(lexema, nivel) {
 }
 
 function coloca_tipo_tabela(tipo) {
-
     for (let i = tabelasimbolos.length - 1; i >= 0; i--) {
-
         if (tabelasimbolos[i] == undefined) {
             break;
         }
@@ -108,7 +102,6 @@ function pesquisa_tabela(token_lexema, nivel) {
 }
 
 function finalizaProcFunc(nivel) {
-
     //exlui vars
     for (let i = 0; i < tabelasimbolos.length; i++) {
         if (tabelasimbolos[i].nivel == nivel) {

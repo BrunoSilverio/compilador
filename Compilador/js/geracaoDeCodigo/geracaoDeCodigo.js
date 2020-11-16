@@ -1,3 +1,11 @@
+// Compilador, copyright (c) by Bruno Camilo Silverio & Daniel de Arruda Fraga
+
+/*
+    • Fase final da compilação
+    • Tradução do código intermediário em programa objeto
+    • Programas objeto: Pode ser em linguagem de máquina absoluta, relocável, assembly, ou outra linguagem de programação qualquer.
+*/
+
 //Carregar constante
 //s:=s + 1 ; M [s]: = k
 function geraLDC(params) {

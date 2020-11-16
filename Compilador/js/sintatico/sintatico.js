@@ -17,19 +17,15 @@ let nivel = 0;
 //Funcao principal do Sintatico
 function sintatico() {
     console.log("***** start SINTATICO *****");
-
     //tokenslexico = JSON.stringify(tokenslexico);  //Para transformar em String
     //Def rotulo inteiro
     //rotulo:= 1 
     tabelasimbolos = [];
 
-
     //COMECA AQUI
     getToken();
-
     if (token.simbolo == "Sprograma") {
         getToken();
-
         if (token.simbolo == "Sidentificador") {
             tabelasimbolos.push({
                 lexema: token.lexema,
@@ -38,19 +34,16 @@ function sintatico() {
             });
             //geraSTART();
             getToken();
-
             if (token.simbolo == "Sponto_virgula") {
                 Analisa_Bloco();
-
                 if (token.simbolo == "Sponto") {
                     getToken();
-
                     if (token.simbolo == undefined) {
                         //geraHLT();
                         console.log(tabelasimbolos);
                         console.log("***** end SINTATICO *****");
-                        alert("Executado com sucesso!");
                         document.getElementById('terminal').value = "Realizado com sucesso!";
+                        alert("Executado com sucesso!");
                         //Valida se programa realmente acabou depois do ultimo ponto
                     } else {
                         //Erro pois tem coisa depois do ponto final
@@ -130,7 +123,6 @@ function Analisa_Variaveis() {
                     tipo: "var",
                     nivel: nivel,
                 });
-
                 getToken();
                 if ((token.simbolo == "Svirgula") || (token.simbolo == "Sdoispontos")) {
                     if (token.simbolo == "Svirgula") {
@@ -245,8 +237,6 @@ function Analisa_leia() {
     }
 }
 
-
-
 //Comando escrita
 function Analisa_escreva() {
     getToken();
@@ -317,7 +307,6 @@ function Analisa_Subrotinas() {
         //GERA(´ ´,JMP,rotulo,´ ´) {Salta sub-rotinas}
         //rotulo:= rotulo + 1;
         //flag = 1;
-
         while ((token.simbolo == "Sprocedimento") || (token.simbolo == "Sfuncao")) {
             if (token.simbolo == "Sprocedimento") {
                 Analisa_declaracao_procedimento();
@@ -343,14 +332,12 @@ function Analisa_declaracao_procedimento() {
     getToken();
     nivel++;
     if (token.simbolo == "Sidentificador") {
-
         if (!pesquisa_declproc_tabela(token.lexema)) { //procura tmbm var, fun ou programa?
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "proc",
                 nivel: nivel
             });
-
             //{guarda na TabSimb}
             //Gera(rotulo,NULL,´ ´,´ ´)
             //{CALL irá buscar este rótulo na TabSimb}
@@ -374,7 +361,7 @@ function Analisa_declaracao_procedimento() {
 //Declaração de função
 function Analisa_declaracao_funcao() {
     getToken();
-    let tokenantigo = token;
+    let tokenantigo = token; //NAO TA USANDO
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declfunc_tabela(token.lexema)) {
             tabelasimbolos.push({
@@ -432,7 +419,6 @@ function Analisa_expressao_simples() {
         getToken();
         Analisa_termo();
     }
-
 }
 
 //Termo
@@ -479,7 +465,6 @@ function Analisa_fator() {
 }
 
 function Analisa_chamada_funcao() {
-
     if (token.simbolo == "Sidentificador") {
         if (pesquisa_declfunc_tabela(token.lexema)) {
             getToken();
@@ -492,7 +477,6 @@ function Analisa_chamada_funcao() {
 }
 
 function Chamada_procedimento(tokenantigo) {
-
     if (pesquisa_declproc_tabela(tokenantigo.lexema)) {
         //getToken();
     } else {
