@@ -206,7 +206,7 @@ function Analisa_atrib_chprocedimento() {
     let tokenantigo = token;
     getToken();   //talvez esse gettoken nao fique aqui ???
     if (token.simbolo == "Satribuicao") {
-        Analisa_atribuicao();
+        Analisa_atribuicao(tokenantigo);
     } else {
         Chamada_procedimento(tokenantigo);
     }
@@ -485,7 +485,7 @@ function Chamada_procedimento(tokenantigo) {
 
 }
 
-function Analisa_atribuicao() {
+function Analisa_atribuicao(tokenantigo) {
     getToken();
     Analisa_expressao();
 }
