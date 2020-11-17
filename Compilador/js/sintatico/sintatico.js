@@ -19,7 +19,7 @@ function sintatico() {
     console.log("***** start SINTATICO *****");
     //tokenslexico = JSON.stringify(tokenslexico);  //Para transformar em String
     //Def rotulo inteiro
-    //rotulo:= 1 
+    nivel = 0;
     tabelasimbolos = [];
 
     //COMECA AQUI
@@ -330,9 +330,9 @@ function Analisa_Subrotinas() {
 //Declaração de procedimento
 function Analisa_declaracao_procedimento() {
     getToken();
-    nivel++;
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declproc_tabela(token.lexema)) { //procura tmbm var, fun ou programa?
+            nivel++;
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "proc",
@@ -341,7 +341,6 @@ function Analisa_declaracao_procedimento() {
             //{guarda na TabSimb}
             //Gera(rotulo,NULL,´ ´,´ ´)
             //{CALL irá buscar este rótulo na TabSimb}
-            nivel++;
             getToken();
             if (token.simbolo == "Sponto_virgula") {
                 Analisa_Bloco();
@@ -364,12 +363,12 @@ function Analisa_declaracao_funcao() {
     let tokenantigo = token; //NAO TA USANDO
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declfunc_tabela(token.lexema)) {
+            nivel++;
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "func",
                 nivel: nivel
             });
-            nivel++;
             getToken();
             if (token.simbolo == "Sdoispontos") {
                 getToken();
