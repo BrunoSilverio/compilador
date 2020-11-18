@@ -21,30 +21,70 @@ const prioridade5 = ["Smult", "Sdiv"];
 
 const prioridade6 = ["Snao"];
 
+precedenciaOperador("teste");
 
 function insereOperando(token) {
 
     posFixo.push({
         lexema: token.lexema,
-        tipo: "nomePrograma",
+        tipo: "nomePrograma", //verificar o que dar push
         nivel: nivel
     });
 }
 
 function insereOperador(token) {
-    
+
+    let ultimoElemento = posFixoOperadores.length - 1;
+    let prioridadeAntigo = precedenciaOperador(posFixoGerador[ultimoElemento.simbolo]);
+    let prioridadeNovo = precedenciaOperador(token.simbolo);
+
+    if (prioridadeNovo >= prioridadeAntigo) {
+
+        let ultimoToken = posFixoOperadores.pop();
+        posFixo.push(ultimoToken);
+
+    } else {
+        posFixoOperadores.push(token);
+    }
+
 }
 
 
 
 function precedenciaOperador(operador) {
 
-    switch (operador) {
-        case "-":
+    switch (true) {
+        case prioridade0.includes(operador):
+            return 0;
+            break;
 
+        case prioridade1.includes(operador):
+            return 1;
+            break;
+
+        case prioridade2.includes(operador):
+            return 2;
+            break;
+
+        case prioridade3.includes(operador):
+            return 3;
+            break;
+
+        case prioridade4.includes(operador):
+            return 4;
+            break;
+
+        case prioridade5.includes(operador):
+            return 5;
+            break;
+
+        case prioridade6.includes(operador):
+            return 6;
             break;
 
         default:
+            console.log("Erro semantico");
+            //geraErroSemantico("Pos fixo");
             break;
     }
 }
