@@ -6,25 +6,19 @@ let posFixo = [];
 //pilha para gerenciar os operadores
 let posFixoOperadores = [];
 
-//Precedencia Operadores:
+//Precedencia Operadores
 const prioridade0 = ["Sou"];
-
 const prioridade1 = ["Se"];
-
 const prioridade2 = ["Sig", "Sdif"];
-
 const prioridade3 = ["Smaior", "Smaiorig", "Smenor", "Smenorig"];
-
 const prioridade4 = ["Smais", "Smenos"];
-
 const prioridade5 = ["Smult", "Sdiv"];
-
 const prioridade6 = ["Snao"];
 
 precedenciaOperador("teste");
 
+//Funcao para inserir na lista do posFixo
 function insereOperando(token) {
-
     posFixo.push({
         lexema: token.lexema,
         tipo: "nomePrograma", //verificar o que dar push
@@ -32,27 +26,29 @@ function insereOperando(token) {
     });
 }
 
+//Funcao para manipular os operados na pilha
 function insereOperador(token) {
-
+    //guarda tamanho da pilha, para fazer comparacao com o ultimo operando
     let ultimoElemento = posFixoOperadores.length - 1;
+    //guarda o ultimo operador, para fazer comparacao com o ultimo operando
     let prioridadeAntigo = precedenciaOperador(posFixoGerador[ultimoElemento.simbolo]);
+    //guarda o atual operador, para fazer comparacao com o ultimo operando
     let prioridadeNovo = precedenciaOperador(token.simbolo);
 
+    //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
     if (prioridadeNovo >= prioridadeAntigo) {
-
         let ultimoToken = posFixoOperadores.pop();
         posFixo.push(ultimoToken);
-
-    } else {
+        //falta colocar o operador atual na pilha, devido a troca?
+        posFixoOperadores.push(prioridadeNovo);// ?
+    } else {//senao apenas adiciona na pilha o operador
         posFixoOperadores.push(token);
     }
 
 }
 
-
-
+//Funcao para retornar qual a prioridade do operador recebido
 function precedenciaOperador(operador) {
-
     switch (true) {
         case prioridade0.includes(operador):
             return 0;
@@ -89,31 +85,18 @@ function precedenciaOperador(operador) {
     }
 }
 
-
+//Funcao principal para
 function posFixoGerador(expressao) {
 
-    //recebe a expressao infixa por parametro
-    //separa a expressao nos espaços (split(" "))
-    //valida termo por termo, utlizando 'for'
-
-
-    for (let index = 0; index < array.length; index++) {
-        const element = array[index];
-
-        //identifica operando(var) ou operador(+,-,*,div...)
-
-        //caso seja operando (variavel)
-
-
-        //caso seja um operador
-
-    }
+   
 }
 
+//Funcao para limpar a lista do posFixo
 function limpaPosFixo() {
     posFixo = [];
 }
 
+//Funcao para limpas a pilha de operadores
 function limpaPosFixoTemp() {
     posFixoOperadores = [];
 }
