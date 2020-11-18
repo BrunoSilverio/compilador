@@ -15,33 +15,25 @@ const prioridade4 = ["Smais", "Smenos"];
 const prioridade5 = ["Smult", "Sdiv"];
 const prioridade6 = ["Snao"];
 
-precedenciaOperador("teste");
 
 //Funcao para inserir na lista do posFixo
 function insereOperando(token) {
-    posFixo.push({
-        lexema: token.lexema,
-        tipo: "nomePrograma", //verificar o que dar push
-        nivel: nivel
-    });
+    posFixo.push(token);
 }
 
 //Funcao para manipular os operados na pilha
 function insereOperador(token) {
-    //guarda tamanho da pilha, para fazer comparacao com o ultimo operando
+
     let ultimoElemento = posFixoOperadores.length - 1;
-    //guarda o ultimo operador, para fazer comparacao com o ultimo operando
-    let prioridadeAntigo = precedenciaOperador(posFixoGerador[ultimoElemento.simbolo]);
-    //guarda o atual operador, para fazer comparacao com o ultimo operando
+    let prioridadeAntigo = precedenciaOperador(posFixoOperadores[(posFixoOperadores.length-1)].simbolo);
     let prioridadeNovo = precedenciaOperador(token.simbolo);
 
     //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
     if (prioridadeNovo >= prioridadeAntigo) {
         let ultimoToken = posFixoOperadores.pop();
         posFixo.push(ultimoToken);
-        //falta colocar o operador atual na pilha, devido a troca?
-        posFixoOperadores.push(prioridadeNovo);// ?
-    } else {//senao apenas adiciona na pilha o operador
+        posFixoOperadores.push(token);
+    } else {
         posFixoOperadores.push(token);
     }
 
