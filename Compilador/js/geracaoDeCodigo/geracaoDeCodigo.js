@@ -6,46 +6,51 @@
     • Programas objeto: Pode ser em linguagem de máquina absoluta, relocável, assembly, ou outra linguagem de programação qualquer.
 */
 
+//funcao para gerar o codigo final e exportar para o usuario
+function geraCodigo(params) {
+
+}
+
 //Carregar constante
 //s:=s + 1 ; M [s]: = k
 function geraLDC(params) {
-    
+
 }
 
 //Carrega valor
 //s:=s+1 ; M[s]:=M[n]
 function geraLDV(params) {
-    
+
 }
 
 //Somar
 //M[s-1]:=M[s-1]+M[s]; s:=s-1
 function geraADD(params) {
-    
+
 }
 
 //Subtrair
 //M[s-1]:=M[s-1]-M[s]; s:=s-1
 function geraSUB(params) {
-    
+
 }
 
 //Multiplicar
 //M[s-1]:=M[s-1]*M[s]; s:=s-1
 function geraMULT(params) {
-    
+
 }
 
 //Dividir
 //M[s-1]:=M[s-1]div M[s]; s:=s-1
 function geraDIVI(params) {
-    
+
 }
 
 //Inverter sinal
 //M[s]:=-M[s]
 function geraINV(params) {
-    
+
 }
 
 //Conjuncao
@@ -54,7 +59,7 @@ function geraINV(params) {
 //senão M[s-1]:=0; 
 //S:=s-1
 function geraAND(params) {
-    
+
 }
 
 //Disjuncao
@@ -63,13 +68,13 @@ function geraAND(params) {
 //senão M[s-1]:=0; 
 //s:=s-1
 function geraOR(params) {
-    
+
 }
 
 //Negacao
 //M[s]:=1-M[s]
 function geraNEG(params) {
-    
+
 }
 
 //Comparar menor
@@ -78,7 +83,7 @@ function geraNEG(params) {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCME(params) {
-    
+
 }
 
 //Comparar maior
@@ -87,7 +92,7 @@ function geraCME(params) {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCMA(params) {
-    
+
 }
 
 //Comparar igual
@@ -96,7 +101,7 @@ function geraCMA(params) {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCEQ(params) {
-    
+
 }
 
 //Comparar desigual
@@ -105,7 +110,7 @@ function geraCEQ(params) {
 //senão M[s-1]:=0; 
 //s:=s-1
 function geraCDIF(params) {
-    
+
 }
 
 //Comparar menor ou igual
@@ -114,7 +119,7 @@ function geraCDIF(params) {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCMEQ(params) {
-    
+
 }
 
 //Comparara maior ou igual
@@ -123,18 +128,18 @@ function geraCMEQ(params) {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCMAQ(params) {
-    
+
 }
 
 //Armazenar valor
 //M[n]:=M[s]; s:=s-1
 function geraSTR(params) {
-    
+
 }
 
 //Desviar sempre
 function geraJMP(params) {
-    
+
 }
 
 //Desviar se falso
@@ -143,35 +148,35 @@ function geraJMP(params) {
 //i:=i+1;
 //S:=s-1 
 function geraJMPF(params) {
-    
+
 }
 
 function geraNULL(params) {
-    
+
 }
 
 //Leitura
 //S:=s+1; M[s]:= “próximo valor de entrada”
 function geraRD(params) {
-    
+
 }
 
 //Impressao
 //“Imprimir M[s]”; s:=s-1 
 function geraPRN(params) {
-    
+
 }
 
 //Iniciar programa principal
 //s:=-1 
 function geraSTART() {
-    
+
 }
 
 //Alocar memoria
 //s:=s+m
 function geraALLOC(params) {
-    
+
 }
 
 //Desalocar memoria
@@ -179,12 +184,12 @@ function geraALLOC(params) {
 //faça {M[m+k]:=M[s];
 //s:=s-1} 
 function geraDALLOC(params) {
-    
+
 }
 
 //Parar
 function geraHLT(params) {
-    
+
 }
 
 //Chamar procedimento ou funcao
@@ -192,12 +197,12 @@ function geraHLT(params) {
 //M[s]:=i+1
 //i:=p
 function geraCALL(params) {
-    
-} 
+
+}
 
 //Retornar de procedimento
 //i:=M[s]; 
 //s:=s-1
 function geraRETURN(params) {
-    
+
 } 
