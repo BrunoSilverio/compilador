@@ -107,8 +107,40 @@ function insereOperador(token) {
 }
 
 //Funcao responsavel por validar a expressa posfixa 
-function analisaPosFixo(params) {
+function analisaPosFixo(operador) {
+    switch (operador) {
+        //OR -> Sou
+        case 0:
+            
+            break;
+        //AND -> Se
+        case 1:
+            
+            break;
+        // =, != -> Sig, Sdif
+        case 2:
+            
+            break;
+        // >, >=, >, <= -> Smaior, Smaiorig, Smenor, Smenorig
+        case 3:
+            
+            break;
+        // +, - -> Smais, Smenos
+        case 4:
+            
+            break;
+        // *, div -> Smult, Sdiv
+        case 5:
+            
+            break;
+        //unario -> -u, +u, Snao
+        case 6:
+            
+            break;
 
+        default:
+            break;
+    }
 }
 
 //Funcao que tranfere todos os tokens de operadores para posfixo
