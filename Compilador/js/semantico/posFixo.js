@@ -106,73 +106,76 @@ function insereOperador(token) {
     }
 }
 
-//Funcao responsavel por validar a expressa posfixa 
+//Funcao responsavel por validar a expressa posfixa pronta
 function analisaPosFixo(operador) {
-    switch (operador) {
-        //OR -> Sou
-        case 0:
-            if (condition) {
-                //empilhar
-            } else {
-                //ERRO
-            }
-            break;
-        //AND -> Se
-        case 1:
-            if (condition) {
-                //empilhar
-            } else {
-                //ERRO
-            }
-            break;
-        // =, != -> Sig, Sdif
-        case 2:
-            if (((posicaoAnterior-1).tipo === "booleano")&&(posicaoAnterior.tipo === "booleano")) {
-                //empilhar
-                //returno booleano
-            } else {
-                //ERRO
-            }
-            break;
-        // >, >=, >, <= -> Smaior, Smaiorig, Smenor, Smenorig
-        case 3:
-            if (((posicaoAnterior-1).tipo === "inteiro")&&(posicaoAnterior.tipo === "inteiro")) {
-                //empilhar
-                //returno booleano
-            } else {
-                //ERRO
-            }
-            break;
-        // +, - -> Smais, Smenos
-        case 4:
-            if (((posicaoAnterior-1).tipo === "inteiro")&&(posicaoAnterior.tipo === "inteiro")) {
-                //empilhar
-                //returno int
-            } else {
-                //ERRO
-            }
-            break;
-        // *, div -> Smult, Sdiv
-        case 5:
-            if (((posicaoAnterior-1).tipo === "inteiro")&&(posicaoAnterior.tipo === "inteiro")) {
-                //empilhar
-                //returno int
-            } else {
-                //ERRO
-            }
-            break;
-        //unario -> -u, +u, Snao
-        case 6:
-            //para pegar o sinal do numero
-            if ((posicaoAtual.tipo === "inteiro")&&(posicaoAnterior !== "var" || "Snumero")&&(posicaoAtual === "-u, +u")&&(proximaPosicao === "var" || "Snumero")) {
-                //empilhar
-            } else {
-                //ERRO
-            }
-            break;
+    for (let i = posFixo.length - 1; i >= 0; i--) {
 
-        default:
-            break;
+        switch (operador) {
+            //OR -> Sou
+            case 0:
+                if () {
+                    //empilhar
+                } else {
+                    //ERRO
+                }
+                break;
+            //AND -> Se
+            case 1:
+                if (condition) {
+                    //empilhar
+                } else {
+                    //ERRO
+                }
+                break;
+            // =, != -> Sig, Sdif
+            case 2:
+                if (((posicaoAnterior - 1).tipo === "booleano") && (posicaoAnterior.tipo === "booleano")) {
+                    //empilhar
+                    //returno booleano
+                } else {
+                    //ERRO
+                }
+                break;
+            // >, >=, >, <= -> Smaior, Smaiorig, Smenor, Smenorig
+            case 3:
+                if (((posicaoAnterior - 1).tipo === "inteiro") && (posicaoAnterior.tipo === "inteiro")) {
+                    //empilhar
+                    //returno booleano
+                } else {
+                    //ERRO
+                }
+                break;
+            // +, - -> Smais, Smenos
+            case 4:
+                if (((posicaoAnterior - 1).tipo === "inteiro") && (posicaoAnterior.tipo === "inteiro")) {
+                    //empilhar
+                    //returno int
+                } else {
+                    //ERRO
+                }
+                break;
+            // *, div -> Smult, Sdiv
+            case 5:
+                if (((posicaoAnterior - 1).tipo === "inteiro") && (posicaoAnterior.tipo === "inteiro")) {
+                    //empilhar
+                    //returno int
+                } else {
+                    //ERRO
+                }
+                break;
+            //unario -> -u, +u, Snao
+            case 6:
+                //para pegar o sinal do numero
+                if ((posicaoAtual.tipo === "inteiro") && (posicaoAnterior !== "var" || "Snumero") && (posicaoAtual === "-u, +u") && (proximaPosicao === "var" || "Snumero")) {
+                    //empilhar
+                } else {
+                    //ERRO
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 }
 
