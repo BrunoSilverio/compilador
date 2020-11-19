@@ -81,36 +81,47 @@ function posFixoGerador(token) {
 //Funcao para manipular os operadores na pilha
 function insereOperador(token) {
 
+    if (token.simbolo === "Sfecha_parenteses") {
+
+        while (posFixoOperadores[(posFixoOperadores.length - 1)].simbolo != "Sabre_parenteses") {
+            posFixo.push(posFixoOperadores.pop());
+        }
+        posFixoOperadores.pop();
+    }
+
     for (let i = posFixoOperadores.length - 1; i >= 0; i--) {
 
         let prioridadeAntigo = precedenciaOperador(posFixoOperadores[i].simbolo);
         let prioridadeNovo = precedenciaOperador(token.simbolo);
 
-        //nao salva os parenteses na pilha
-        if (token.simbolo != "Sabre_parenteses" || token.simbolo != "Sfecha_parenteses") {
-            //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
-            if (prioridadeNovo >= prioridadeAntigo) {
-                posFixo.push(posFixoOperadores.pop());
-                posFixoOperadores.push(token);
-            } else {
-                posFixoOperadores.push(token);
-                break;
-            }
+        //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
+        if (prioridadeNovo >= prioridadeAntigo) {
+            posFixo.push(posFixoOperadores.pop());
+            //posFixoOperadores.push(token);
+        } else {
+            posFixoOperadores.push(token);
+            break;
         }
+
     }
 }
 
-//Funcao responsavel por validar os tipos dos operandos
-function analisaExpressoes(params) {
+//Funcao responsavel por validar a expressa posfixa 
+function analisaPosFixo(params) {
 
 }
 
-//Funcao para limpar a lista do posFixo
-function limpaPosFixo() {
+//Funcao que tranfere todos os tokens de operadores para posfixo
+function transferePosFixo() {
+
+    while (posFixoOperadores.length !== 0) {
+        posFixo.push(posFixoOperadores.pop());
+    }
+
+}
+
+//Funcao para limpar o pos fixo
+function zeraPosFixo() {
     posFixo = [];
-}
-
-//Funcao para limpas a pilha de operadores
-function limpaPosFixoTemp() {
     posFixoOperadores = [];
 }
