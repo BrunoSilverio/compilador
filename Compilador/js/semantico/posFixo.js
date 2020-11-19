@@ -15,31 +15,7 @@ const prioridade4 = ["Smais", "Smenos"];
 const prioridade5 = ["Smult", "Sdiv"];
 const prioridade6 = ["Snao"];
 
-
-//Funcao para inserir na lista do posFixo
-function insereOperando(token) {
-    posFixo.push(token);
-}
-
-//Funcao para manipular os operados na pilha
-function insereOperador(token) {
-
-    let ultimoElemento = posFixoOperadores.length - 1;
-    let prioridadeAntigo = precedenciaOperador(posFixoOperadores[(posFixoOperadores.length-1)].simbolo);
-    let prioridadeNovo = precedenciaOperador(token.simbolo);
-
-    //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
-    if (prioridadeNovo >= prioridadeAntigo) {
-        let ultimoToken = posFixoOperadores.pop();
-        posFixo.push(ultimoToken);
-        posFixoOperadores.push(token);
-    } else {
-        posFixoOperadores.push(token);
-    }
-
-}
-
-//Funcao para retornar qual a prioridade do operador recebido
+//Funcao para retornar qual a prioridade do operador
 function precedenciaOperador(operador) {
     switch (true) {
         case prioridade0.includes(operador):
@@ -77,10 +53,54 @@ function precedenciaOperador(operador) {
     }
 }
 
-//Funcao principal para
-function posFixoGerador(expressao) {
+//Funcao para inserir na lista do posFixo os operandos
+function posFixoGerador(token) {
+    switch (token.simbolo) {
+        case "Sidentificador":
+            posFixo.push(token.lexema);
+            break;
 
-   
+        case "Snumero":
+            posFixo.push(token.lexema);
+            break;
+        
+        case "Sverdadeiro":
+            posFixo.push(token.lexema);
+            break;
+        
+        case "Sfalso":
+            posFixo.push(token.lexema);
+            break;
+    
+        default:
+            insereOperador(token.lexema);
+            break;
+    }
+}
+
+//Funcao para manipular os operadores na pilha
+function insereOperador(token) {
+
+    //let ultimoElemento = posFixoOperadores.length - 1;
+    let prioridadeAntigo = precedenciaOperador(posFixoOperadores[(posFixoOperadores.length-1)].simbolo);
+    let prioridadeNovo = precedenciaOperador(token.simbolo);
+
+    //nao salva os parenteses na pilha
+    if (token.simbolo != "Sabre_parenteses" || token.simbolo != "Sfecha_parenteses") {
+        //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
+        if (prioridadeNovo >= prioridadeAntigo) {
+            posFixo.push(posFixoOperadores.pop());
+            posFixoOperadores.push(token);
+        } else {
+            posFixoOperadores.push(token);
+        }
+    }
+
+}
+
+//Funcao responsavel por validar os tipos dos operandos
+function analisaExpressoes(params) {
+    
 }
 
 //Funcao para limpar a lista do posFixo
