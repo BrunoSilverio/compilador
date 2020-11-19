@@ -57,23 +57,23 @@ function precedenciaOperador(operador) {
 function posFixoGerador(token) {
     switch (token.simbolo) {
         case "Sidentificador":
-            posFixo.push(token.lexema);
+            posFixo.push(token);
             break;
 
         case "Snumero":
-            posFixo.push(token.lexema);
+            posFixo.push(token);
             break;
-        
+
         case "Sverdadeiro":
-            posFixo.push(token.lexema);
+            posFixo.push(token);
             break;
-        
+
         case "Sfalso":
-            posFixo.push(token.lexema);
+            posFixo.push(token);
             break;
-    
+
         default:
-            insereOperador(token.lexema);
+            insereOperador(token);
             break;
     }
 }
@@ -81,26 +81,28 @@ function posFixoGerador(token) {
 //Funcao para manipular os operadores na pilha
 function insereOperador(token) {
 
-    //let ultimoElemento = posFixoOperadores.length - 1;
-    let prioridadeAntigo = precedenciaOperador(posFixoOperadores[(posFixoOperadores.length-1)].simbolo);
-    let prioridadeNovo = precedenciaOperador(token.simbolo);
+    for (let i = posFixoOperadores.length - 1; i >= 0; i--) {
 
-    //nao salva os parenteses na pilha
-    if (token.simbolo != "Sabre_parenteses" || token.simbolo != "Sfecha_parenteses") {
-        //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
-        if (prioridadeNovo >= prioridadeAntigo) {
-            posFixo.push(posFixoOperadores.pop());
-            posFixoOperadores.push(token);
-        } else {
-            posFixoOperadores.push(token);
+        let prioridadeAntigo = precedenciaOperador(posFixoOperadores[i].simbolo);
+        let prioridadeNovo = precedenciaOperador(token.simbolo);
+
+        //nao salva os parenteses na pilha
+        if (token.simbolo != "Sabre_parenteses" || token.simbolo != "Sfecha_parenteses") {
+            //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
+            if (prioridadeNovo >= prioridadeAntigo) {
+                posFixo.push(posFixoOperadores.pop());
+                posFixoOperadores.push(token);
+            } else {
+                posFixoOperadores.push(token);
+                break;
+            }
         }
     }
-
 }
 
 //Funcao responsavel por validar os tipos dos operandos
 function analisaExpressoes(params) {
-    
+
 }
 
 //Funcao para limpar a lista do posFixo
