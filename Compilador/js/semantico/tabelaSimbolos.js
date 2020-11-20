@@ -122,3 +122,17 @@ function finalizaProcFunc(nivel) {
         }
     }
 }
+
+
+function buscaTipo(lexema) {
+    const item = tabelasimbolos.find(function (item) {
+        if (item.lexema == lexema) {
+            return item;
+        }
+    });
+    if (item == undefined) {
+        return false;
+    } else {
+        return item.tipo;
+    }
+}
