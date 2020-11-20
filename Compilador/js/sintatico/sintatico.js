@@ -269,6 +269,7 @@ function Analisa_enquanto() {
     //rotulo:= rotulo+1 
     getToken();
     Analisa_expressao();
+    //POSFIXO
     if (token.simbolo == "Sfaca") {
         //auxrot2:= rotulo
         //Gera(´ ´,JMPF,rotulo,´ ´) {salta se falso}
@@ -286,6 +287,7 @@ function Analisa_enquanto() {
 function Analisa_se() {
     getToken();
     Analisa_expressao();
+    //POSFIXO
     if (token.simbolo == "Sentao") {
         getToken();
         Analisa_comando_simples();
@@ -403,6 +405,7 @@ function Analisa_declaracao_funcao() {
 function Analisa_expressao() {
     Analisa_expressao_simples();
     if ((token.simbolo == "Smaior") || (token.simbolo == "Smaiorig") || (token.simbolo == "Sig") || (token.simbolo == "Smenor") || (token.simbolo == "Smenorig") || (token.simbolo == "Sdif")) {
+        //POSFIXO
         getToken();
         Analisa_expressao_simples();
     }
@@ -411,6 +414,7 @@ function Analisa_expressao() {
 //Expressao simples
 function Analisa_expressao_simples() {
     if ((token.simbolo == "Smais") || (token.simbolo == "Smenos")) {
+        //POSFIXO
         getToken();
     }
     Analisa_termo();
@@ -424,6 +428,7 @@ function Analisa_expressao_simples() {
 function Analisa_termo() {
     Analisa_fator();
     while ((token.simbolo == "Smult") || (token.simbolo == "Sdiv") || (token.simbolo == "Se")) {
+        //POSFIXO
         getToken();
         Analisa_fator();
     }
@@ -434,29 +439,35 @@ function Analisa_fator() {
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declvar_tabela(token.lexema)) { //o que faz pesquisa tabela?
             if (pesquisa_declfunc_tabela(token.lexema)) { //qual index de busca? (ind)
+                //POSFIXO
                 Analisa_chamada_funcao();
             } else {
                 //getToken(); //SEMANTICO
                 geraErroSemantico();
             }
         } else {
-            //geraErroSemantico();
+            //POSFIXO
             getToken()
         }
     } else if (token.simbolo == "Snumero") {
+        //POSFIXO
         getToken();
     } else if (token.simbolo == "Snao") {
+        //POSFIXO
         getToken();
         Analisa_fator();
     } else if (token.simbolo == "Sabre_parenteses") {
+        //POSFIXO
         getToken();
         Analisa_expressao();
         if (token.simbolo == "Sfecha_parenteses") {
+            //POSFIXO
             getToken();
         } else {
             geraErroSintatico();
         }
     } else if (token.simbolo == "Sverdadeiro" || token.simbolo == "Sfalso") {
+        //POSFIXO
         getToken();
     } else {
         geraErroSintatico();
@@ -487,4 +498,5 @@ function Chamada_procedimento(tokenantigo) {
 function Analisa_atribuicao(tokenantigo) {
     getToken();
     Analisa_expressao();
+    //POSFIXO
 }
