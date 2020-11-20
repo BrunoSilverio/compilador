@@ -261,6 +261,16 @@ function analisaPosFixo() {
             default:
                 break;
         }
+
+        if (posFixo.length === 1) {
+            break;
+        }
+    }
+
+    if (posFixo[0].simbolo === "Sinteiro") {
+        return "Inteiro";
+    } else {
+        return "Boolean";
     }
 }
 
