@@ -15,6 +15,13 @@ const prioridade4 = ["Smais", "Smenos"];
 const prioridade5 = ["Smult", "Sdiv"];
 const prioridade6 = ["Snao"];
 
+//Comparacoes operador/operacao  ENTRADA_SAIDA
+const intint_int = ["Smais", "Smenos", "Smult", "Sdiv"];
+const intint_bool = ["Smaior", "Smaiorig", "Smenor", "Smenorig", "Sig", "Sdif"];
+const boolbool_bool = ["Sig", "Sdif"];
+const int_int = [];
+const bool_bool = ["Snao"];
+
 //Funcao para retornar qual a prioridade do operador
 function precedenciaOperador(operador) {
     switch (true) {
@@ -106,73 +113,80 @@ function insereOperador(token) {
     }
 }
 
+function localizaParametros(operador) {
+
+    //Operacao com dois inteiros de entrada, e um inteiro de saida
+    if (intint_int.includes(operador)) {
+        return 1;
+    }
+
+    //Operacao com dois inteiros de entrada, e um bool de saida
+    if (intint_bool.includes(operador)) {
+        return 2;
+    }
+
+    //Operacao com dois bool de entrada, e um bool de saida
+    if (boolbool_bool.includes(operador)) {
+        return 3;
+    }
+
+    //Operacao com um inteiro de entrada, e um inteiro de saida
+    if (int_int.includes(operador)) {
+        return 4;
+    }
+
+    //Operacao com um bool de entrada, e um bool de saida
+    if (bool_bool.includes(operador)) {
+        return 5;
+    } else {
+        return 99;
+    }
+}
+
 //Funcao responsavel por validar a expressa posfixa pronta
-function analisaPosFixo(operador) {
-    for (let i = posFixo.length - 1; i >= 0; i--) {
+function analisaPosFixo() {
+    let operador;
+    transferePosFixo();
+    for (let i = 0; i >= (posFixo.length - 1); i++) { //Percorre do inicio ao final. Validar index
+        operador = localizaParametros(posFixo[i]);
 
         switch (operador) {
-            //OR -> Sou
-            case 0:
-                if () {
-                    //empilhar
-                } else {
-                    //ERRO
-                }
-                break;
-            //AND -> Se
+            //Operacao com dois inteiros de entrada, e um inteiro de saida
             case 1:
-                if (condition) {
-                    //empilhar
-                } else {
-                    //ERRO
+                if (posFixo[i - 1].simbolo === "Sidentificador" || "Snumero") {
+                    if ((!buscaTipo(posFixo[i - 1]) === "var inteiro" || "func inteiro") && posFixo[i - 1].simbolo != "Snumero") {
+                        geraErroSemantico();
+                    }
                 }
-                break;
-            // =, != -> Sig, Sdif
-            case 2:
-                if (((posicaoAnterior - 1).tipo === "booleano") && (posicaoAnterior.tipo === "booleano")) {
-                    //empilhar
-                    //returno booleano
-                } else {
-                    //ERRO
-                }
-                break;
-            // >, >=, >, <= -> Smaior, Smaiorig, Smenor, Smenorig
-            case 3:
-                if (((posicaoAnterior - 1).tipo === "inteiro") && (posicaoAnterior.tipo === "inteiro")) {
-                    //empilhar
-                    //returno booleano
-                } else {
-                    //ERRO
-                }
-                break;
-            // +, - -> Smais, Smenos
-            case 4:
-                if (((posicaoAnterior - 1).tipo === "inteiro") && (posicaoAnterior.tipo === "inteiro")) {
-                    //empilhar
-                    //returno int
-                } else {
-                    //ERRO
-                }
-                break;
-            // *, div -> Smult, Sdiv
-            case 5:
-                if (((posicaoAnterior - 1).tipo === "inteiro") && (posicaoAnterior.tipo === "inteiro")) {
-                    //empilhar
-                    //returno int
-                } else {
-                    //ERRO
-                }
-                break;
-            //unario -> -u, +u, Snao
-            case 6:
-                //para pegar o sinal do numero
-                if ((posicaoAtual.tipo === "inteiro") && (posicaoAnterior !== "var" || "Snumero") && (posicaoAtual === "-u, +u") && (proximaPosicao === "var" || "Snumero")) {
-                    //empilhar
-                } else {
-                    //ERRO
-                }
-                break;
 
+                if (posFixo[i - 2].simbolo === "Sidentificador" || "Snumero") {
+                    if ((!buscaTipo(posFixo[i - 2]) === "var inteiro" || "func inteiro") && posFixo[i - 1].simbolo != "Snumero") {
+                        geraErroSemantico();
+                    }
+                }
+
+                posFixo[i].simbolo = "Snumero";
+                posFixo.splice(i - 1);
+                posFixo.splice(i - 1);
+                i = i - 2;
+                break;
+            //Operacao com dois inteiros de entrada, e um bool de saida
+            case 2:
+
+                break;
+            //Operacao com dois bool de entrada, e um bool de saida
+            case 3:
+
+                break;
+            //Operacao com um inteiro de entrada, e um inteiro de saida
+            case 4:
+
+                break;
+            //Operacao com um bool de entrada, e um bool de saida
+            case 5:
+
+                break;
+            //Caso identificador ou numero
             default:
                 break;
         }
