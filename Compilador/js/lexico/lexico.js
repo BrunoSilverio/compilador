@@ -26,7 +26,7 @@ let token;
 
 //Funcao principal do Lexico
 function lexico() {
-    console.log("***** start LEXICO *****");
+    //console.log("***** start LEXICO *****");
 
     let comentario = false; //se comentario esta aberto
     let foierro = false;    //se foi capturado um erro -> em breve inutil
@@ -492,7 +492,7 @@ function lexico() {
         }
 
     }
-    console.log("***** end LEXICO *****");
+    //console.log("***** end LEXICO *****");
     return (token);
 }
 
