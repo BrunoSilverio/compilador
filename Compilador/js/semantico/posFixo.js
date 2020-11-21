@@ -61,32 +61,43 @@ function precedenciaOperador(operador) {
 }
 
 //Funcao para inserir na lista do posFixo os operandos
-function posFixoGerador(token) {
+function posFixoGerador() {
+    console.log("Entrou posfixo gerador");
+    console.log(token.simbolo);
     switch (token.simbolo) {
         case "Sidentificador":
             posFixo.push(token);
+            console.log("Entrou posfixo gerador - IDENTIFICADOR");
+            console.log(posFixo);
             break;
 
         case "Snumero":
             posFixo.push(token);
+            console.log("Entrou posfixo gerador - NUMERO");
+            console.log(posFixo);
             break;
 
         case "Sverdadeiro":
             posFixo.push(token);
+            console.log("Entrou posfixo gerador - VERDADEIRO");
+            console.log(posFixo);
             break;
 
         case "Sfalso":
             posFixo.push(token);
+            console.log("Entrou posfixo gerador - FALSO");
+            console.log(posFixo);
             break;
 
         default:
-            insereOperador(token);
+            insereOperador();
+            console.log("Entrou posfixo gerador - OPERADOR");
             break;
     }
 }
 
 //Funcao para manipular os operadores na pilha
-function insereOperador(token) {
+function insereOperador() {
 
     if (token.simbolo === "Sfecha_parenteses") {
 
@@ -96,21 +107,35 @@ function insereOperador(token) {
         posFixoOperadores.pop();
     }
 
-    for (let i = posFixoOperadores.length - 1; i >= 0; i--) {
 
-        let prioridadeAntigo = precedenciaOperador(posFixoOperadores[i].simbolo);
-        let prioridadeNovo = precedenciaOperador(token.simbolo);
+    if (posFixoOperadores.length == 0) {
+        posFixoOperadores.push(token);
+    } else {
+        console.log("Antes de entrar no for " + posFixoOperadores.length);
+        for (let i = posFixoOperadores.length - 1; i >= 0; i--) {
 
-        //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
-        if (prioridadeNovo >= prioridadeAntigo) {
-            posFixo.push(posFixoOperadores.pop());
-            //posFixoOperadores.push(token);
-        } else {
-            posFixoOperadores.push(token);
-            break;
+            let prioridadeAntigo = precedenciaOperador(posFixoOperadores[i].simbolo);
+            let prioridadeNovo = precedenciaOperador(token.simbolo);
+
+            console.log("PRIORIDADES: ");
+            console.log(prioridadeAntigo);
+            console.log(prioridadeNovo);
+
+            //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
+            if (prioridadeNovo >= prioridadeAntigo) {
+                posFixo.push(posFixoOperadores.pop());
+                posFixoOperadores.push(token);
+            } else {
+                posFixoOperadores.push(token);
+                break;
+            }
+
         }
-
     }
+    console.log("Pos fixo");
+    console.log(posFixo);
+    console.log("Pos fixo Operadores");
+    console.log(posFixoOperadores);
 }
 
 function localizaParametros(operador) {
