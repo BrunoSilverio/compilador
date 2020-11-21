@@ -406,6 +406,7 @@ function Analisa_expressao() {
     Analisa_expressao_simples();
     if ((token.simbolo == "Smaior") || (token.simbolo == "Smaiorig") || (token.simbolo == "Sig") || (token.simbolo == "Smenor") || (token.simbolo == "Smenorig") || (token.simbolo == "Sdif")) {
         //POSFIXO
+        posFixoGerador();
         getToken();
         Analisa_expressao_simples();
     }
@@ -413,6 +414,7 @@ function Analisa_expressao() {
 
 //Expressao simples
 function Analisa_expressao_simples() {
+    //dividir mais e menos para gerar menos unitario do posfixo?
     if ((token.simbolo == "Smais") || (token.simbolo == "Smenos")) {
         //POSFIXO
         getToken();
