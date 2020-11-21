@@ -438,7 +438,7 @@ function Analisa_termo() {
 function Analisa_fator() {
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declvar_tabela(token.lexema)) { //o que faz pesquisa tabela?
-            if (pesquisa_declfunc_tabela(token.lexema)) { //qual index de busca? (ind)
+            if (pesquisa_declfunc_tabela(token.lexema)) { 
                 //POSFIXO
                 Analisa_chamada_funcao();
             } else {
