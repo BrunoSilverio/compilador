@@ -3,7 +3,7 @@
 //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/import
 
 //Variaveis globais
-let programa; 
+let programa;
 
 //Funcao para chamar a Main.js, quando o botao compilar no front-end for executado. 
 function start() {
@@ -24,7 +24,7 @@ function main() {
 }
 
 //A cada nova execucao (play/compilar), limpa todas as variaveis globais (de controle)
-function clearAll(){
+function clearAll() {
     //zerando da main
     programa = (editor.getValue() + " ");               //programa recebe codigo do codemirror
     document.getElementById('terminal').value = null;   //zerando terminal (onde exibe)
@@ -32,6 +32,9 @@ function clearAll(){
     //zerando do lexico
     index = 0;
     nlinha = 1;
+    //zerando posfixo
+    posFixo = [];
+    posFixoOperadores = [];
 }
 
 function readText(that) {
