@@ -23,7 +23,7 @@ const int_int = [];
 const bool_bool = ["Snao"];
 
 //Tipos
-const tiposinteiros = ["Sidentificador", "Snumero", "Sinteiro"];
+const tiposinteiros = ["Snumero", "Sinteiro", "var inteiro", "func inteiro"];
 const tiposbooleano = ["Sidentificador", "Sverdadeiro", "Sfalso", "Sbooleano"]
 
 //Funcao para retornar qual a prioridade do operador
@@ -166,7 +166,6 @@ function localizaParametros(operador) {
 
 //Funcao responsavel por validar a expressa posfixa pronta
 function analisaPosFixo() {
-    console.log("ENTROU ANALISA POS FIXO");
     let operador;
     transferePosFixo();
     for (let i = 0; i <= (posFixo.length - 1); i++) { //Percorre do inicio ao final. Validar index
@@ -176,26 +175,31 @@ function analisaPosFixo() {
         switch (operador) {
             //Operacao com dois inteiros de entrada, e um inteiro de saida
             case 1:
-                if (posFixo[i - 1].simbolo === "Sidentificador" || "Snumero" || "Sinteiro") {
-                    if ((!buscaTipo(posFixo[i - 1].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 1].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
-                        geraErroSemantico();
-                    }
+                let tipo;
+                if (posFixo[i - 1].simbolo === "Sidentificador") {
+                    tipo = buscaTipo(posFixo[i - 1].lexema);
                 } else {
+                    tipo = posFixo[i - 1].simbolo
+                }
+                if (!tiposinteiros.includes(tipo)) {
                     geraErroSemantico();
                 }
 
-                if (posFixo[i - 2].simbolo === "Sidentificador" || "Snumero" || "Sinteiro") {
-                    if ((!buscaTipo(posFixo[i - 2].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 2].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
-                        geraErroSemantico();
-                    }
+                if (posFixo[i - 2].simbolo === "Sidentificador") {
+                    tipo = buscaTipo(posFixo[i - 2].lexema);
                 } else {
+                    tipo = posFixo[i - 2].simbolo
+                }
+                if (!tiposinteiros.includes(tipo)) {
                     geraErroSemantico();
                 }
 
                 posFixo[i].simbolo = "Sinteiro";
-                console.log(posFixo[i]);
-                posFixo.splice(i - 1);
-                posFixo.splice(i - 1);
+                console.log("TAMANHO: ");
+                console.log(posFixo.length);
+                posFixo.splice((i - 2), 2); // a partir do index -2, remove as duas posicoes depois
+                console.log(posFixo.length);
+                console.log(posFixo[0]);
                 i = i - 2;
 
                 break;
@@ -203,7 +207,7 @@ function analisaPosFixo() {
             //Operacao com dois inteiros de entrada, e um bool de saida
             case 2:
                 console.log(posFixo[i - 1]);
-                if (posFixo[i - 1].simbolo === ("Snumero" || "Sidentificador" || "Sinteiro")) {
+                if (tiposinteiros.includes(posFixo[i - 1].simbolo)) {
                     if ((!buscaTipo(posFixo[i - 1].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 1].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
                         geraErroSemantico();
                     }
@@ -292,13 +296,10 @@ function analisaPosFixo() {
         }
     }
 
-    if (posFixo[0].simbolo === "Sinteiro") {
-        console.log("Terminou posfixa retorno inteiro");
-        return "Inteiro";
-    } else {
-        console.log("Terminou posfixa retorno boolean");
-        return "Boolean";
-    }
+    console.log("Print final");
+    console.log(posFixo[0]);
+    return posFixo[0].simbolo;
+
 }
 
 //Funcao que tranfere todos os tokens de operadores para posfixo
