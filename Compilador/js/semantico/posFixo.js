@@ -22,6 +22,10 @@ const boolbool_bool = ["Sig", "Sdif", "Se", "Sou"];
 const int_int = [];
 const bool_bool = ["Snao"];
 
+//Tipos
+const tiposinteiros = ["Sidentificador", "Snumero", "Sinteiro"];
+const tiposbooleano = ["Sidentificador", "Sverdadeiro", "Sfalso", "Sbooleano"]
+
 //Funcao para retornar qual a prioridade do operador
 function precedenciaOperador(operador) {
     console.log("Valida precedencia operador: ");
