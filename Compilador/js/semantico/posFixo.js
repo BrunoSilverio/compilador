@@ -199,7 +199,7 @@ function analisaPosFixo() {
             //Operacao com dois inteiros de entrada, e um bool de saida
             case 2:
                 console.log(posFixo[i - 1]);
-                if (posFixo[i - 1].simbolo === ("Sidentificador" || "Snumero" || "Sinteiro")) {
+                if (posFixo[i - 1].simbolo === ("Snumero" || "Sidentificador" || "Sinteiro")) {
                     if ((!buscaTipo(posFixo[i - 1].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 1].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
                         geraErroSemantico();
                     }
@@ -289,8 +289,10 @@ function analisaPosFixo() {
     }
 
     if (posFixo[0].simbolo === "Sinteiro") {
+        console.log("Terminou posfixa retorno inteiro");
         return "Inteiro";
     } else {
+        console.log("Terminou posfixa retorno boolean");
         return "Boolean";
     }
 }
