@@ -32,14 +32,15 @@ function sintatico() {
                 tipo: "nomePrograma",
                 nivel: nivel
             });
-            //geraSTART();
+            geraSTART();
             getToken();
             if (token.simbolo == "Sponto_virgula") {
                 Analisa_Bloco();
                 if (token.simbolo == "Sponto") {
                     getToken();
                     if (token.simbolo == undefined) {
-                        //geraHLT();
+                        geraHLT();
+                        //geraCodigo(); //Apos geracao de codigo concluida, baixa arquivo
                         console.log(tabelasimbolos);
                         console.log("***** end SINTATICO *****");
                         document.getElementById('terminal').value = "Realizado com sucesso!";
