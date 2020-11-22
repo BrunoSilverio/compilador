@@ -226,64 +226,69 @@ function analisaPosFixo() {
                 }
 
                 posFixo[i].simbolo = "Sbooleano";
-                posFixo.splice(i - 1);
-                posFixo.splice(i - 1);
+                posFixo.splice((i - 2), 2); // a partir do index -2, remove as duas posicoes depois
                 i = i - 2;
 
                 break;
 
             //Operacao com dois bool de entrada, e um bool de saida
             case 3:
-                if (posFixo[i - 1].simbolo === ("Sidentificador" || "Sverdadeiro" || "Sfalso" || "Sbooleano")) {
-                    if ((!buscaTipo(posFixo[i - 1]).lexema === ("var booleano" || "func booleano")) && (posFixo[i - 1].simbolo != "Sverdadeiro" || "Sfalso" || "Sidentificador" || "Sbooleano")) {
-                        geraErroSemantico();
-                    }
+                if (posFixo[i - 1].simbolo === "Sidentificador") {
+                    tipo = buscaTipo(posFixo[i - 1].lexema);
                 } else {
+                    tipo = posFixo[i - 1].simbolo
+                }
+                if (!tiposbooleano.includes(tipo)) {
+                    console.log("TIPO: " + tipo);
                     geraErroSemantico();
                 }
 
-                if (posFixo[i - 2].simbolo === ("Sidentificador" || "Sverdadeiro" || "Sfalso" || "Sbooleano")) {
-                    if ((!buscaTipo(posFixo[i - 2]).lexema === ("var booleano" || "func booleano")) && (posFixo[i - 2].simbolo != "Sverdadeiro" || "Sfalso" || "Sidentificador" || "Sbooleano")) {
-                        geraErroSemantico();
-                    }
+                if (posFixo[i - 2].simbolo === "Sidentificador") {
+                    tipo = buscaTipo(posFixo[i - 2].lexema);
                 } else {
+                    tipo = posFixo[i - 2].simbolo
+                }
+                if (!tiposbooleano.includes(tipo)) {
+                    console.log("TIPO: " + tipo);
                     geraErroSemantico();
                 }
 
                 posFixo[i].simbolo = "Sbooleano";
-                posFixo.splice(i - 1);
-                posFixo.splice(i - 1);
+                posFixo.splice((i - 2), 2); // a partir do index -2, remove as duas posicoes depois
                 i = i - 2;
 
                 break;
 
             //Operacao com um inteiro de entrada, e um inteiro de saida
             case 4:
-                if (posFixo[i - 1].simbolo === ("Sidentificador" || "Snumero" || "Sinteiro")) {
-                    if ((!buscaTipo(posFixo[i - 1].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 1].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
-                        geraErroSemantico();
-                    }
+                if (posFixo[i - 1].simbolo === "Sidentificador") {
+                    tipo = buscaTipo(posFixo[i - 1].lexema);
                 } else {
+                    tipo = posFixo[i - 1].simbolo
+                }
+                if (!tiposinteiros.includes(tipo)) {
                     geraErroSemantico();
                 }
 
                 posFixo[i].simbolo = "Sinteiro";
-                posFixo.splice(i - 1);
+                posFixo.splice((i - 1), 1); // a partir do index -2, remove as duas posicoes depois
                 i = i - 1;
 
                 break;
             //Operacao com um bool de entrada, e um bool de saida
             case 5:
-                if (posFixo[i - 1].simbolo === ("Sidentificador" || "Sverdadeiro" || "Sfalso" || "Sbooleano")) {
-                    if ((!buscaTipo(posFixo[i - 1]).lexema === ("var booleano" || "func booleano")) && (posFixo[i - 1].simbolo != "Sverdadeiro" || "Sfalso" || "Sidentificador" || "Sbooleano")) {
-                        geraErroSemantico();
-                    }
+                if (posFixo[i - 1].simbolo === "Sidentificador") {
+                    tipo = buscaTipo(posFixo[i - 1].lexema);
                 } else {
+                    tipo = posFixo[i - 1].simbolo
+                }
+                if (!tiposbooleano.includes(tipo)) {
+                    console.log("TIPO: " + tipo);
                     geraErroSemantico();
                 }
 
                 posFixo[i].simbolo = "Sbooleano";
-                posFixo.splice(i - 1);
+                posFixo.splice((i - 1), 1); // a partir do index -2, remove as duas posicoes depois
                 i = i - 1;
 
                 break;
