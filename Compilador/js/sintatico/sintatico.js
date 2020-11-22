@@ -243,7 +243,7 @@ function Analisa_escreva() {
     if (token.simbolo == "Sabre_parenteses") {
         getToken();
         if (token.simbolo == "Sidentificador") {
-            if (pesquisa_declvarfunc_tabela(token.lexema)) {
+            if (pesquisa_declvarfunc_tabela(token.lexema) || pesquisa_declfunc_tabela(token.lexema)) {
                 getToken();
                 if (token.simbolo == "Sfecha_parenteses") {
                     getToken();
@@ -267,9 +267,10 @@ function Analisa_enquanto() {
     //auxrot1:= rotulo
     //Gera(rotulo,NULL,´ ´,´ ´) {início do while}
     //rotulo:= rotulo+1 
+    zeraPosFixo();
     getToken();
     Analisa_expressao();
-    //POSFIXO
+    analisaPosFixo();
     if (token.simbolo == "Sfaca") {
         //auxrot2:= rotulo
         //Gera(´ ´,JMPF,rotulo,´ ´) {salta se falso}
@@ -286,8 +287,9 @@ function Analisa_enquanto() {
 //Comando condicional
 function Analisa_se() {
     getToken();
+    zeraPosFixo();
     Analisa_expressao();
-    //POSFIXO
+    analisaPosFixo();
     if (token.simbolo == "Sentao") {
         getToken();
         Analisa_comando_simples();
@@ -416,11 +418,12 @@ function Analisa_expressao() {
 function Analisa_expressao_simples() {
     //dividir mais e menos para gerar menos unitario do posfixo?
     if ((token.simbolo == "Smais") || (token.simbolo == "Smenos")) {
-        //POSFIXO
+        //POSFIXO EM UNITARIO
         getToken();
     }
     Analisa_termo();
     while ((token.simbolo == "Smais") || (token.simbolo == "Smenos") || (token.simbolo == "Sou")) {
+        posFixoGerador();
         getToken();
         Analisa_termo();
     }
@@ -430,7 +433,7 @@ function Analisa_expressao_simples() {
 function Analisa_termo() {
     Analisa_fator();
     while ((token.simbolo == "Smult") || (token.simbolo == "Sdiv") || (token.simbolo == "Se")) {
-        //POSFIXO
+        posFixoGerador();
         getToken();
         Analisa_fator();
     }
@@ -438,9 +441,10 @@ function Analisa_termo() {
 
 //Fator
 function Analisa_fator() {
+    posFixoGerador();
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declvar_tabela(token.lexema)) { //o que faz pesquisa tabela?
-            if (pesquisa_declfunc_tabela(token.lexema)) { 
+            if (pesquisa_declfunc_tabela(token.lexema)) {
                 //POSFIXO
                 Analisa_chamada_funcao();
             } else {
@@ -463,7 +467,7 @@ function Analisa_fator() {
         getToken();
         Analisa_expressao();
         if (token.simbolo == "Sfecha_parenteses") {
-            //POSFIXO
+            posFixoGerador();
             getToken();
         } else {
             geraErroSintatico();
@@ -499,6 +503,7 @@ function Chamada_procedimento(tokenantigo) {
 
 function Analisa_atribuicao(tokenantigo) {
     getToken();
+    zeraPosFixo();
     Analisa_expressao();
     //POSFIXO
 }
