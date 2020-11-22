@@ -103,13 +103,19 @@ function posFixoGerador() {
 //Funcao para manipular os operadores na pilha
 function insereOperador() {
 
+    //CORRIGIR CASO DE ABRE OU FECHA PARENTESES
     if (token.simbolo === "Sfecha_parenteses") {
 
         while (posFixoOperadores[(posFixoOperadores.length - 1)].simbolo != "Sabre_parenteses") {
             posFixo.push(posFixoOperadores.pop());
         }
         posFixoOperadores.pop();
+        return;
     }
+
+
+
+
 
 
     if (posFixoOperadores.length == 0) {
@@ -123,7 +129,6 @@ function insereOperador() {
             //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
             if (prioridadeNovo >= prioridadeAntigo) {
                 posFixo.push(posFixoOperadores.pop());
-                posFixoOperadores.push(token);
             } else {
                 posFixoOperadores.push(token);
                 break;
@@ -135,7 +140,6 @@ function insereOperador() {
 
 function localizaParametros(operador) {
 
-    console.log("OPERADOR loc: " + operador);
     //Operacao com dois inteiros de entrada, e um inteiro de saida
     if (intint_int.includes(operador)) {
         return 1;
@@ -166,16 +170,16 @@ function localizaParametros(operador) {
 
 //Funcao responsavel por validar a expressa posfixa pronta
 function analisaPosFixo() {
+    console.log("Analisa posfixo");
     let operador;
+    let tipo = 0;
     transferePosFixo();
     for (let i = 0; i <= (posFixo.length - 1); i++) { //Percorre do inicio ao final. Validar index
         operador = localizaParametros(posFixo[i].simbolo);
-        console.log("OPERADOR: " + operador);
 
         switch (operador) {
             //Operacao com dois inteiros de entrada, e um inteiro de saida
             case 1:
-                let tipo;
                 if (posFixo[i - 1].simbolo === "Sidentificador") {
                     tipo = buscaTipo(posFixo[i - 1].lexema);
                 } else {
@@ -195,31 +199,29 @@ function analisaPosFixo() {
                 }
 
                 posFixo[i].simbolo = "Sinteiro";
-                console.log("TAMANHO: ");
-                console.log(posFixo.length);
                 posFixo.splice((i - 2), 2); // a partir do index -2, remove as duas posicoes depois
-                console.log(posFixo.length);
-                console.log(posFixo[0]);
                 i = i - 2;
 
                 break;
 
             //Operacao com dois inteiros de entrada, e um bool de saida
             case 2:
-                console.log(posFixo[i - 1]);
-                if (tiposinteiros.includes(posFixo[i - 1].simbolo)) {
-                    if ((!buscaTipo(posFixo[i - 1].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 1].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
-                        geraErroSemantico();
-                    }
+                if (posFixo[i - 1].simbolo === "Sidentificador") {
+                    tipo = buscaTipo(posFixo[i - 1].lexema);
                 } else {
+                    tipo = posFixo[i - 1].simbolo
+                }
+                if (!tiposinteiros.includes(tipo)) {
+                    console.log("TIPO: " + tipo);
                     geraErroSemantico();
                 }
 
-                if (posFixo[i - 2].simbolo === ("Sidentificador" || "Snumero" || "Sinteiro")) {
-                    if ((!buscaTipo(posFixo[i - 2].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 2].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
-                        geraErroSemantico();
-                    }
+                if (posFixo[i - 2].simbolo === "Sidentificador") {
+                    tipo = buscaTipo(posFixo[i - 2].lexema);
                 } else {
+                    tipo = posFixo[i - 2].simbolo
+                }
+                if (!tiposinteiros.includes(tipo)) {
                     geraErroSemantico();
                 }
 
@@ -296,7 +298,8 @@ function analisaPosFixo() {
         }
     }
 
-    console.log("Print final");
+    console.log("ACABOU ANALISE POSFIXO");
+    console.log(posFixo);
     console.log(posFixo[0]);
     return posFixo[0].simbolo;
 
@@ -312,7 +315,8 @@ function transferePosFixo() {
 }
 
 //Funcao para limpar o pos fixo
-function zeraPosFixo() {
+function limpaPosFixo() {
+    console.log("ENTROU ZERA POSFIXO");
     posFixo = [];
     posFixoOperadores = [];
 }
