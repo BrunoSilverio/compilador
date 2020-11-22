@@ -6,9 +6,25 @@
     • Programas objeto: Pode ser em linguagem de máquina absoluta, relocável, assembly, ou outra linguagem de programação qualquer.
 */
 
-//funcao para gerar o codigo final e exportar para o usuario
-function geraCodigo(params) {
+let arquivo = "";
 
+//funcao para gerar o codigo final e exportar para o usuario
+function geraCodigo() {
+    var file = new Blob([arquivo], {type: Object});
+    if (window.navigator.msSaveOrOpenBlob)
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = "Compilador.obj";  //NOME DO ARQUIVO A SER BAIXADO
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
 }
 
 //Carregar constante
@@ -170,7 +186,7 @@ function geraPRN(params) {
 //Iniciar programa principal
 //s:=-1 
 function geraSTART() {
-
+    arquivo = arquivo + "START\n";
 }
 
 //Alocar memoria
@@ -188,8 +204,8 @@ function geraDALLOC(params) {
 }
 
 //Parar
-function geraHLT(params) {
-
+function geraHLT() {
+    arquivo = arquivo + "HLT\n";
 }
 
 //Chamar procedimento ou funcao
