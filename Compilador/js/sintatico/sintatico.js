@@ -268,7 +268,7 @@ function Analisa_enquanto() {
     //auxrot1:= rotulo
     //Gera(rotulo,NULL,´ ´,´ ´) {início do while}
     //rotulo:= rotulo+1 
-    zeraPosFixo();
+    limpaPosFixo();
     getToken();
     Analisa_expressao();
     analisaPosFixo();
@@ -288,7 +288,7 @@ function Analisa_enquanto() {
 //Comando condicional
 function Analisa_se() {
     getToken();
-    zeraPosFixo();
+    limpaPosFixo();
     Analisa_expressao();
     analisaPosFixo();
     if (token.simbolo == "Sentao") {
@@ -504,7 +504,7 @@ function Chamada_procedimento(tokenantigo) {
 
 function Analisa_atribuicao(tokenantigo) {
     getToken();
-    zeraPosFixo();
+    limpaPosFixo();
     Analisa_expressao();
     //POSFIXO
 }
