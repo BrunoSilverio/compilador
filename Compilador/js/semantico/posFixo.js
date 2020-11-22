@@ -18,12 +18,14 @@ const prioridade6 = ["Snao"];
 //Comparacoes operador/operacao  ENTRADA_SAIDA
 const intint_int = ["Smais", "Smenos", "Smult", "Sdiv"];
 const intint_bool = ["Smaior", "Smaiorig", "Smenor", "Smenorig", "Sig", "Sdif"];
-const boolbool_bool = ["Sig", "Sdif"];
+const boolbool_bool = ["Sig", "Sdif", "Se", "Sou"];
 const int_int = [];
 const bool_bool = ["Snao"];
 
 //Funcao para retornar qual a prioridade do operador
 function precedenciaOperador(operador) {
+    console.log("Valida precedencia operador: ");
+    console.log(operador);
     switch (true) {
         case prioridade0.includes(operador):
             return 0;
@@ -54,8 +56,6 @@ function precedenciaOperador(operador) {
             break;
 
         default:
-            console.log("Erro semantico");
-            //geraErroSemantico("Pos fixo");
             break;
     }
 }
@@ -90,8 +90,8 @@ function posFixoGerador() {
             break;
 
         default:
-            insereOperador();
             console.log("Entrou posfixo gerador - OPERADOR");
+            insereOperador();
             break;
     }
 }
@@ -111,15 +111,10 @@ function insereOperador() {
     if (posFixoOperadores.length == 0) {
         posFixoOperadores.push(token);
     } else {
-        console.log("Antes de entrar no for " + posFixoOperadores.length);
         for (let i = posFixoOperadores.length - 1; i >= 0; i--) {
 
             let prioridadeAntigo = precedenciaOperador(posFixoOperadores[i].simbolo);
             let prioridadeNovo = precedenciaOperador(token.simbolo);
-
-            console.log("PRIORIDADES: ");
-            console.log(prioridadeAntigo);
-            console.log(prioridadeNovo);
 
             //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
             if (prioridadeNovo >= prioridadeAntigo) {
@@ -132,14 +127,11 @@ function insereOperador() {
 
         }
     }
-    console.log("Pos fixo");
-    console.log(posFixo);
-    console.log("Pos fixo Operadores");
-    console.log(posFixoOperadores);
 }
 
 function localizaParametros(operador) {
 
+    console.log("OPERADOR loc: " + operador);
     //Operacao com dois inteiros de entrada, e um inteiro de saida
     if (intint_int.includes(operador)) {
         return 1;
@@ -164,22 +156,24 @@ function localizaParametros(operador) {
     if (bool_bool.includes(operador)) {
         return 5;
     } else {
-        return 99;
+        return -1;
     }
 }
 
 //Funcao responsavel por validar a expressa posfixa pronta
 function analisaPosFixo() {
+    console.log("ENTROU ANALISA POS FIXO");
     let operador;
     transferePosFixo();
-    for (let i = 0; i >= (posFixo.length - 1); i++) { //Percorre do inicio ao final. Validar index
-        operador = localizaParametros(posFixo[i]);
+    for (let i = 0; i <= (posFixo.length - 1); i++) { //Percorre do inicio ao final. Validar index
+        operador = localizaParametros(posFixo[i].simbolo);
+        console.log("OPERADOR: " + operador);
 
         switch (operador) {
             //Operacao com dois inteiros de entrada, e um inteiro de saida
             case 1:
                 if (posFixo[i - 1].simbolo === "Sidentificador" || "Snumero" || "Sinteiro") {
-                    if ((!buscaTipo(posFixo[i - 1]) === "var inteiro" || "func inteiro") && (posFixo[i - 1].simbolo != "Snumero" || "Sinteiro")) {
+                    if ((!buscaTipo(posFixo[i - 1].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 1].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
                         geraErroSemantico();
                     }
                 } else {
@@ -187,7 +181,7 @@ function analisaPosFixo() {
                 }
 
                 if (posFixo[i - 2].simbolo === "Sidentificador" || "Snumero" || "Sinteiro") {
-                    if ((!buscaTipo(posFixo[i - 2]) === "var inteiro" || "func inteiro") && (posFixo[i - 2].simbolo != "Snumero" || "Sinteiro")) {
+                    if ((!buscaTipo(posFixo[i - 2].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 2].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
                         geraErroSemantico();
                     }
                 } else {
@@ -195,6 +189,7 @@ function analisaPosFixo() {
                 }
 
                 posFixo[i].simbolo = "Sinteiro";
+                console.log(posFixo[i]);
                 posFixo.splice(i - 1);
                 posFixo.splice(i - 1);
                 i = i - 2;
@@ -203,23 +198,24 @@ function analisaPosFixo() {
 
             //Operacao com dois inteiros de entrada, e um bool de saida
             case 2:
-                if (posFixo[i - 1].simbolo === "Sidentificador" || "Snumero" || "Sinteiro") {
-                    if ((!buscaTipo(posFixo[i - 1]) === "var inteiro" || "func inteiro") && (posFixo[i - 1].simbolo != "Snumero" || "Sinteiro")) {
+                console.log(posFixo[i - 1]);
+                if (posFixo[i - 1].simbolo === ("Sidentificador" || "Snumero" || "Sinteiro")) {
+                    if ((!buscaTipo(posFixo[i - 1].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 1].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
                         geraErroSemantico();
                     }
                 } else {
                     geraErroSemantico();
                 }
 
-                if (posFixo[i - 2].simbolo === "Sidentificador" || "Snumero" || "Sinteiro") {
-                    if ((!buscaTipo(posFixo[i - 2]) === "var inteiro" || "func inteiro") && (posFixo[i - 2].simbolo != "Snumero" || "Sinteiro")) {
+                if (posFixo[i - 2].simbolo === ("Sidentificador" || "Snumero" || "Sinteiro")) {
+                    if ((!buscaTipo(posFixo[i - 2].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 2].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
                         geraErroSemantico();
                     }
                 } else {
                     geraErroSemantico();
                 }
 
-                posFixo[i].simbolo = "Sboolean";
+                posFixo[i].simbolo = "Sbooleano";
                 posFixo.splice(i - 1);
                 posFixo.splice(i - 1);
                 i = i - 2;
@@ -228,23 +224,23 @@ function analisaPosFixo() {
 
             //Operacao com dois bool de entrada, e um bool de saida
             case 3:
-                if (posFixo[i - 1].simbolo === "Sidentificador" || "Sverdadeiro" || "Sfalso") {
-                    if ((!buscaTipo(posFixo[i - 1]) === "var booleano" || "func booleano") && (posFixo[i - 1].simbolo != "Sverdadeiro" || "Sfalso")) {
+                if (posFixo[i - 1].simbolo === ("Sidentificador" || "Sverdadeiro" || "Sfalso" || "Sbooleano")) {
+                    if ((!buscaTipo(posFixo[i - 1]).lexema === ("var booleano" || "func booleano")) && (posFixo[i - 1].simbolo != "Sverdadeiro" || "Sfalso" || "Sidentificador" || "Sbooleano")) {
                         geraErroSemantico();
                     }
                 } else {
                     geraErroSemantico();
                 }
 
-                if (posFixo[i - 2].simbolo === "Sidentificador" || "Sverdadeiro" || "Sfalso") {
-                    if ((!buscaTipo(posFixo[i - 2]) === "var booleano" || "func booleano") && (posFixo[i - 2].simbolo != "Sverdadeiro" || "Sfalso")) {
+                if (posFixo[i - 2].simbolo === ("Sidentificador" || "Sverdadeiro" || "Sfalso" || "Sbooleano")) {
+                    if ((!buscaTipo(posFixo[i - 2]).lexema === ("var booleano" || "func booleano")) && (posFixo[i - 2].simbolo != "Sverdadeiro" || "Sfalso" || "Sidentificador" || "Sbooleano")) {
                         geraErroSemantico();
                     }
                 } else {
                     geraErroSemantico();
                 }
 
-                posFixo[i].simbolo = "Sboolean";
+                posFixo[i].simbolo = "Sbooleano";
                 posFixo.splice(i - 1);
                 posFixo.splice(i - 1);
                 i = i - 2;
@@ -253,8 +249,8 @@ function analisaPosFixo() {
 
             //Operacao com um inteiro de entrada, e um inteiro de saida
             case 4:
-                if (posFixo[i - 1].simbolo === "Sidentificador" || "Snumero" || "Sinteiro") {
-                    if ((!buscaTipo(posFixo[i - 1]) === "var inteiro" || "func inteiro") && (posFixo[i - 1].simbolo != "Snumero" || "Sinteiro")) {
+                if (posFixo[i - 1].simbolo === ("Sidentificador" || "Snumero" || "Sinteiro")) {
+                    if ((!buscaTipo(posFixo[i - 1].lexema) === ("var inteiro" || "func inteiro")) && (posFixo[i - 1].simbolo != ("Snumero" || "Sidentificador" || "Sinteiro"))) {
                         geraErroSemantico();
                     }
                 } else {
@@ -268,15 +264,15 @@ function analisaPosFixo() {
                 break;
             //Operacao com um bool de entrada, e um bool de saida
             case 5:
-                if (posFixo[i - 1].simbolo === "Sidentificador" || "Sverdadeiro" || "Sfalso") {
-                    if ((!buscaTipo(posFixo[i - 1]) === "var booleano" || "func booleano") && (posFixo[i - 1].simbolo != "Sverdadeiro" || "Sfalso")) {
+                if (posFixo[i - 1].simbolo === ("Sidentificador" || "Sverdadeiro" || "Sfalso" || "Sbooleano")) {
+                    if ((!buscaTipo(posFixo[i - 1]).lexema === ("var booleano" || "func booleano")) && (posFixo[i - 1].simbolo != "Sverdadeiro" || "Sfalso" || "Sidentificador" || "Sbooleano")) {
                         geraErroSemantico();
                     }
                 } else {
                     geraErroSemantico();
                 }
 
-                posFixo[i].simbolo = "Sboolean";
+                posFixo[i].simbolo = "Sbooleano";
                 posFixo.splice(i - 1);
                 i = i - 1;
 
