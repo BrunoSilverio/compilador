@@ -35,6 +35,8 @@ function clearAll() {
     //zerando posfixo
     posFixo = [];
     posFixoOperadores = [];
+    //zerando geracao de codigo
+    arquivo = "";
 }
 
 function readText(that) {
