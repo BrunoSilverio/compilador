@@ -271,17 +271,21 @@ function Analisa_enquanto() {
     limpaPosFixo();
     getToken();
     Analisa_expressao();
-    analisaPosFixo();
-    if (token.simbolo == "Sfaca") {
-        //auxrot2:= rotulo
-        //Gera(´ ´,JMPF,rotulo,´ ´) {salta se falso}
-        //rotulo:= rotulo+1 
-        getToken();
-        Analisa_comando_simples();
-        //Gera(´ ´,JMP,auxrot1,´ ´) {retorna início loop}
-        //Gera(auxrot2,NULL,´ ´,´ ´) {fim do while} 
+    let retornoPosFixo = analisaPosFixo();
+    if (retornoPosFixo === "Sbooleano" || retornoPosFixo === "Sverdadeiro" || retornoPosFixo === "Sfalso") {
+        if (token.simbolo == "Sfaca") {
+            //auxrot2:= rotulo
+            //Gera(´ ´,JMPF,rotulo,´ ´) {salta se falso}
+            //rotulo:= rotulo+1 
+            getToken();
+            Analisa_comando_simples();
+            //Gera(´ ´,JMP,auxrot1,´ ´) {retorna início loop}
+            //Gera(auxrot2,NULL,´ ´,´ ´) {fim do while} 
+        } else {
+            geraErroSintatico();
+        }
     } else {
-        geraErroSintatico();
+        geraErroSemantico();
     }
 }
 
@@ -290,17 +294,22 @@ function Analisa_se() {
     getToken();
     limpaPosFixo();
     Analisa_expressao();
-    analisaPosFixo();
-    if (token.simbolo == "Sentao") {
-        getToken();
-        Analisa_comando_simples();
-        if (token.simbolo == "Ssenao") {
+    let retornoPosFixo = analisaPosFixo();
+    if (retornoPosFixo === "Sbooleano" || retornoPosFixo === "Sverdadeiro" || retornoPosFixo === "Sfalso") {
+        if (token.simbolo == "Sentao") {
             getToken();
             Analisa_comando_simples();
+            if (token.simbolo == "Ssenao") {
+                getToken();
+                Analisa_comando_simples();
+            }
+        } else {
+            geraErroSintatico();
         }
     } else {
-        geraErroSintatico();
+        geraErroSemantico();
     }
+
 }
 
 //Etapa de declaração de sub-rotinas
@@ -506,5 +515,22 @@ function Analisa_atribuicao(tokenantigo) {
     getToken();
     limpaPosFixo();
     Analisa_expressao();
-    //POSFIXO
+    let retornoPosFixo = analisaPosFixo();
+    let tipoVar = buscaTipo(tokenantigo.lexema);
+
+    if (tipoVar === "var inteiro") {
+        if (retornoPosFixo != "Sinteiro" && retornoPosFixo != "Snumero") {
+            geraErroSemantico();
+        }
+
+    } else {
+        if (tipoVar === "var booleano") {
+            if (retornoPosFixo != "Sbooleano" && retornoPosFixo != "Sverdadeiro" && retornoPosFixo != "Sfalso") {
+                geraErroSemantico();
+            }
+        } else {
+            geraErroSemantico();
+        }
+    }
+
 }
