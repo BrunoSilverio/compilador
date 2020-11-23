@@ -7,6 +7,8 @@
 */
 
 let arquivo = "";
+let parametro1 = 0;
+let parametro2 = 0;
 
 //funcao para gerar o codigo final e exportar para o usuario
 function geraCodigo() {
@@ -17,7 +19,7 @@ function geraCodigo() {
         var a = document.createElement("a"),
                 url = URL.createObjectURL(file);
         a.href = url;
-        a.download = "Compilador.obj";  //NOME DO ARQUIVO A SER BAIXADO
+        a.download = "compilador.obj";  //NOME DO ARQUIVO A SER BAIXADO
         document.body.appendChild(a);
         a.click();
         setTimeout(function() {
@@ -29,44 +31,44 @@ function geraCodigo() {
 
 //Carregar constante
 //s:=s + 1 ; M [s]: = k
-function geraLDC(params) {
-
+function geraLDC(parametro1) {
+    arquivo += "LDC "+parametro1+"\n";
 }
 
 //Carrega valor
 //s:=s+1 ; M[s]:=M[n]
-function geraLDV(params) {
-
+function geraLDV(parametro1) {
+    arquivo += "LDV "+parametro1+"\n";
 }
 
 //Somar
 //M[s-1]:=M[s-1]+M[s]; s:=s-1
-function geraADD(params) {
-
+function geraADD() {
+    arquivo += "ADD\n";
 }
 
 //Subtrair
 //M[s-1]:=M[s-1]-M[s]; s:=s-1
-function geraSUB(params) {
-
+function geraSUB() {
+    arquivo += "SUB\n";
 }
 
 //Multiplicar
 //M[s-1]:=M[s-1]*M[s]; s:=s-1
-function geraMULT(params) {
-
+function geraMULT() {
+    arquivo += "MULT\n";
 }
 
 //Dividir
 //M[s-1]:=M[s-1]div M[s]; s:=s-1
-function geraDIVI(params) {
-
+function geraDIVI() {
+    arquivo += "DIVI\n";
 }
 
 //Inverter sinal
 //M[s]:=-M[s]
-function geraINV(params) {
-
+function geraINV() {
+    arquivo += "INV\n";
 }
 
 //Conjuncao
@@ -74,8 +76,8 @@ function geraINV(params) {
 //então M[s-1]:=1
 //senão M[s-1]:=0; 
 //S:=s-1
-function geraAND(params) {
-
+function geraAND() {
+    arquivo += "AND\n";
 }
 
 //Disjuncao
@@ -83,14 +85,14 @@ function geraAND(params) {
 //então M[s-1]:=1 
 //senão M[s-1]:=0; 
 //s:=s-1
-function geraOR(params) {
-
+function geraOR() {
+    arquivo += "OR\n";
 }
 
 //Negacao
 //M[s]:=1-M[s]
-function geraNEG(params) {
-
+function geraNEG() {
+    arquivo += "NEG\n";
 }
 
 //Comparar menor
@@ -98,8 +100,8 @@ function geraNEG(params) {
 //então M[s-1]:=1 
 //senão M[s-1]:=0;
 //s:=s-1
-function geraCME(params) {
-
+function geraCME() {
+    arquivo += "CME\n";
 }
 
 //Comparar maior
@@ -107,8 +109,8 @@ function geraCME(params) {
 //então M[s-1]:=1 
 //senão M[s-1]:=0;
 //s:=s-1
-function geraCMA(params) {
-
+function geraCMA() {
+    arquivo += "CMA\n";
 }
 
 //Comparar igual
@@ -116,8 +118,8 @@ function geraCMA(params) {
 //então M[s-1]:=1
 //senão M[s-1]:=0;
 //s:=s-1
-function geraCEQ(params) {
-
+function geraCEQ() {
+    arquivo += "CEQ\n";
 }
 
 //Comparar desigual
@@ -125,8 +127,8 @@ function geraCEQ(params) {
 //então M[s-1]:=1 
 //senão M[s-1]:=0; 
 //s:=s-1
-function geraCDIF(params) {
-
+function geraCDIF() {
+    arquivo += "CDIF\n";
 }
 
 //Comparar menor ou igual
@@ -134,8 +136,8 @@ function geraCDIF(params) {
 //então M[s-1]:=1
 //senão M[s-1]:=0;
 //s:=s-1
-function geraCMEQ(params) {
-
+function geraCMEQ() {
+    arquivo += "CMEQ\n";
 }
 
 //Comparara maior ou igual
@@ -143,19 +145,19 @@ function geraCMEQ(params) {
 //então M[s-1]:=1 
 //senão M[s-1]:=0;
 //s:=s-1
-function geraCMAQ(params) {
-
+function geraCMAQ() {
+    arquivo += "CMAQ\n";
 }
 
 //Armazenar valor
 //M[n]:=M[s]; s:=s-1
-function geraSTR(params) {
-
+function geraSTR(parametro1) {
+    arquivo += "STR "+parametro1+"\n";
 }
 
 //Desviar sempre
-function geraJMP(params) {
-
+function geraJMP(parametro1) {
+    arquivo += "JMP "+parametro1+"\n";
 }
 
 //Desviar se falso
@@ -163,62 +165,62 @@ function geraJMP(params) {
 //i:=p senão
 //i:=i+1;
 //S:=s-1 
-function geraJMPF(params) {
-
+function geraJMPF(parametro1) {
+    arquivo += "JMPF "+parametro1+"\n";
 }
 
-function geraNULL(params) {
-
+function geraNULL() {
+    arquivo += "NULL\n";
 }
 
 //Leitura
 //S:=s+1; M[s]:= “próximo valor de entrada”
-function geraRD(params) {
-
+function geraRD() {
+    arquivo += "RD\n";
 }
 
 //Impressao
 //“Imprimir M[s]”; s:=s-1 
-function geraPRN(params) {
-
+function geraPRN() {
+    arquivo += "PRN\n";
 }
 
 //Iniciar programa principal
 //s:=-1 
 function geraSTART() {
-    arquivo = arquivo + "START\n";
+    arquivo += "START\n";
 }
 
 //Alocar memoria
 //s:=s+m
-function geraALLOC(params) {
-
+function geraALLOC(parametro1, parametro2) {
+    arquivo += "ALLOC "+parametro1+","+parametro2+"\n";
 }
 
 //Desalocar memoria
 //Para k:=n-1 até 0 
 //faça {M[m+k]:=M[s];
 //s:=s-1} 
-function geraDALLOC(params) {
-
+function geraDALLOC(parametro1, parametro2) {
+    arquivo += "DALLOC "+parametro1+","+parametro2+"\n";
 }
 
 //Parar
 function geraHLT() {
-    arquivo = arquivo + "HLT\n";
+    arquivo += "HLT\n";
 }
 
 //Chamar procedimento ou funcao
 //s:=s+1; 
 //M[s]:=i+1
 //i:=p
-function geraCALL(params) {
-
+function geraCALL(parametro1) {
+    arquivo += "CALL "+parametro1+"\n";
 }
 
 //Retornar de procedimento
 //i:=M[s]; 
 //s:=s-1
 function geraRETURN(params) {
-
+    arquivo += "RETURN\n";
 } 
