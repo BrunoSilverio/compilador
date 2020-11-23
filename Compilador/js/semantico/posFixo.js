@@ -24,7 +24,7 @@ const bool_bool = ["Snao"];
 
 //Tipos
 const tiposinteiros = ["Snumero", "Sinteiro", "var inteiro", "func inteiro"];
-const tiposbooleano = ["Sidentificador", "Sverdadeiro", "Sfalso", "Sbooleano"]
+const tiposbooleano = ["Sverdadeiro", "Sfalso", "var booleano", "func booleano", "Sbooleano"]
 
 //Funcao para retornar qual a prioridade do operador
 function precedenciaOperador(operador) {
@@ -299,6 +299,14 @@ function analisaPosFixo() {
         }
 
         if (posFixo.length === 1) {
+            if (posFixo[0].simbolo === "Sidentificador") {
+                let tipoRetorno = buscaTipo(posFixo[0].lexema);
+                if (tiposinteiros.includes(tipoRetorno)) {
+                    posFixo[0].simbolo = "Sinteiro";
+                } else {
+                    posFixo[0].simbolo = "Sbooleano";
+                }
+            }
             break;
         }
     }
