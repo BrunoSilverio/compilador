@@ -124,6 +124,7 @@ function Analisa_Variaveis() {
                     tipo: "var",
                     nivel: nivel,
                 });
+                console.log(token);
                 getToken();
                 if ((token.simbolo == "Svirgula") || (token.simbolo == "Sdoispontos")) {
                     if (token.simbolo == "Svirgula") {
@@ -133,6 +134,7 @@ function Analisa_Variaveis() {
                         }
                     }
                 } else {
+                    console.log(token);
                     geraErroSintatico();
                 }
             } else {
@@ -518,14 +520,16 @@ function Analisa_atribuicao(tokenantigo) {
     let retornoPosFixo = analisaPosFixo();
     let tipoVar = buscaTipo(tokenantigo.lexema);
 
-    if (tipoVar === "var inteiro") {
+    if (tipoVar === "var inteiro" || tipoVar === "func inteiro") {
         if (retornoPosFixo != "Sinteiro" && retornoPosFixo != "Snumero") {
             geraErroSemantico();
         }
 
     } else {
-        if (tipoVar === "var booleano") {
+        if (tipoVar === "var booleano" || tipoVar === "func booleano") {
             if (retornoPosFixo != "Sbooleano" && retornoPosFixo != "Sverdadeiro" && retornoPosFixo != "Sfalso") {
+                console.log(retornoPosFixo);
+                console.log(tipoVar);
                 geraErroSemantico();
             }
         } else {
