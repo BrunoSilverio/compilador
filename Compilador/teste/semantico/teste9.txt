@@ -1,3 +1,4 @@
+{Teste 9 - ERRO}
 programa testefinal; {ERRO incompatibilidade de tipos }
 
 var opcao,x,y:inteiro;

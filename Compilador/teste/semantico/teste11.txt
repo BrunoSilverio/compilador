@@ -1,3 +1,4 @@
+{Teste 11 - ERRO}
 programa testefinal; {ERRO procedimento duplicado}
 
 var opcao,x,y:inteiro;

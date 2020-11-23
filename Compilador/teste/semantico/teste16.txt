@@ -1,4 +1,5 @@
-programa testefinal;  (* Calcula a media ou fatorial - OK *)
+{Teste 16 - OK}
+programa testefinal;  { Calcula a media ou fatorial - OK }
 
 var opcao,x,y:inteiro;
 

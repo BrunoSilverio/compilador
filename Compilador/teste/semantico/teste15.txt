@@ -1,4 +1,5 @@
-(* teste procedimentos e funcoes aninhados recursivos OK 
+{Teste 15 - OK}
+/* teste procedimentos e funcoes aninhados recursivos OK 
 escreva as sucessivas somas de tras para frente
  1
 2
@@ -11,14 +12,14 @@ saida
 9
 5
 5
-*)
+*/
 
 programa test;
 
 var a,b: inteiro;
 
 
-function soma: inteiro;
+funcao soma: inteiro;
 var c,a: inteiro;
 
   procedimento ler;
@@ -33,7 +34,7 @@ fim;
   inicio
     leia (x);   {para parar digite um valor maior que 9 }
     se x < 10
-    então ler;
+    entao ler;
   fim;
 
  inicio

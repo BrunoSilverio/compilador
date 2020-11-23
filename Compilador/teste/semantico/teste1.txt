@@ -1,4 +1,5 @@
-programa teste; (*Teste OK*)
+{Teste 1 - OK}
+programa teste; 
 var x,a,b,c,z:inteiro;
 inicio
  x:=1;

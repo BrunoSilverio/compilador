@@ -1,3 +1,4 @@
+{Teste 12 - ERRO}
 programa testefinal;          {ERRO - variavel duplicada}
 
 var opcao,x,y:inteiro;

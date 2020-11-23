@@ -1,3 +1,4 @@
+{Teste 4 - ERRO}
 programa teste; {ERRO - variavel nao booleana}
 var x,a,b,c:inteiro;
     z: booleano;

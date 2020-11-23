@@ -1,3 +1,4 @@
+{Teste 6 - ERRO}
 programa teste; {ERRO expressão nao booleanoa}
 var x,a,b,c,z:inteiro;
            

@@ -1,3 +1,4 @@
+{Teste 5 - ERRO}
 programa teste; {ERRO atribuindo inteiros a booleano}
 var x,a,b,c,z:booleano;
 inicio

@@ -1,3 +1,4 @@
+{Teste 2 - ERRO}
 programa teste; {ERRO inteiros com e logico}
 var x,a,b,c,z:inteiro;
 inicio

@@ -1,3 +1,4 @@
+{Teste 17 - OK}
 programa testefinal;  {calcula o dobro ou fatorial - OK}
 
 var opcao,x,y:inteiro;

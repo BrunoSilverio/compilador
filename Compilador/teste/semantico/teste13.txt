@@ -1,3 +1,4 @@
+{Teste 13 - ERRO}
 programa testefinal; {ERRO  - variavel nao declarada}
 
 var opcao,x,y:inteiro;
