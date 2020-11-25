@@ -429,10 +429,18 @@ function Analisa_expressao() {
 //Expressao simples
 function Analisa_expressao_simples() {
     //dividir mais e menos para gerar menos unitario do posfixo?
-    if ((token.simbolo == "Smais") || (token.simbolo == "Smenos")) {
+    if (token.simbolo == "Smais") {
         //POSFIXO EM UNITARIO
         getToken();
     }
+    if (token.simbolo == "Smenos") {
+        //POSFIXO EM UNITARIO
+        token.simbolo = "Smenosu";
+        console.log(token);
+        posFixoGerador();
+        getToken();
+    }
+
     Analisa_termo();
     while ((token.simbolo == "Smais") || (token.simbolo == "Smenos") || (token.simbolo == "Sou")) {
         posFixoGerador();
@@ -522,14 +530,13 @@ function Analisa_atribuicao(tokenantigo) {
 
     if (tipoVar === "var inteiro" || tipoVar === "func inteiro") {
         if (retornoPosFixo != "Sinteiro" && retornoPosFixo != "Snumero") {
+            console.log(retornoPosFixo);
             geraErroSemantico();
         }
 
     } else {
         if (tipoVar === "var booleano" || tipoVar === "func booleano") {
             if (retornoPosFixo != "Sbooleano" && retornoPosFixo != "Sverdadeiro" && retornoPosFixo != "Sfalso") {
-                console.log(retornoPosFixo);
-                console.log(tipoVar);
                 geraErroSemantico();
             }
         } else {
