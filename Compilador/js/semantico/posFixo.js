@@ -28,8 +28,6 @@ const tiposbooleano = ["Sverdadeiro", "Sfalso", "var booleano", "func booleano",
 
 //Funcao para retornar qual a prioridade do operador
 function precedenciaOperador(operador) {
-    console.log("Valida precedencia operador: ");
-    console.log(operador);
     switch (true) {
         case prioridade0.includes(operador):
             return 0;
@@ -66,35 +64,25 @@ function precedenciaOperador(operador) {
 
 //Funcao para inserir na lista do posFixo os operandos
 function posFixoGerador() {
-    console.log("Entrou posfixo gerador");
-    console.log(token.simbolo);
+
     switch (token.simbolo) {
         case "Sidentificador":
             posFixo.push(token);
-            console.log("Entrou posfixo gerador - IDENTIFICADOR");
-            console.log(posFixo);
             break;
 
         case "Snumero":
-            posFixo.push(token);
-            console.log("Entrou posfixo gerador - NUMERO");
-            console.log(posFixo);
+            posFixo.push(token);;
             break;
 
         case "Sverdadeiro":
             posFixo.push(token);
-            console.log("Entrou posfixo gerador - VERDADEIRO");
-            console.log(posFixo);
             break;
 
         case "Sfalso":
             posFixo.push(token);
-            console.log("Entrou posfixo gerador - FALSO");
-            console.log(posFixo);
             break;
 
         default:
-            console.log("Entrou posfixo gerador - OPERADOR");
             insereOperador();
             break;
     }
@@ -103,7 +91,7 @@ function posFixoGerador() {
 //Funcao para manipular os operadores na pilha
 function insereOperador() {
 
-    //CORRIGIR CASO DE ABRE OU FECHA PARENTESES
+   
     if (token.simbolo === "Sfecha_parenteses") {
 
         while (posFixoOperadores[(posFixoOperadores.length - 1)].simbolo != "Sabre_parenteses") {
@@ -112,11 +100,6 @@ function insereOperador() {
         posFixoOperadores.pop();
         return;
     }
-
-
-
-
-
 
     if (posFixoOperadores.length == 0) {
         posFixoOperadores.push(token);
@@ -201,7 +184,6 @@ function analisaPosFixo() {
                 posFixo[i].simbolo = "Sinteiro";
                 posFixo.splice((i - 2), 2); // a partir do index -2, remove as duas posicoes depois
                 i = i - 2;
-
                 break;
 
             //Operacao com dois inteiros de entrada, e um bool de saida
@@ -228,7 +210,6 @@ function analisaPosFixo() {
                 posFixo[i].simbolo = "Sbooleano";
                 posFixo.splice((i - 2), 2); // a partir do index -2, remove as duas posicoes depois
                 i = i - 2;
-
                 break;
 
             //Operacao com dois bool de entrada, e um bool de saida
@@ -256,7 +237,6 @@ function analisaPosFixo() {
                 posFixo[i].simbolo = "Sbooleano";
                 posFixo.splice((i - 2), 2); // a partir do index -2, remove as duas posicoes depois
                 i = i - 2;
-
                 break;
 
             //Operacao com um inteiro de entrada, e um inteiro de saida
@@ -271,9 +251,8 @@ function analisaPosFixo() {
                 }
 
                 posFixo[i].simbolo = "Sinteiro";
-                posFixo.splice((i - 1), 1); // a partir do index -2, remove as duas posicoes depois
+                posFixo.splice((i - 1), 1); // a partir do index -1, remove a posicao depois
                 i = i - 1;
-
                 break;
             //Operacao com um bool de entrada, e um bool de saida
             case 5:
@@ -288,9 +267,8 @@ function analisaPosFixo() {
                 }
 
                 posFixo[i].simbolo = "Sbooleano";
-                posFixo.splice((i - 1), 1); // a partir do index -2, remove as duas posicoes depois
+                posFixo.splice((i - 1), 1); // a partir do index -1, remove a posicao depois
                 i = i - 1;
-
                 break;
 
             //Caso identificador ou numero
@@ -311,20 +289,15 @@ function analisaPosFixo() {
         }
     }
 
-    console.log("ACABOU ANALISE POSFIXO");
-    console.log(posFixo);
-    console.log(posFixo[0]);
     return posFixo[0].simbolo;
 
 }
 
 //Funcao que tranfere todos os tokens de operadores para posfixo
 function transferePosFixo() {
-
     while (posFixoOperadores.length !== 0) {
         posFixo.push(posFixoOperadores.pop());
     }
-
 }
 
 //Funcao para limpar o pos fixo
