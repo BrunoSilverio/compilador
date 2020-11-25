@@ -277,26 +277,31 @@ function Analisa_leia() {
 function Analisa_escreva() {
     getToken();
     if (token.simbolo == "Sabre_parenteses") {
-        if (pesquisa_declvarfunc_tabela(token.lexema)) {
-            //GERACAO DE CODIGO
-            //geraLDV(tabela.getLabel(atual));
-
-            getToken();
-        } else {
-            if (pesquisa_declfunc_tabela(token.lexema)) {
-                //GERACAO DE CODIGO
-                //geraCALL(tabela.getLabel(atual));
-
-                getToken();
-            } 
-            if (token.simbolo == "Sfecha_parenteses") {
-                //GERACAO DE CODIGO
-                //geraPRN();
+        getToken();
+        if (token.simbolo == "Sidentificador") {
+            if (pesquisa_declvarfunc_tabela(token.lexema) || pesquisa_declfunc_tabela(token.lexema)) {
+                if (pesquisa_declvarfunc_tabela(token.lexema)) {
+                    //GERACAO DE CODIGO
+                    //geraLDV(tabela.getLabel(atual));
+                } else { //pesquisa_declfunc_tabela(token.lexema)
+                    //GERACAO DE CODIGO
+                    //geraCALL(tabela.getLabel(atual));
+                }
 
                 getToken();
+                if (token.simbolo == "Sfecha_parenteses") {
+                    //GERACAO DE CODIGO
+                    //geraPRN();
+                    
+                    getToken();
+                } else {
+                    geraErroSintatico();
+                }
             } else {
-                geraErroSintatico();
-            } 
+                geraErroSemantico();
+            }
+        } else {
+            geraErroSintatico();
         }
     } else {
         geraErroSintatico();
