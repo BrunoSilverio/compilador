@@ -13,13 +13,13 @@ const prioridade2 = ["Sig", "Sdif"];
 const prioridade3 = ["Smaior", "Smaiorig", "Smenor", "Smenorig"];
 const prioridade4 = ["Smais", "Smenos"];
 const prioridade5 = ["Smult", "Sdiv"];
-const prioridade6 = ["Snao"];
+const prioridade6 = ["Snao", "Smenosu"];
 
 //Comparacoes operador/operacao  ENTRADA_SAIDA
 const intint_int = ["Smais", "Smenos", "Smult", "Sdiv"];
 const intint_bool = ["Smaior", "Smaiorig", "Smenor", "Smenorig", "Sig", "Sdif"];
 const boolbool_bool = ["Sig", "Sdif", "Se", "Sou"];
-const int_int = [];
+const int_int = ["Smenosu"];
 const bool_bool = ["Snao"];
 
 //Tipos
