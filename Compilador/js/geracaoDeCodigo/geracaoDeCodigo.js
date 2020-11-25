@@ -221,6 +221,6 @@ function geraCALL(parametro1) {
 //Retornar de procedimento
 //i:=M[s]; 
 //s:=s-1
-function geraRETURN(params) {
+function geraRETURN() {
     arquivo += "RETURN\n";
 } 
