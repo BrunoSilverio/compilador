@@ -10,7 +10,7 @@ let arquivo = "";
 let parametro1 = 0;
 let parametro2 = 0;
 
-//funcao para gerar o codigo final e exportar para o usuario
+//funcao para gerar arquivo.obj para o usuario
 function geraCodigo() {
     var file = new Blob([arquivo], {type: Object});
     if (window.navigator.msSaveOrOpenBlob)
@@ -32,42 +32,49 @@ function geraCodigo() {
 //Carregar constante
 //s:=s + 1 ; M [s]: = k
 function geraLDC(parametro1) {
+    console.log("LDC "+parametro1);
     arquivo += "LDC "+parametro1+"\n";
 }
 
 //Carrega valor
 //s:=s+1 ; M[s]:=M[n]
 function geraLDV(parametro1) {
+    console.log("LDV "+parametro1);
     arquivo += "LDV "+parametro1+"\n";
 }
 
 //Somar
 //M[s-1]:=M[s-1]+M[s]; s:=s-1
 function geraADD() {
+    console.log("ADD");
     arquivo += "ADD\n";
 }
 
 //Subtrair
 //M[s-1]:=M[s-1]-M[s]; s:=s-1
 function geraSUB() {
+    console.log("SUB");
     arquivo += "SUB\n";
 }
 
 //Multiplicar
 //M[s-1]:=M[s-1]*M[s]; s:=s-1
 function geraMULT() {
+    console.log("MULT");
     arquivo += "MULT\n";
 }
 
 //Dividir
 //M[s-1]:=M[s-1]div M[s]; s:=s-1
 function geraDIVI() {
+    console.log("DIVI");
     arquivo += "DIVI\n";
 }
 
 //Inverter sinal
 //M[s]:=-M[s]
 function geraINV() {
+    console.log("INV");
     arquivo += "INV\n";
 }
 
@@ -77,6 +84,7 @@ function geraINV() {
 //senão M[s-1]:=0; 
 //S:=s-1
 function geraAND() {
+    console.log("AND");
     arquivo += "AND\n";
 }
 
@@ -86,12 +94,14 @@ function geraAND() {
 //senão M[s-1]:=0; 
 //s:=s-1
 function geraOR() {
+    console.log("OR");
     arquivo += "OR\n";
 }
 
 //Negacao
 //M[s]:=1-M[s]
 function geraNEG() {
+    console.log("NEG");
     arquivo += "NEG\n";
 }
 
@@ -101,6 +111,7 @@ function geraNEG() {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCME() {
+    console.log("CME");
     arquivo += "CME\n";
 }
 
@@ -110,6 +121,7 @@ function geraCME() {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCMA() {
+    console.log("CMA");
     arquivo += "CMA\n";
 }
 
@@ -119,6 +131,7 @@ function geraCMA() {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCEQ() {
+    console.log("CEQ");
     arquivo += "CEQ\n";
 }
 
@@ -128,6 +141,7 @@ function geraCEQ() {
 //senão M[s-1]:=0; 
 //s:=s-1
 function geraCDIF() {
+    console.log("CDIF");
     arquivo += "CDIF\n";
 }
 
@@ -137,6 +151,7 @@ function geraCDIF() {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCMEQ() {
+    console.log("CMEQ");
     arquivo += "CMEQ\n";
 }
 
@@ -146,17 +161,20 @@ function geraCMEQ() {
 //senão M[s-1]:=0;
 //s:=s-1
 function geraCMAQ() {
+    console.log("CMAQ");
     arquivo += "CMAQ\n";
 }
 
 //Armazenar valor
 //M[n]:=M[s]; s:=s-1
 function geraSTR(parametro1) {
+    console.log("STR "+parametro1);
     arquivo += "STR "+parametro1+"\n";
 }
 
 //Desviar sempre
 function geraJMP(parametro1) {
+    console.log("JMP "+parametro1);
     arquivo += "JMP "+parametro1+"\n";
 }
 
@@ -166,34 +184,40 @@ function geraJMP(parametro1) {
 //i:=i+1;
 //S:=s-1 
 function geraJMPF(parametro1) {
+    console.log("JMPF "+parametro1);
     arquivo += "JMPF "+parametro1+"\n";
 }
 
 function geraNULL() {
+    console.log("NULL");
     arquivo += "NULL\n";
 }
 
 //Leitura
 //S:=s+1; M[s]:= “próximo valor de entrada”
 function geraRD() {
+    console.log("RD");
     arquivo += "RD\n";
 }
 
 //Impressao
 //“Imprimir M[s]”; s:=s-1 
 function geraPRN() {
+    console.log("PRN");
     arquivo += "PRN\n";
 }
 
 //Iniciar programa principal
 //s:=-1 
 function geraSTART() {
+    console.log("START");
     arquivo += "START\n";
 }
 
 //Alocar memoria
 //s:=s+m
 function geraALLOC(parametro1, parametro2) {
+    console.log("ALLOC"+parametro1+","+parametro2);
     arquivo += "ALLOC "+parametro1+","+parametro2+"\n";
 }
 
@@ -202,11 +226,13 @@ function geraALLOC(parametro1, parametro2) {
 //faça {M[m+k]:=M[s];
 //s:=s-1} 
 function geraDALLOC(parametro1, parametro2) {
+    console.log("DALLOC"+parametro1+","+parametro2);
     arquivo += "DALLOC "+parametro1+","+parametro2+"\n";
 }
 
 //Parar
 function geraHLT() {
+    console.log("HLT");
     arquivo += "HLT\n";
 }
 
@@ -215,6 +241,7 @@ function geraHLT() {
 //M[s]:=i+1
 //i:=p
 function geraCALL(parametro1) {
+    console.log("CALL"+parametro1);
     arquivo += "CALL "+parametro1+"\n";
 }
 
@@ -222,5 +249,6 @@ function geraCALL(parametro1) {
 //i:=M[s]; 
 //s:=s-1
 function geraRETURN() {
+    console.log("RETURN");
     arquivo += "RETURN\n";
 } 
