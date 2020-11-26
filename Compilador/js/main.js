@@ -4,6 +4,9 @@
 
 //Variaveis globais
 let programa;
+var inicio = "";
+var fim = "";
+var tempo = "";
 
 //Funcao para chamar a Main.js, quando o botao compilar no front-end for executado. 
 function start() {
@@ -14,6 +17,7 @@ function start() {
 
 // Main.js faz a conexao entre o front-end e o back-end (lexico, sintatico)
 function main() {
+    inicio = performance.now();
     clearAll();
     //var tokenslexico = lexico();
     sintatico();
@@ -37,6 +41,10 @@ function clearAll() {
     posFixoOperadores = [];
     //zerando geracao de codigo
     arquivo = "";
+    rotulo = 0;
+    //zerando tempo de execucao
+    fim = "";
+    tempo = "";
 }
 
 function readText(that) {
