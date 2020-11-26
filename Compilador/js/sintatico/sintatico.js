@@ -134,7 +134,7 @@ function Analisa_et_variaveis() {
                     geraErroSintatico();
                 }
                 //GERACAO DE CODIGO
-                //geraLDV(tabela.getLabel(a.get(i)));
+                geraLDV(token.lexema);
             }
         } else {
             geraErroSintatico();
@@ -251,8 +251,8 @@ function Analisa_leia() {
         if (token.simbolo == "Sidentificador") {
             if (pesquisa_declvar_tabela(token.lexema)) { //mesmo nivel? Outros niveis?
                 //GERACAO DE CODIGO
-                //geraRD();
-                //geraSTR(tabela.getLabel(atual));
+                geraRD();
+                geraSTR(token.lexema);
                 
                 getToken();
                 if (token.simbolo == "Sfecha_parenteses") {
@@ -281,16 +281,16 @@ function Analisa_escreva() {
             if (pesquisa_declvarfunc_tabela(token.lexema) || pesquisa_declfunc_tabela(token.lexema)) {
                 if (pesquisa_declvarfunc_tabela(token.lexema)) {
                     //GERACAO DE CODIGO
-                    //geraLDV(tabela.getLabel(atual));
+                    geraLDV(token.lexema);
                 } else { //pesquisa_declfunc_tabela(token.lexema)
                     //GERACAO DE CODIGO
-                    //geraCALL(tabela.getLabel(atual));
+                    geraCALL(token.lexema);
                 }
 
                 getToken();
                 if (token.simbolo == "Sfecha_parenteses") {
                     //GERACAO DE CODIGO
-                    //geraPRN();
+                    geraPRN();
                     
                     getToken();
                 } else {
@@ -313,9 +313,9 @@ function Analisa_enquanto() {
     let auxrot2 = 0; 
     
     //GERACAO DE CODIGO
-    //auxrot1 = rotulo;
-    //geraNULL(rotulo);//INICIO DO WHILE
-    //rotulo++;
+    auxrot1 = rotulo;
+    geraNULL(rotulo);//INICIO DO WHILE
+    rotulo++;
 
     limpaPosFixo();
     getToken();
@@ -323,15 +323,17 @@ function Analisa_enquanto() {
     let retornoPosFixo = analisaPosFixo();
     if (retornoPosFixo === "Sbooleano" || retornoPosFixo === "Sverdadeiro" || retornoPosFixo === "Sfalso") {
         if (token.simbolo == "Sfaca") {
-            //auxrot2 = rotulo;
-            //geraJMPF(rotulo);//SALTA SE FALSO
-            //rotulo++;
+            //GERACAO DE CODIGO
+            auxrot2 = rotulo;
+            geraJMPF(rotulo);//SALTA SE FALSO
+            rotulo++;
 
             getToken();
             Analisa_comando_simples();
 
-            //geraJMP(auxrot1); //RETORNA INICIO LOOP
-            //geraNULL(auxrot2);//FIM DO WHILE
+            //GERACAO DE CODIGO
+            geraJMP(auxrot1); //RETORNA INICIO LOOP
+            geraNULL(auxrot2);//FIM DO WHILE
         } else {
             geraErroSintatico();
         }
@@ -353,22 +355,22 @@ function Analisa_se() {
     if (retornoPosFixo === "Sbooleano" || retornoPosFixo === "Sverdadeiro" || retornoPosFixo === "Sfalso") {
         if (token.simbolo == "Sentao") {
             //GERACAO DE CODIGO
-            //geraJMPF(auxrot);
-            //rotulo++;
+            geraJMPF(auxrot);
+            rotulo++;
 
             getToken();
             Analisa_comando_simples();
             if (token.simbolo == "Ssenao") {
                 //GERACAO DE CODIGO
-                //auxrot2 = rotulo;
-                //rotulo++;
-                //geraJMP(auxrot2);
-                //geraNULL(auxrot);
+                auxrot2 = rotulo;
+                rotulo++;
+                geraJMP(auxrot2);
+                geraNULL(auxrot);
 
                 getToken();
                 Analisa_comando_simples();
             } else {
-                //geraNULL(auxrot);
+                geraNULL(auxrot);
             }
         } else {
             geraErroSintatico();
@@ -386,10 +388,10 @@ function Analisa_Subrotinas() {
 
     if ((token.simbolo == "Sprocedimento") || (token.simbolo == "Sfuncao")) {
         //GERACAO DE CODIGO
-        //auxrot = rotulo;
-        //geraJMP(rotulo); //SALTA SUB-ROTINAS
-        //rotulo++;
-        //flag = 1;
+        auxrot = rotulo;
+        geraJMP(rotulo); //SALTA SUB-ROTINAS
+        rotulo++;
+        flag = 1;
 
         while ((token.simbolo == "Sprocedimento") || (token.simbolo == "Sfuncao")) {
             if (token.simbolo == "Sprocedimento") {
@@ -422,8 +424,8 @@ function Analisa_declaracao_procedimento() {
                 nivel: nivel
             });
             //GERACAO DE CODIGO
-            //geraNULL(rotulo);//CALL irá buscar este rótulo na TabSimb
-            //rotulo++;
+            geraNULL(rotulo);//CALL irá buscar este rótulo na TabSimb
+            rotulo++;
 
             getToken();
             if (token.simbolo == "Sponto_virgula") {
@@ -468,7 +470,7 @@ function Analisa_declaracao_funcao() {
             getToken();
 
             //GERACAO DE CODIGO
-            //geraNULL(rotulo);
+            geraNULL(rotulo);
 
             if (token.simbolo == "Sdoispontos") {
                 getToken();
@@ -479,8 +481,8 @@ function Analisa_declaracao_funcao() {
                     } else {
                         tabelasimbolos[tabelasimbolos.length - 1].tipo = "func booleano";
                     }
-
-                    //rotulo++;
+                    //GERACAO DE CODIGO
+                    rotulo++;
 
                     getToken();
                     if (token.simbolo == "Sponto_virgula") {
@@ -491,7 +493,7 @@ function Analisa_declaracao_funcao() {
                         int vars = tabela.NumeroDeVariaveisAlocadas(nivel);
                         int offset = tabela.NumeroDeVariaveisAlocadasNoTotal() - vars;
 
-                        geraRETURNF(offset, vars);
+                        geraRETURN(offset, vars);
                         */
                     }
                 } else {
@@ -611,7 +613,7 @@ function Analisa_fator() {
         }
     } else if (token.simbolo == "Snumero") {
         //GERACAO DE CODIGO
-        //geraLDC(a.get(i).getLexema().getValor());
+        geraLDC(token.lexema);
 
         //POSFIXO
         getToken();
@@ -634,11 +636,11 @@ function Analisa_fator() {
         }
     } else if (token.simbolo == "Sverdadeiro" || token.simbolo == "Sfalso") {
         //GERACAO DE CODIGO
-        /*if(token.simbolo == "Sverdadeiro"){
+        if(token.simbolo == "Sverdadeiro"){
             geraLDC(1);
         } else { 
             geraLDC(0);
-        }*/
+        }
 
         //POSFIXO
         getToken();
@@ -655,7 +657,7 @@ function Analisa_chamada_funcao() {
             geraErroSemantico();
         }
         //GERACAO DE CODIGO
-        //geraCALL(tabela.getLabel(old));
+        geraCALL(token.lexema);
     } else {
         geraErroSintatico();
     }
@@ -664,7 +666,7 @@ function Analisa_chamada_funcao() {
 function Chamada_procedimento(tokenantigo) {
     if (pesquisa_declproc_tabela(tokenantigo.lexema)) {
         //GERACAO DE CODIGO
-        //geraCALL(tabela.getLabel(old));
+        geraCALL(token.lexema);
     } else {
         geraErroSemantico();
     }
@@ -684,7 +686,7 @@ function Analisa_atribuicao(tokenantigo) {
             geraErroSemantico();
         }
         //GERACAO DE CODIGO
-        //geraSTR(tabela.getLabel(old));
+        geraSTR(tokenantigo.lexema);
     } else {
         if (tipoVar === "var booleano" || tipoVar === "func booleano") {
             if (retornoPosFixo != "Sbooleano" && retornoPosFixo != "Sverdadeiro" && retornoPosFixo != "Sfalso") {
