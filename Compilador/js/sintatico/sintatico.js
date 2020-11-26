@@ -35,8 +35,7 @@ function sintatico() {
             });
             //GERACAO DE CODIGO
             geraSTART();
-            
-            geraSTART();
+
             getToken();
             if (token.simbolo == "Sponto_virgula") {
                 Analisa_Bloco();
