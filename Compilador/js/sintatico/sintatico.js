@@ -18,11 +18,10 @@ let rotulo = 0; //GERACAO DE CODIGO
 //Funcao principal do Sintatico
 function sintatico() {
     console.log("***** start SINTATICO *****");
-    //tokenslexico = JSON.stringify(tokenslexico);  //Para transformar em String
-    nivel = 0;
-    tabelasimbolos = [];
 
-    rotulo = 1; //GERACAO DE CODIGO
+    nivel = 0;              //tabela de simbolos
+    tabelasimbolos = [];    //tabela de simbolos
+    rotulo = 1;             //geracao de codigo
 
     getToken();
     if (token.simbolo == "Sprograma") {
@@ -33,9 +32,8 @@ function sintatico() {
                 tipo: "nomePrograma",
                 nivel: nivel
             });
-            //GERACAO DE CODIGO
-            geraSTART();
 
+            geraSTART();
             getToken();
             if (token.simbolo == "Sponto_virgula") {
                 Analisa_Bloco();
@@ -47,15 +45,16 @@ function sintatico() {
                     }
                     */
                     getToken();
+                    //ARQUIVO FINALIZADO
                     if (token.simbolo == undefined) {
-                        //GERACAO DE CODIGO
                         geraHLT();
-                        //geraCodigo(); //Apos geracao de codigo concluida, baixa arquivo
+                        geraCodigo();
+                        fim = performance.now();
+                        tempo = fim - inicio;
                         console.log(tabelasimbolos);
                         console.log("***** end SINTATICO *****");
-                        document.getElementById('terminal').value = "Realizado com sucesso!";
-                        alert("Executado com sucesso!");
-                        //Valida se programa realmente acabou depois do ultimo ponto
+                        document.getElementById('terminal').value = "Programa compilado com SUCESSO!\nRealizado o download de:  compilador.obj\n\nTempo de execucao:  " + tempo.toFixed(4) + " ms";
+                        alert("Compilado com sucesso!");
                     } else {
                         //Erro pois tem coisa depois do ponto final
                         geraErroSintatico();
@@ -65,8 +64,6 @@ function sintatico() {
                     //geraErroSintatico();
                     alert("ERRO SINTATICO:\n" + "Lexema: fim " + "\nEsperado '.' ");
                     document.getElementById('terminal').value = "Erro SINTATICO:\n" + "Lexema: fim " + "\nEsperado '.' ";
-                    //var listatokens = JSON.stringify(listatokens);
-                    //document.getElementById('terminal').value = listatokens.split(',{').join("\n");
                     console.log("***** end SINTATICO *****");
                     throw new Error("ERRO SINTATICO");
                 }
@@ -253,7 +250,7 @@ function Analisa_leia() {
                 //GERACAO DE CODIGO
                 geraRD();
                 geraSTR(token.lexema);
-                
+
                 getToken();
                 if (token.simbolo == "Sfecha_parenteses") {
                     getToken();
@@ -282,7 +279,7 @@ function Analisa_escreva() {
                 if (pesquisa_declvarfunc_tabela(token.lexema)) {
                     //GERACAO DE CODIGO
                     geraLDV(token.lexema);
-                } else { //pesquisa_declfunc_tabela(token.lexema)
+                } else {
                     //GERACAO DE CODIGO
                     geraCALL(token.lexema);
                 }
@@ -291,7 +288,7 @@ function Analisa_escreva() {
                 if (token.simbolo == "Sfecha_parenteses") {
                     //GERACAO DE CODIGO
                     geraPRN();
-                    
+
                     getToken();
                 } else {
                     geraErroSintatico();
@@ -310,8 +307,8 @@ function Analisa_escreva() {
 //Comando repetição
 function Analisa_enquanto() {
     let auxrot1 = 0;
-    let auxrot2 = 0; 
-    
+    let auxrot2 = 0;
+
     //GERACAO DE CODIGO
     auxrot1 = rotulo;
     geraNULL(rotulo);//INICIO DO WHILE
@@ -530,7 +527,7 @@ function Analisa_expressao() {
         } else if (token.simbolo == "Sdif") {
             geraCDIF();
         }
-        
+
         posFixoGerador();
         getToken();
         Analisa_expressao_simples();
@@ -543,7 +540,7 @@ function Analisa_expressao_simples() {
     if (token.simbolo == "Smais") {
         //GERACAO DE CODIGO
         geraADD();
-        
+
         //POSFIXO EM UNITARIO
         getToken();
     }
@@ -636,9 +633,9 @@ function Analisa_fator() {
         }
     } else if (token.simbolo == "Sverdadeiro" || token.simbolo == "Sfalso") {
         //GERACAO DE CODIGO
-        if(token.simbolo == "Sverdadeiro"){
+        if (token.simbolo == "Sverdadeiro") {
             geraLDC(1);
-        } else { 
+        } else {
             geraLDC(0);
         }
 
