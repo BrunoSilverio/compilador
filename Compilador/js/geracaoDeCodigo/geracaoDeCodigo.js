@@ -12,35 +12,35 @@ let parametro2 = 0;
 
 //funcao para gerar arquivo.obj para o usuario
 function geraCodigo() {
-    var file = new Blob([arquivo], {type: Object});
+    var file = new Blob([arquivo], { type: Object });
     if (window.navigator.msSaveOrOpenBlob)
         window.navigator.msSaveOrOpenBlob(file, filename);
     else { // Others
         var a = document.createElement("a"),
-                url = URL.createObjectURL(file);
+            url = URL.createObjectURL(file);
         a.href = url;
         a.download = "compilador.obj";  //NOME DO ARQUIVO A SER BAIXADO
         document.body.appendChild(a);
         a.click();
-        setTimeout(function() {
+        setTimeout(function () {
             document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);  
-        }, 0); 
+            window.URL.revokeObjectURL(url);
+        }, 0);
     }
 }
 
 //Carregar constante
 //s:=s + 1 ; M [s]: = k
 function geraLDC(parametro1) {
-    console.log("LDC "+parametro1);
-    arquivo += "LDC "+parametro1+"\n";
+    console.log("LDC " + parametro1);
+    arquivo += "LDC " + parametro1 + "\n";
 }
 
 //Carrega valor
 //s:=s+1 ; M[s]:=M[n]
 function geraLDV(parametro1) {
-    console.log("LDV "+parametro1);
-    arquivo += "LDV "+parametro1+"\n";
+    console.log("LDV " + parametro1);
+    arquivo += "LDV " + parametro1 + "\n";
 }
 
 //Somar
@@ -168,14 +168,13 @@ function geraCMAQ() {
 //Armazenar valor
 //M[n]:=M[s]; s:=s-1
 function geraSTR(parametro1) {
-    console.log("STR "+parametro1);
-    arquivo += "STR "+parametro1+"\n";
+    console.log("STR " + parametro1);
+    arquivo += "STR " + parametro1 + "\n";
 }
 
 //Desviar sempre
-function geraJMP(parametro1) {
-    console.log("JMP "+parametro1);
-    arquivo += "JMP "+parametro1+"\n";
+function geraJMP(rotulo) {
+    arquivo += "JMP " + rotulo + "\n";
 }
 
 //Desviar se falso
@@ -183,14 +182,12 @@ function geraJMP(parametro1) {
 //i:=p senão
 //i:=i+1;
 //S:=s-1 
-function geraJMPF(parametro1) {
-    console.log("JMPF "+parametro1);
-    arquivo += "JMPF "+parametro1+"\n";
+function geraJMPF(rotulo) {
+    arquivo += "JMPF " + rotulo + "\n";
 }
 
-function geraNULL() {
-    console.log("NULL");
-    arquivo += "NULL\n";
+function geraNULL(rotulo) {
+    arquivo += rotulo + "NULL\n";
 }
 
 //Leitura
@@ -217,8 +214,8 @@ function geraSTART() {
 //Alocar memoria
 //s:=s+m
 function geraALLOC(parametro1, parametro2) {
-    console.log("ALLOC"+parametro1+","+parametro2);
-    arquivo += "ALLOC "+parametro1+","+parametro2+"\n";
+    console.log("ALLOC" + parametro1 + "," + parametro2);
+    arquivo += "ALLOC " + parametro1 + "," + parametro2 + "\n";
 }
 
 //Desalocar memoria
@@ -226,8 +223,8 @@ function geraALLOC(parametro1, parametro2) {
 //faça {M[m+k]:=M[s];
 //s:=s-1} 
 function geraDALLOC(parametro1, parametro2) {
-    console.log("DALLOC"+parametro1+","+parametro2);
-    arquivo += "DALLOC "+parametro1+","+parametro2+"\n";
+    console.log("DALLOC" + parametro1 + "," + parametro2);
+    arquivo += "DALLOC " + parametro1 + "," + parametro2 + "\n";
 }
 
 //Parar
@@ -241,8 +238,8 @@ function geraHLT() {
 //M[s]:=i+1
 //i:=p
 function geraCALL(parametro1) {
-    console.log("CALL"+parametro1);
-    arquivo += "CALL "+parametro1+"\n";
+    console.log("CALL" + parametro1);
+    arquivo += "CALL " + parametro1 + "\n";
 }
 
 //Retornar de procedimento
