@@ -41,6 +41,7 @@ function sintatico() {
                 nivel: nivel
             });
             geraSTART();
+            geraALLOC(0, 1);
             getToken();
             if (token.simbolo == "Sponto_virgula") {
                 Analisa_Bloco();
@@ -51,6 +52,7 @@ function sintatico() {
                     getToken();
                     //ARQUIVO FINALIZADO
                     if (token.simbolo == undefined) {
+                        geraDALLOC(0, 1);
                         geraHLT();
                         geraCodigo();
                         fim = performance.now();
@@ -104,7 +106,7 @@ function Analisa_Bloco() {
     Analisa_et_variaveis();
 
     let vars = qtVarsNivel(nivel);
-    let varsTotal = qtVarsTotal() - vars;
+    let varsTotal = qtVarsTotal() - vars + 1;
     //GERACAO DE CODIGO
 
     if (primeiravez) {
@@ -288,7 +290,8 @@ function Analisa_escreva() {
                 if (pesquisa_declfunc_tabela(token.lexema)) {
                     let mem = locEndMemoria(token.lexema);
                     if (mem != -1) {
-                        geraLDV(mem);
+                        geraCALL(mem);
+                        geraLDV(0);
                     }
                 } else {
                     geraErroSemantico();
@@ -461,7 +464,7 @@ function Analisa_declaracao_procedimento() {
                 //GERACAO DE CODIGO
 
                 let vars = qtVarsNivel(nivel);
-                let varsTotal = qtVarsTotal() - vars;
+                let varsTotal = qtVarsTotal() - vars + 1;
 
                 if (vars > 0) {
                     geraDALLOC(varsTotal, vars);
@@ -626,7 +629,12 @@ function Analisa_chamada_funcao() {
             geraErroSemantico();
         }
         //GERACAO DE CODIGO
-        geraCALL(token.lexema);
+
+        let mem = locEndMemoria(token.lexema);
+        if (mem != -1) {
+            geraCALL(mem);
+            geraLDV(0);
+        }
     } else {
         geraErroSintatico();
     }
@@ -635,7 +643,10 @@ function Analisa_chamada_funcao() {
 function Chamada_procedimento(tokenantigo) {
     if (pesquisa_declproc_tabela(tokenantigo.lexema)) {
         //GERACAO DE CODIGO
-        geraCALL(token.lexema);
+        let mem = locEndMemoria(token.lexema);
+        if (mem != -1) {
+            geraCALL(mem);
+        }
     } else {
         geraErroSemantico();
     }
@@ -650,12 +661,18 @@ function Analisa_atribuicao(tokenantigo) {
     let tipoVar = buscaTipo(tokenantigo.lexema);
 
     if (tipoVar === "var inteiro" || tipoVar === "func inteiro") {
+        if (tipoVar === "func inteiro") {
+            geraSTR(0);
+        }
         if (retornoPosFixo != "Sinteiro" && retornoPosFixo != "Snumero") {
             console.log(retornoPosFixo);
             geraErroSemantico();
         }
     } else {
         if (tipoVar === "var booleano" || tipoVar === "func booleano") {
+            if (tipoVar === "func booleano") {
+                geraSTR(0);
+            }
             if (retornoPosFixo != "Sbooleano" && retornoPosFixo != "Sverdadeiro" && retornoPosFixo != "Sfalso") {
                 geraErroSemantico();
             }
@@ -663,8 +680,9 @@ function Analisa_atribuicao(tokenantigo) {
             geraErroSemantico();
         }
     }
-    let mem = locEndMemoria(tokenantigo.lexema);
-    if (mem != -1) {
-        geraSTR(mem);
-    }
+
+    // let mem = locEndMemoria(tokenantigo.lexema);
+    // if (mem != -1) {
+    //     geraSTR(mem);
+    // }
 }
