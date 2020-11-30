@@ -395,6 +395,7 @@ function Analisa_se() {
 
                 getToken();
                 Analisa_comando_simples();
+                geraNULL(auxrot2);
             } else {
                 geraNULL(auxrot);
             }
