@@ -13,15 +13,23 @@
 
 let tabelasimbolos = [];
 let nivel = 0;
-let rotulo = 0; //GERACAO DE CODIGO
+let rotulo = 1; //GERACAO DE CODIGO
+let primeiravez = true;
+let Gvars, GvarsTotal = 0;
+let memVars;
 
 //Funcao principal do Sintatico
 function sintatico() {
+
     console.log("***** start SINTATICO *****");
 
     nivel = 0;              //tabela de simbolos
     tabelasimbolos = [];    //tabela de simbolos
-    rotulo = 1;             //geracao de codigo
+    rotulo = 1;             //geracao de codigo 
+    primeiravez = true;     //geracao de codigo
+    Gvars = 0;              //geracao de codigo
+    GvarsTotal = 0;         //geracao de codigo
+    memVars = 1;            //geracao de codigo
 
     getToken();
     if (token.simbolo == "Sprograma") {
@@ -32,18 +40,14 @@ function sintatico() {
                 tipo: "nomePrograma",
                 nivel: nivel
             });
-
             geraSTART();
             getToken();
             if (token.simbolo == "Sponto_virgula") {
                 Analisa_Bloco();
                 if (token.simbolo == "Sponto") {
-                    //GERACAO DE CODIGO
-                    /*
-                    if (Gvars > 0){
-                        geraDALLOC(Goffset, Gvars);
+                    if (Gvars > 0) {
+                        geraDALLOC(GvarsTotal, Gvars);
                     }
-                    */
                     getToken();
                     //ARQUIVO FINALIZADO
                     if (token.simbolo == undefined) {
@@ -99,21 +103,19 @@ function Analisa_Bloco() {
     getToken();
     Analisa_et_variaveis();
 
+    let vars = qtVarsNivel(nivel);
+    let varsTotal = qtVarsTotal() - vars;
     //GERACAO DE CODIGO
-    /*
-    let vars = tabela.NumeroDeVariaveisAlocadas(nivel);
-    int offset = tabela.NumeroDeVariaveisAlocadasNoTotal() - vars;
 
-    if(primeiravez){
+    if (primeiravez) {
         Gvars = vars;
-        Goffset = offset;
+        GvarsTotal = varsTotal;
         primeiravez = false;
     }
-    if (vars > 0){
-        geraALLOC(offset,vars);
-    }    
-    */
 
+    if (vars > 0) {
+        geraALLOC(varsTotal, vars);
+    }
     Analisa_Subrotinas();
     Analisa_comandos();
 }
@@ -130,8 +132,6 @@ function Analisa_et_variaveis() {
                 } else {
                     geraErroSintatico();
                 }
-                //GERACAO DE CODIGO
-                geraLDV(token.lexema);
             }
         } else {
             geraErroSintatico();
@@ -148,7 +148,9 @@ function Analisa_Variaveis() {
                     lexema: token.lexema,
                     tipo: "var",
                     nivel: nivel,
+                    memoria: memVars
                 });
+                memVars++;
                 console.log(token);
                 getToken();
                 if ((token.simbolo == "Svirgula") || (token.simbolo == "Sdoispontos")) {
@@ -249,8 +251,10 @@ function Analisa_leia() {
             if (pesquisa_declvar_tabela(token.lexema)) { //mesmo nivel? Outros niveis?
                 //GERACAO DE CODIGO
                 geraRD();
-                geraSTR(token.lexema);
-
+                let mem = locEndMemoria(token.lexema);
+                if (mem != -1) {
+                    geraSTR(mem);
+                }
                 getToken();
                 if (token.simbolo == "Sfecha_parenteses") {
                     getToken();
@@ -275,27 +279,52 @@ function Analisa_escreva() {
     if (token.simbolo == "Sabre_parenteses") {
         getToken();
         if (token.simbolo == "Sidentificador") {
-            if (pesquisa_declvarfunc_tabela(token.lexema) || pesquisa_declfunc_tabela(token.lexema)) {
-                if (pesquisa_declvarfunc_tabela(token.lexema)) {
-                    //GERACAO DE CODIGO
-                    geraLDV(token.lexema);
-                } else {
-                    //GERACAO DE CODIGO
-                    geraCALL(token.lexema);
-                }
-
-                getToken();
-                if (token.simbolo == "Sfecha_parenteses") {
-                    //GERACAO DE CODIGO
-                    geraPRN();
-
-                    getToken();
-                } else {
-                    geraErroSintatico();
+            if (pesquisa_declvar_tabela(token.lexema)) {
+                let mem = locEndMemoria(token.lexema);
+                if (mem != -1) {
+                    geraLDV(mem);
                 }
             } else {
-                geraErroSemantico();
+                if (pesquisa_declfunc_tabela(token.lexema)) {
+                    let mem = locEndMemoria(token.lexema);
+                    if (mem != -1) {
+                        geraLDV(mem);
+                    }
+                } else {
+                    geraErroSemantico();
+                }
             }
+            getToken();
+            if (token.simbolo == "Sfecha_parenteses") {
+                geraPRN();
+                getToken();
+            } else {
+                geraErroSintatico();
+            }
+
+
+
+            // if (pesquisa_declvarfunc_tabela(token.lexema) || pesquisa_declfunc_tabela(token.lexema)) {
+            //     if (pesquisa_declvarfunc_tabela(token.lexema)) {
+            //         //GERACAO DE CODIGO
+            //         geraLDV(token.lexema);
+            //     } else {
+            //         //GERACAO DE CODIGO
+            //         geraCALL(token.lexema);
+            //     }
+
+            //     getToken();
+            //     if (token.simbolo == "Sfecha_parenteses") {
+            //         //GERACAO DE CODIGO
+            //         geraPRN();
+
+            //         getToken();
+            //     } else {
+            //         geraErroSintatico();
+            //     }
+            // } else {
+            //     geraErroSemantico();
+            // }
         } else {
             geraErroSintatico();
         }
@@ -429,16 +458,16 @@ function Analisa_declaracao_procedimento() {
                 Analisa_Bloco();
 
                 //GERACAO DE CODIGO
-                /*
-                int vars = tabela.NumeroDeVariaveisAlocadas(nivel);
-                int offset = tabela.NumeroDeVariaveisAlocadasNoTotal() - vars;
 
-                if (vars > 0){
-                    geraDALLOC(offset, vars);
-                    enderecoVar = enderecoVar - vars;
+                let vars = qtVarsNivel(nivel);
+                let varsTotal = qtVarsTotal() - vars;
+
+                if (vars > 0) {
+                    geraDALLOC(varsTotal, vars);
+                    memVars = memVars - vars;
                 }
-                    geraRETURN();
-                */
+                geraRETURN();
+
             } else {
                 geraErroSintatico();
             }
@@ -490,7 +519,7 @@ function Analisa_declaracao_funcao() {
                         int vars = tabela.NumeroDeVariaveisAlocadas(nivel);
                         int offset = tabela.NumeroDeVariaveisAlocadasNoTotal() - vars;
 
-                        geraRETURN(offset, vars);
+                        geraRETURNF(offset, vars);
                         */
                     }
                 } else {
@@ -513,21 +542,6 @@ function Analisa_declaracao_funcao() {
 function Analisa_expressao() {
     Analisa_expressao_simples();
     if ((token.simbolo == "Smaior") || (token.simbolo == "Smaiorig") || (token.simbolo == "Sig") || (token.simbolo == "Smenor") || (token.simbolo == "Smenorig") || (token.simbolo == "Sdif")) {
-        //GERACAO DE CODIGO
-        if (token.simbolo == "Smaior") {
-            geraCMA();
-        } else if (token.simbolo == "Smaiorig") {
-            geraCMAQ();
-        } else if (token.simbolo == "Sig") {
-            geraCEQ();
-        } else if (token.simbolo == "Smenor") {
-            geraCME();
-        } else if (token.simbolo == "Smenorig") {
-            geraCMEQ();
-        } else if (token.simbolo == "Sdif") {
-            geraCDIF();
-        }
-
         posFixoGerador();
         getToken();
         Analisa_expressao_simples();
@@ -538,35 +552,18 @@ function Analisa_expressao() {
 function Analisa_expressao_simples() {
     //dividir mais e menos para gerar menos unitario do posfixo?
     if (token.simbolo == "Smais") {
-        //GERACAO DE CODIGO
-        geraADD();
-
         //POSFIXO EM UNITARIO
         getToken();
     }
     if (token.simbolo == "Smenos") {
         //POSFIXO EM UNITARIO
         token.simbolo = "Smenosu";
-
-        //GERACAO DE CODIGO
-        geraNEG();
-
-        console.log(token);
         posFixoGerador();
         getToken();
     }
 
     Analisa_termo();
     while ((token.simbolo == "Smais") || (token.simbolo == "Smenos") || (token.simbolo == "Sou")) {
-        //GERACAO DE CODIGO
-        if (token.simbolo == "Smais") {
-            geraADD();
-        } else if (token.simbolo == "Smenos") {
-            geraSUB();
-        } else if (token.simbolo == "Sou") {
-            geraOR();
-        }
-
         posFixoGerador();
         getToken();
         Analisa_termo();
@@ -577,15 +574,6 @@ function Analisa_expressao_simples() {
 function Analisa_termo() {
     Analisa_fator();
     while ((token.simbolo == "Smult") || (token.simbolo == "Sdiv") || (token.simbolo == "Se")) {
-        //GERACAO DE CODIGO
-        if (token.simbolo == "Smult") {
-            geraMULT();
-        } else if (token.simbolo == "Sdiv") {
-            geraDIVI();
-        } else if (token.simbolo == "Se") {
-            geraAND();
-        }
-
         posFixoGerador();
         getToken();
         Analisa_fator();
@@ -597,7 +585,7 @@ function Analisa_fator() {
     posFixoGerador();
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declvar_tabela(token.lexema)) { //o que faz pesquisa tabela?
-            if (pesquisa_declfunc_tabela(token.lexema)) {
+            if (pesquisa_declfunc_tabela(token.lexema)) { //validar se ifs estao corretos
                 //POSFIXO
                 Analisa_chamada_funcao();
             } else {
@@ -609,20 +597,11 @@ function Analisa_fator() {
             getToken()
         }
     } else if (token.simbolo == "Snumero") {
-        //GERACAO DE CODIGO
-        geraLDC(token.lexema);
-
-        //POSFIXO
         getToken();
     } else if (token.simbolo == "Snao") {
-        //GERACAO DE CODIGO
-        geraNEG();
-
-        //POSFIXO
         getToken();
         Analisa_fator();
     } else if (token.simbolo == "Sabre_parenteses") {
-        //POSFIXO
         getToken();
         Analisa_expressao();
         if (token.simbolo == "Sfecha_parenteses") {
@@ -632,14 +611,6 @@ function Analisa_fator() {
             geraErroSintatico();
         }
     } else if (token.simbolo == "Sverdadeiro" || token.simbolo == "Sfalso") {
-        //GERACAO DE CODIGO
-        if (token.simbolo == "Sverdadeiro") {
-            geraLDC(1);
-        } else {
-            geraLDC(0);
-        }
-
-        //POSFIXO
         getToken();
     } else {
         geraErroSintatico();
@@ -682,8 +653,6 @@ function Analisa_atribuicao(tokenantigo) {
             console.log(retornoPosFixo);
             geraErroSemantico();
         }
-        //GERACAO DE CODIGO
-        geraSTR(tokenantigo.lexema);
     } else {
         if (tipoVar === "var booleano" || tipoVar === "func booleano") {
             if (retornoPosFixo != "Sbooleano" && retornoPosFixo != "Sverdadeiro" && retornoPosFixo != "Sfalso") {
