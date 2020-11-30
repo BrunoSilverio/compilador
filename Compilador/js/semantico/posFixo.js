@@ -157,6 +157,7 @@ function analisaPosFixo() {
     let operador;
     let tipo = 0;
     transferePosFixo();
+    geraPosFixoExpressao();
     for (let i = 0; i <= (posFixo.length - 1); i++) { //Percorre do inicio ao final. Validar index
         operador = localizaParametros(posFixo[i].simbolo);
 
