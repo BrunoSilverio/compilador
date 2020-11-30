@@ -257,14 +257,14 @@ function geraPosFixoExpressao() {
         switch (posFixo[i].simbolo) {
 
             case "Sidentificador":
-                let mem = locEndMemoria(token.lexema);
+                let mem = locEndMemoria(posFixo[i].lexema);
                 if (mem != -1) {
                     geraLDV(mem);
                 }
                 break;
 
             case "Snumero":
-                geraLDC(token.lexema);
+                geraLDC(posFixo[i].lexema);
                 break;
 
             case "Sverdadeiro":
@@ -284,7 +284,7 @@ function geraPosFixoExpressao() {
                 break;
 
             case "Smult":
-                geraADD();
+                geraMULT();
                 break;
 
             case "Sdiv":
