@@ -71,7 +71,7 @@ function posFixoGerador() {
             break;
 
         case "Snumero":
-            posFixo.push(token);;
+            posFixo.push(token);
             break;
 
         case "Sverdadeiro":
@@ -110,7 +110,7 @@ function insereOperador() {
             let prioridadeNovo = precedenciaOperador(token.simbolo);
 
             //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
-            if (prioridadeNovo >= prioridadeAntigo) {
+            if (prioridadeNovo < prioridadeAntigo) {
                 posFixo.push(posFixoOperadores.pop());
             } else {
                 posFixoOperadores.push(token);
