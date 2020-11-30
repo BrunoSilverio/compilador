@@ -662,4 +662,8 @@ function Analisa_atribuicao(tokenantigo) {
             geraErroSemantico();
         }
     }
+    let mem = locEndMemoria(tokenantigo.lexema);
+    if (mem != -1) {
+        geraSTR(mem);
+    }
 }
