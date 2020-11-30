@@ -187,7 +187,7 @@ function geraJMPF(rotulo) {
 }
 
 function geraNULL(rotulo) {
-    arquivo += rotulo + "NULL\n";
+    arquivo += rotulo + " NULL\n";
 }
 
 //Leitura
@@ -214,7 +214,7 @@ function geraSTART() {
 //Alocar memoria
 //s:=s+m
 function geraALLOC(parametro1, parametro2) {
-    console.log("ALLOC" + parametro1 + "," + parametro2);
+    console.log("ALLOC " + parametro1 + "," + parametro2);
     arquivo += "ALLOC " + parametro1 + "," + parametro2 + "\n";
 }
 
@@ -223,14 +223,14 @@ function geraALLOC(parametro1, parametro2) {
 //faça {M[m+k]:=M[s];
 //s:=s-1} 
 function geraDALLOC(parametro1, parametro2) {
-    console.log("DALLOC" + parametro1 + "," + parametro2);
+    console.log("DALLOC " + parametro1 + "," + parametro2);
     arquivo += "DALLOC " + parametro1 + "," + parametro2 + "\n";
 }
 
 //Parar
 function geraHLT() {
     console.log("HLT");
-    arquivo += "HLT\n";
+    arquivo += "HLT";
 }
 
 //Chamar procedimento ou funcao
@@ -238,7 +238,7 @@ function geraHLT() {
 //M[s]:=i+1
 //i:=p
 function geraCALL(parametro1) {
-    console.log("CALL" + parametro1);
+    console.log("CALL " + parametro1);
     arquivo += "CALL " + parametro1 + "\n";
 }
 
@@ -248,4 +248,92 @@ function geraCALL(parametro1) {
 function geraRETURN() {
     console.log("RETURN");
     arquivo += "RETURN\n";
-} 
+}
+
+
+function geraPosFixoExpressao() {
+
+    for (let i = 0; i <= (posFixo.length - 1); i++) {
+        switch (posFixo[i].simbolo) {
+
+            case "Sidentificador":
+                let mem = locEndMemoria(token.lexema);
+                if (mem != -1) {
+                    geraLDV(mem);
+                }
+                break;
+
+            case "Snumero":
+                geraLDC(token.lexema);
+                break;
+
+            case "Sverdadeiro":
+                geraLDC(1);
+                break;
+
+            case "Sfalso":
+                geraLDC(0);
+                break;
+
+            case "Smenosu":
+                geraINV();
+                break;
+
+            case "Snao":
+                geraNEG();
+                break;
+
+            case "Smult":
+                geraADD();
+                break;
+
+            case "Sdiv":
+                geraDIVI();
+                break;
+
+            case "Smais":
+                geraADD();
+                break;
+
+            case "Smenos":
+                geraSUB();
+                break;
+
+            case "Smaior":
+                geraCMA();
+                break;
+
+            case "Smenor":
+                geraCME();
+                break;
+
+            case "Smaiorig":
+                geraCMAQ();
+                break;
+
+            case "Smenorig":
+                geraCMEQ();
+                break;
+
+            case "Sig":
+                geraCEQ();
+                break;
+
+            case "Sdif":
+                geraCDIF();
+                break;
+
+            case "Sou":
+                geraOR();
+                break;
+
+            case "Se":
+                geraAND();
+                break;
+
+            default:
+                break;
+        }
+
+    }
+}
