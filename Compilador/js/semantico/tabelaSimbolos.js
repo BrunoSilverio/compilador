@@ -136,3 +136,26 @@ function buscaTipo(lexema) {
         return item.tipo;
     }
 }
+
+
+
+function qtVarsNivel(nivel) {
+    let count = 0;
+    for (let i = tabelasimbolos.length - 1; i >= 0; i--) {
+        if (tabelasimbolos[i].nivel === nivel) {
+            if (tabelasimbolos[i].tipo === "var inteiro" || tabelasimbolos[i].tipo === "var booleano")
+                count++;
+        }
+    }
+    return count;
+}
+
+function qtVarsTotal() {
+    let count = 0;
+    for (let i = tabelasimbolos.length - 1; i >= 0; i--) {
+        if (tabelasimbolos[i].tipo === "var inteiro" || tabelasimbolos[i].tipo === "var booleano")
+            count++;
+    }
+    return count;
+
+}
