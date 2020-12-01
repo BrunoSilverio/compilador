@@ -429,8 +429,10 @@ function Analisa_declaracao_procedimento() {
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "proc",
-                nivel: nivel
+                nivel: nivel,
+                memoria: memVars
             });
+            memVars++;
             //GERACAO DE CODIGO
             geraNULL(rotulo);//CALL irá buscar este rótulo na TabSimb
             rotulo++;
