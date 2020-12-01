@@ -291,8 +291,8 @@ function Analisa_escreva() {
                     let mem = locEndMemoria(token.lexema);
                     if (mem != -1) {
                         geraCALL(mem);
-                        geraLDV(0);
                     }
+                    geraLDV(0);
                 } else {
                     geraErroSemantico();
                 }
@@ -495,8 +495,10 @@ function Analisa_declaracao_funcao() {
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "func",
-                nivel: nivel
-            }); //AQUI TERIA QUE ADICIONAR O 'rotulo' NA TABELA DE SIMBOLOS
+                nivel: nivel,
+                memoria: memVars
+            });
+            memVars++;
             getToken();
 
             //GERACAO DE CODIGO
@@ -624,20 +626,18 @@ function Analisa_fator() {
 function Analisa_chamada_funcao() {
     if (token.simbolo == "Sidentificador") {
         if (pesquisa_declfunc_tabela(token.lexema)) {
-            getToken();
+            let mem = locEndMemoria(token.lexema);
+            if (mem != -1) {
+                geraCALL(mem);
+                geraLDV(0);
+            }
         } else {
             geraErroSemantico();
-        }
-        //GERACAO DE CODIGO
-
-        let mem = locEndMemoria(token.lexema);
-        if (mem != -1) {
-            geraCALL(mem);
-            geraLDV(0);
         }
     } else {
         geraErroSintatico();
     }
+    getToken();
 }
 
 function Chamada_procedimento(tokenantigo) {
@@ -662,7 +662,16 @@ function Analisa_atribuicao(tokenantigo) {
 
     if (tipoVar === "var inteiro" || tipoVar === "func inteiro") {
         if (tipoVar === "func inteiro") {
+
+            let vars = qtVarsNivel(nivel);
+            let varsTotal = qtVarsTotal() - vars + 1;
+
             geraSTR(0);
+            if (vars > 0) {
+                geraDALLOC(varsTotal, vars);
+                memVars = memVars - vars;
+            }
+            geraRETURN();
         }
         if (retornoPosFixo != "Sinteiro" && retornoPosFixo != "Snumero") {
             console.log(retornoPosFixo);
@@ -671,7 +680,17 @@ function Analisa_atribuicao(tokenantigo) {
     } else {
         if (tipoVar === "var booleano" || tipoVar === "func booleano") {
             if (tipoVar === "func booleano") {
+
+
+                let vars = qtVarsNivel(nivel);
+                let varsTotal = qtVarsTotal() - vars + 1;
+
                 geraSTR(0);
+                if (vars > 0) {
+                    geraDALLOC(varsTotal, vars);
+                    memVars = memVars - vars;
+                }
+                geraRETURN();
             }
             if (retornoPosFixo != "Sbooleano" && retornoPosFixo != "Sverdadeiro" && retornoPosFixo != "Sfalso") {
                 geraErroSemantico();
