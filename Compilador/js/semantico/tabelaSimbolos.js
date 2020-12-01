@@ -162,7 +162,7 @@ function qtVarsTotal() {
 
 function locEndMemoria(lexema) {
     for (let i = tabelasimbolos.length - 1; i > 0; i--) {
-        if (tabelasimbolos[i].lexema == lexema) {
+        if (tabelasimbolos[i].lexema === lexema) {
             return tabelasimbolos[i].memoria;
         }
     }
