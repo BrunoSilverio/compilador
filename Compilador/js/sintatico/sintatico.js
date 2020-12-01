@@ -475,11 +475,12 @@ function Analisa_declaracao_funcao() {
                 nivel: nivel,
                 memoria: rotulo
             });
-            
+
             getToken();
 
             //GERACAO DE CODIGO
             geraNULL(rotulo);
+            rotulo++;
 
             if (token.simbolo == "Sdoispontos") {
                 getToken();
@@ -490,14 +491,9 @@ function Analisa_declaracao_funcao() {
                     } else {
                         tabelasimbolos[tabelasimbolos.length - 1].tipo = "func booleano";
                     }
-                    //GERACAO DE CODIGO
-                    rotulo++;
-
                     getToken();
                     if (token.simbolo == "Sponto_virgula") {
                         Analisa_Bloco();
-
-                        //GERACAO DE CODIGO DE DALLOC??
 
                     }
                 } else {
@@ -645,6 +641,12 @@ function Analisa_atribuicao(tokenantigo) {
             }
             geraRETURN();
         }
+        if (tipoVar === "var inteiro") {
+            let mem = locEndMemoria(tokenantigo.lexema);
+            if (mem != -1) {
+                geraSTR(mem);
+            }
+        }
         if (retornoPosFixo != "Sinteiro" && retornoPosFixo != "Snumero") {
             console.log(retornoPosFixo);
             geraErroSemantico();
@@ -652,8 +654,6 @@ function Analisa_atribuicao(tokenantigo) {
     } else {
         if (tipoVar === "var booleano" || tipoVar === "func booleano") {
             if (tipoVar === "func booleano") {
-
-
                 let vars = qtVarsNivel(nivel);
                 let varsTotal = qtVarsTotal() - vars + 1;
 
@@ -663,6 +663,12 @@ function Analisa_atribuicao(tokenantigo) {
                     memVars = memVars - vars;
                 }
                 geraRETURN();
+            }
+            if (tipoVar === "var booleano") {
+                let mem = locEndMemoria(tokenantigo.lexema);
+                if (mem != -1) {
+                    geraSTR(mem);
+                }
             }
             if (retornoPosFixo != "Sbooleano" && retornoPosFixo != "Sverdadeiro" && retornoPosFixo != "Sfalso") {
                 geraErroSemantico();
