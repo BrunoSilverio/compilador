@@ -304,30 +304,6 @@ function Analisa_escreva() {
             } else {
                 geraErroSintatico();
             }
-
-
-
-            // if (pesquisa_declvarfunc_tabela(token.lexema) || pesquisa_declfunc_tabela(token.lexema)) {
-            //     if (pesquisa_declvarfunc_tabela(token.lexema)) {
-            //         //GERACAO DE CODIGO
-            //         geraLDV(token.lexema);
-            //     } else {
-            //         //GERACAO DE CODIGO
-            //         geraCALL(token.lexema);
-            //     }
-
-            //     getToken();
-            //     if (token.simbolo == "Sfecha_parenteses") {
-            //         //GERACAO DE CODIGO
-            //         geraPRN();
-
-            //         getToken();
-            //     } else {
-            //         geraErroSintatico();
-            //     }
-            // } else {
-            //     geraErroSemantico();
-            // }
         } else {
             geraErroSintatico();
         }
@@ -354,10 +330,10 @@ function Analisa_enquanto() {
         if (token.simbolo == "Sfaca") {
             //GERACAO DE CODIGO
             auxrot2 = rotulo;
-            
+
             rotulo++;
             geraJMPF(auxrot2);//SALTA SE FALSO
-            
+
             getToken();
             Analisa_comando_simples();
 
