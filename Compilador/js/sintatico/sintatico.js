@@ -354,7 +354,6 @@ function Analisa_se() {
     let auxrot2 = 0;
     auxrot = rotulo;
 
-
     getToken();
     limpaPosFixo();
     Analisa_expressao();
@@ -426,14 +425,13 @@ function Analisa_declaracao_procedimento() {
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declproc_tabela(token.lexema)) { //procura tmbm var, fun ou programa?
             nivel++;
+            geraNULL(rotulo);
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "proc",
                 nivel: nivel,
                 memoria: rotulo
             });
-            //GERACAO DE CODIGO
-            geraNULL(rotulo);//CALL irá buscar este rótulo na TabSimb
             rotulo++;
 
             getToken();
@@ -469,18 +467,15 @@ function Analisa_declaracao_funcao() {
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declfunc_tabela(token.lexema)) {
             nivel++;
+            geraNULL(rotulo);
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "func",
                 nivel: nivel,
                 memoria: rotulo
             });
-
-            getToken();
-
-            //GERACAO DE CODIGO
-            geraNULL(rotulo);
             rotulo++;
+            getToken();
 
             if (token.simbolo == "Sdoispontos") {
                 getToken();
