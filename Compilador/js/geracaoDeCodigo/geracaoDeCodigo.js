@@ -174,7 +174,7 @@ function geraSTR(parametro1) {
 
 //Desviar sempre
 function geraJMP(rotulo) {
-    arquivo += "JMP " + rotulo + "\n";
+    arquivo += "JMP L" + rotulo + "\n";
 }
 
 //Desviar se falso
@@ -183,11 +183,11 @@ function geraJMP(rotulo) {
 //i:=i+1;
 //S:=s-1 
 function geraJMPF(rotulo) {
-    arquivo += "JMPF " + rotulo + "\n";
+    arquivo += "JMPF L" + rotulo + "\n";
 }
 
 function geraNULL(rotulo) {
-    arquivo += rotulo + " NULL\n";
+    arquivo += "L" + rotulo + " NULL\n";
 }
 
 //Leitura
@@ -239,7 +239,7 @@ function geraHLT() {
 //i:=p
 function geraCALL(parametro1) {
     console.log("CALL " + parametro1);
-    arquivo += "CALL " + parametro1 + "\n";
+    arquivo += "CALL L" + parametro1 + "\n";
 }
 
 //Retornar de procedimento
