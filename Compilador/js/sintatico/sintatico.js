@@ -341,10 +341,10 @@ function Analisa_enquanto() {
     let auxrot1 = 0;
     let auxrot2 = 0;
 
-    //GERACAO DE CODIGO
     auxrot1 = rotulo;
-    geraNULL(rotulo);//INICIO DO WHILE
+
     rotulo++;
+    geraNULL(rotulo);//INICIO DO WHILE
 
     limpaPosFixo();
     getToken();
@@ -354,9 +354,10 @@ function Analisa_enquanto() {
         if (token.simbolo == "Sfaca") {
             //GERACAO DE CODIGO
             auxrot2 = rotulo;
-            geraJMPF(rotulo);//SALTA SE FALSO
+            
             rotulo++;
-
+            geraJMPF(auxrot2);//SALTA SE FALSO
+            
             getToken();
             Analisa_comando_simples();
 
@@ -374,8 +375,9 @@ function Analisa_enquanto() {
 //Comando condicional
 function Analisa_se() {
     let auxrot = 0;
-    auxrot = rotulo;
     let auxrot2 = 0;
+    auxrot = rotulo;
+
 
     getToken();
     limpaPosFixo();
