@@ -430,9 +430,8 @@ function Analisa_declaracao_procedimento() {
                 lexema: token.lexema,
                 tipo: "proc",
                 nivel: nivel,
-                memoria: memVars
+                memoria: rotulo
             });
-            memVars++;
             //GERACAO DE CODIGO
             geraNULL(rotulo);//CALL irá buscar este rótulo na TabSimb
             rotulo++;
@@ -474,9 +473,9 @@ function Analisa_declaracao_funcao() {
                 lexema: token.lexema,
                 tipo: "func",
                 nivel: nivel,
-                memoria: memVars
+                memoria: rotulo
             });
-            memVars++;
+            
             getToken();
 
             //GERACAO DE CODIGO
@@ -498,13 +497,8 @@ function Analisa_declaracao_funcao() {
                     if (token.simbolo == "Sponto_virgula") {
                         Analisa_Bloco();
 
-                        //GERACAO DE CODIGO
-                        /*
-                        int vars = tabela.NumeroDeVariaveisAlocadas(nivel);
-                        int offset = tabela.NumeroDeVariaveisAlocadasNoTotal() - vars;
+                        //GERACAO DE CODIGO DE DALLOC??
 
-                        geraRETURNF(offset, vars);
-                        */
                     }
                 } else {
                     geraErroSintatico();
