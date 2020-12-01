@@ -438,9 +438,7 @@ function Analisa_declaracao_procedimento() {
             getToken();
             if (token.simbolo == "Sponto_virgula") {
                 Analisa_Bloco();
-
                 //GERACAO DE CODIGO
-
                 let vars = qtVarsNivel(nivel);
                 let varsTotal = qtVarsTotal() - vars + 1;
 
@@ -621,7 +619,7 @@ function Analisa_chamada_funcao() {
 function Chamada_procedimento(tokenantigo) {
     if (pesquisa_declproc_tabela(tokenantigo.lexema)) {
         //GERACAO DE CODIGO
-        let mem = locEndMemoria(token.lexema);
+        let mem = locEndMemoria(tokenantigo.lexema);
         if (mem != -1) {
             geraCALL(mem);
         }
