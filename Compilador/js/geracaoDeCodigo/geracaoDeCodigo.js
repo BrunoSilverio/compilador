@@ -257,11 +257,22 @@ function geraPosFixoExpressao() {
         switch (posFixo[i].simbolo) {
 
             case "Sidentificador":
-                let mem = locEndMemoria(posFixo[i].lexema);
-                if (mem != -1) {
-                    geraLDV(mem);
+                if (pesquisa_declfunc_tabela(posFixo[i].lexema)) {
+                    let mem = locEndMemoria(posFixo[i].lexema);
+                    if (mem != -1) {
+                        geraCALL(mem);
+                        geraLDV(0);
+                    }
+                } else {
+                    if (pesquisa_declvar_tabela(posFixo[i].lexema)) { //mesmo nivel? Outros niveis?
+                        let mem = locEndMemoria(posFixo[i].lexema);
+                        if (mem != -1) {
+                            geraLDV(mem);
+                        }
+                    }
                 }
                 break;
+
 
             case "Snumero":
                 geraLDC(posFixo[i].lexema);
