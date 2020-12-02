@@ -589,11 +589,11 @@ function Analisa_fator() {
 function Analisa_chamada_funcao() {
     if (token.simbolo == "Sidentificador") {
         if (pesquisa_declfunc_tabela(token.lexema)) {
-            let mem = locEndMemoria(token.lexema);
-            if (mem != -1) {
-                geraCALL(mem);
-                geraLDV(0);
-            }
+            // let mem = locEndMemoria(token.lexema);
+            // if (mem != -1) {
+            //     geraCALL(mem);
+            //     geraLDV(0);
+            // }
         } else {
             geraErroSemantico();
         }
