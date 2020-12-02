@@ -319,8 +319,9 @@ function Analisa_enquanto() {
 
     auxrot1 = rotulo;
 
-    rotulo++;
+
     geraNULL(rotulo);//INICIO DO WHILE
+    rotulo++;
 
     limpaPosFixo();
     getToken();
