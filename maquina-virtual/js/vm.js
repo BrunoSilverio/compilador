@@ -18,7 +18,7 @@ let memory = [];
 let intrucoes = [];
 
 // Variavel de controle para identificar qual operação deve ser executada
-let operation = '';
+let operation = " ";
 
 // Variavel de controle para identificar quando o programa deve finalizar a execução
 let exec = true;
@@ -34,29 +34,30 @@ function main() {
     //let auxStr = "";    //auxiliar para desvios na linha
 
     var teste = arquivo.split("\n"); // define que linhas devem ser consultadas
-    
     //console.log(teste);
-    
-    for (let k=0; k < teste.length; k++) { //percorre por quantidade de linhas
+
+    for (let k = 0; k < teste.length; k++) { //percorre por quantidade de linhas
         comando = teste[k]; //contem a linha atual
-        
+
         //Pega a intrucao da linha
         operation = comando.split(" ", 1);
-        console.log("Comando: "+operation);
+        console.log("Comando: " + operation);
 
-        // Pega os valores da instrucao
-        parametros = comando.substring(comando.lastIndexOf(" ")+1);
-        console.log("Valores: "+parametros);
+        if ((operation == "LDC")||(operation == "LDV")||(operation == "STR")||(operation == "JMP")||(operation == "JMPF")||(operation == "ALLOC")||(operation == "DALLOC")||(operation == "CALL")) {
+            // Pega os valores da instrucao
+            parametros = comando.substring(comando.lastIndexOf(" ") + 1);
+            console.log("Valores: " + parametros);
+        }
 
         switch (String(operation)) {
             case "START":
                 start();
                 break;
             case "LDC":
-                ldc();
+                ldc(parametros);
                 break;
             case "LDV":
-                ldv();
+                ldv(parametros);
                 break;
             case "ADD":
                 add();
@@ -104,13 +105,13 @@ function main() {
                 hlt();
                 break;
             case "STR":
-                str();
+                str(parametros);
                 break;
             case "JMP":
-                jmp();
+                jmp(parametros);
                 break;
             case "JMPF":
-                jmpf();
+                jmpf(parametros);
                 break;
             case "NULL":
                 break;
@@ -121,13 +122,13 @@ function main() {
                 prn();
                 break;
             case "ALLOC":
-                alloc();
+                alloc(parametros);
                 break;
             case "DALLOC":
-                dalloc();
+                dalloc(parametros);
                 break;
             case "CALL":
-                call();
+                call(parametros);
                 break;
             case "RETURN":
                 retn();
@@ -135,14 +136,14 @@ function main() {
                 break;
             default:
                 break;
-        } 
+        }
     }
 }
 
 //Função para leitura de arquivo .obj para manipualcao no JS
 function readFile() {
-    var fileToLoad = document.getElementById("file-input").files[0];  //a intenção é não precisar de botões pra escolher arquivo e nem para
-    var fileReader = new FileReader();                                //executar o script, tudo deve acontecer quando cricar para abrir a aplicação
+    var fileToLoad = document.getElementById("file-input").files[0];
+    var fileReader = new FileReader();
     fileReader.onload = function (fileLoadedEvent) {
         var textFromFileLoaded = fileLoadedEvent.target.result;
         var texto = textFromFileLoaded; // Variavel com o conteudo do arquivo
@@ -177,9 +178,9 @@ function tabelaInstrucoes(texto) {
         '<td style="border: 2px solid; font-weight: bold">' + "Instruçao" + '</td>' +
         '<td style="border: 2px solid; font-weight: bold">' + "Comentario" + '</td></tr>';
 
-    for (i; i<itens.length; i++) {
+    for (i; i < itens.length; i++) {
         linha = itens[i];// espaços TAB definem colunas que serão consultadas
-        console.log("Linha: "+linha);
+        console.log("Linha: " + linha);
 
         if (linha.includes("START")) {
             comentario = "(Iniciar programa principal): S:= -1";
@@ -239,8 +240,8 @@ function tabelaInstrucoes(texto) {
             comentario = "(Retornar de procedimento): i:= M[s]; s:= s-1";
         }
 
-        document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>'+
-                                                                '<td>' + (i + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
+        document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>' +
+            '<td>' + (i + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
         comentario = "";
     }
 }
@@ -251,7 +252,8 @@ function tabelaInstrucoes(texto) {
 function start() {
     console.log("*entrou func start*");
     s = -1;
-    document.getElementById("formDados").innerHTML = "Iniciando...";    
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+
 }
 //Parar - “Para a execução da MVD”
 function hlt() {
@@ -263,101 +265,111 @@ function rd() {
     console.log("*entrou funcao RD*");
     let valor = document.getElementById("formEntrada").innerHTML += "Digite um valor: ";
     s = (s + 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
     memory[s] = valor;
+    document.getElementById("formMemoria").innerHTML = "["+s+"]"+"="+valor+"\n";
 }
 //Saida - Impressão
 function prn() {
     console.log("*entrou funcao PRN*");
-    // printValue(memory[s]);
     if (memory[s] == undefined) {
-        document.getElementById("formSaida").innerHTML += "memoria undefined";
+        document.getElementById("formMemoria").innerHTML += "memoria undefined\n";
     } else {
-        document.getElementById("formSaida").innerHTML += memory[s];
+        document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     }
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
-
 //==============================
 //===== Funções de Memoria =====
 //==============================
-
-//Carregar constante
-//k = instruction[i].parameters.p1
-function ldc() {
+function ldc(parametros) {
     console.log("*entrou funcao LDC*");
     s = (s + 1);
-    memory[s] = 0;//k
-
-    document.getElementById("formDados").innerHTML += "k"+"\n";
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    memory[s] = parametros;
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
 }
 //Carregar valor
-function ldv() {
+function ldv(parametros) {
     console.log("*entrou funcao LDV*");
     s = (s + 1);
-    //memory[s] = memory[n];
-
-    //document.getElementById("formDados").innerHTML += memory[n]+"\n";
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    memory[s] = parametros;
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
 }
 //Atribuição - Armazenar valor
-function str() {
+function str(parametros) {
     console.log("*entrou funcao STR*");
-    //memory[n] = memory[s];
+    memory[n] = parametros;
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-
-    document.getElementById("formDados").innerHTML += memory[s]+"\n";
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Alocação de Variáveis
-function alloc() {
+function alloc(parametros) {
+    let p = parametros.split(",");
+
     console.log("*entrou funcao ALLOC*");
-    /*for (let j = 0; j < instructions[i].parameters.p2; j++) {
+    for (let j = 0; j < p[1]; j++) {
         s = (s + 1);
-        memory[s] = memory[instructions[i].parameters.p1 + j];
-    }*/
-    document.getElementById("formDados").innerHTML += "teste\n";
+        document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+        memory[s] = memory[p[0] + j];
+        document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
+    }
 }
 //Desalocação de Variáveis
-function dalloc() {
+function dalloc(parametros) {
+    let p = parametros.split(",");
+
     console.log("*entrou funcao DALLOC*");
-    /*for (let j = instructions[i].parameters.p2 - 1; j >= 0; j--) {
-
-        memory[instructions[i].parameters.p1 + j] = memory[s];
+    for (let j = p[1] - 1; j >= 0; j--) {
+        memory[p[0] + j] = memory[s];
+        document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
         s = (s - 1);
-    }*/
-    document.getElementById("formDados").innerHTML += "teste\n";
+        document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    }
 }
-
 //==========================
 //=== Função aritmeticas ===
 //==========================
-
 //Operacao adição
 function add() {
     console.log("*entrou funcao ADD*");
     memory[s - 1] = parseInt(memory[s - 1] + memory[s]);
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Operacao subtração
 function sub() {
     console.log("*entrou funcao SUB*");
     memory[s - 1] = parseInt(memory[s - 1] - memory[s]);
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Operacao multiplicação
 function mult() {
     console.log("*entrou funcao MULT*");
     memory[s - 1] = parseInt(memory[s - 1] * memory[s]);
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Operacao divisão
 function divi() {
     console.log("*entrou funcao DIVI*");
     memory[s - 1] = parseInt(memory[s - 1] / memory[s]);
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Operacao inversão
 function inv() {
     console.log("*entrou funcao INV*");
     memory[s] = memory[s] * (-1);
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
 }
 
 //==========================
@@ -372,7 +384,9 @@ function and() {
     } else {
         memory[s - 1] = 0;
     }
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Operacao OR
 function or() {
@@ -382,18 +396,20 @@ function or() {
     } else {
         memory[s - 1] = 0;
     }
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Operacao NEG
 function neg() {
     console.log("*entrou funcao NEG*");
     memory[s] = 1 - memory[s];
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
 }
 
 //=============================
 //== Funções para Comparação ==
 //=============================
-
 //Comparar menor
 function cme() {
     console.log("*entrou funcao CME*");
@@ -403,7 +419,9 @@ function cme() {
     else {
         memory[s - 1] = 0;
     }
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Comparar maior
 function cma() {
@@ -414,7 +432,9 @@ function cma() {
     else {
         memory[s - 1] = 0;
     }
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Comparar igual
 function ceq() {
@@ -425,7 +445,9 @@ function ceq() {
     else {
         memory[s - 1] = 0;
     }
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Comparar desigual
 function cdif() {
@@ -436,7 +458,9 @@ function cdif() {
     else {
         memory[s - 1] = 0;
     }
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Comparar menor ou igual
 function cmeq() {
@@ -447,7 +471,9 @@ function cmeq() {
     else {
         memory[s - 1] = 0;
     }
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
 //Comparar maior ou igual
 function cmaq() {
@@ -458,54 +484,50 @@ function cmaq() {
     else {
         memory[s - 1] = 0;
     }
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
-
 //============================
 //===== Funções de Jumps =====
 //============================
-
 //Desviar sempre
-function jmp() {
+function jmp(parametros) {
     console.log("*entrou funcao JMP*");
-    //i = findLabel(instructions[i].parameters.p1).index;
+    i = findLabel(parametros);
 }
-
 //Desviar se falso
-function jmpf() {
+function jmpf(parametros) {
     console.log("*entrou funcao JMPF*");
     if (memory[s] == 0) {
-        //i = findLabel(instructions[i].parameters.p1).index;
+        i = findLabel(parametros);
         // Decrementa pois será incrementado na main.
         i = (i - 1);
-        //i = i + 1;
+        i = (i + 1);
     }
     else {
         // Não faz nada pois será incrementado na main
-        // i = i - 1;
+        i = (i - 1);
     }
     s = (s - 1);
-
-    document.getElementById("formDados").innerHTML += "\n";
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
-
 //===============================
 //===== Funções de Chamadas =====
 //===============================
-
 //Chamar procedimento ou função
-function call() {
+function call(parametros) {
     console.log("*entrou funcao CALL*");
     s = (s + 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
     memory[s] = (i + 1);
-    //i = findLabel(instructions[i].parameters.p1).index;
-
-    document.getElementById("formDados").innerHTML += "teste\n";
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
+    i = findLabel(parametros);
 }
-
 //Retornar de procedimento
 function retn() {
-    console.log("*entrou funcao RETN*");
+    console.log("*entrou funcao RETURN*");
     i = memory[s];
     s = (s - 1);
+    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
 }
