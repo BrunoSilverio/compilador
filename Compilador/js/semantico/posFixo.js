@@ -57,8 +57,6 @@ function precedenciaOperador(operador) {
             return 6;
             break;
 
-        default:
-            break;
     }
 }
 
@@ -91,7 +89,7 @@ function posFixoGerador() {
 //Funcao para manipular os operadores na pilha
 function insereOperador() {
 
-   
+
     if (token.simbolo === "Sfecha_parenteses") {
 
         while (posFixoOperadores[(posFixoOperadores.length - 1)].simbolo != "Sabre_parenteses") {
@@ -110,12 +108,14 @@ function insereOperador() {
             let prioridadeNovo = precedenciaOperador(token.simbolo);
 
             //Se a prioridade do operador atual for >= , tira o operador antigo da pilha e coloca na lista, e o operador atual vai para a pilha
-            if (prioridadeNovo < prioridadeAntigo) {
+            if (prioridadeNovo <= prioridadeAntigo) {
                 posFixo.push(posFixoOperadores.pop());
-            } else {
-                posFixoOperadores.push(token);
-                break;
-            }
+            } //else {
+            //     posFixoOperadores.push(token);
+            //     break;
+            // }
+            posFixoOperadores.push(token);
+            break;
 
         }
     }
@@ -157,6 +157,10 @@ function analisaPosFixo() {
     let operador;
     let tipo = 0;
     transferePosFixo();
+    posFixo.forEach(i => {
+        console.log(i.lexema);
+    })
+    console.log("Posfixo: ");
     geraPosFixoExpressao();
     for (let i = 0; i <= (posFixo.length - 1); i++) { //Percorre do inicio ao final. Validar index
         operador = localizaParametros(posFixo[i].simbolo);
