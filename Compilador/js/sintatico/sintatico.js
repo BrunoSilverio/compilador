@@ -319,8 +319,9 @@ function Analisa_enquanto() {
 
     auxrot1 = rotulo;
 
-    rotulo++;
+
     geraNULL(rotulo);//INICIO DO WHILE
+    rotulo++;
 
     limpaPosFixo();
     getToken();
@@ -353,7 +354,6 @@ function Analisa_se() {
     let auxrot = 0;
     let auxrot2 = 0;
     auxrot = rotulo;
-
 
     getToken();
     limpaPosFixo();
@@ -426,14 +426,13 @@ function Analisa_declaracao_procedimento() {
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declproc_tabela(token.lexema)) { //procura tmbm var, fun ou programa?
             nivel++;
+            geraNULL(rotulo);
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "proc",
                 nivel: nivel,
                 memoria: rotulo
             });
-            //GERACAO DE CODIGO
-            geraNULL(rotulo);//CALL irá buscar este rótulo na TabSimb
             rotulo++;
 
             getToken();
@@ -469,17 +468,15 @@ function Analisa_declaracao_funcao() {
     if (token.simbolo == "Sidentificador") {
         if (!pesquisa_declfunc_tabela(token.lexema)) {
             nivel++;
+            geraNULL(rotulo);
             tabelasimbolos.push({
                 lexema: token.lexema,
                 tipo: "func",
                 nivel: nivel,
                 memoria: rotulo
             });
-            
+            rotulo++;
             getToken();
-
-            //GERACAO DE CODIGO
-            geraNULL(rotulo);
 
             if (token.simbolo == "Sdoispontos") {
                 getToken();
@@ -490,14 +487,9 @@ function Analisa_declaracao_funcao() {
                     } else {
                         tabelasimbolos[tabelasimbolos.length - 1].tipo = "func booleano";
                     }
-                    //GERACAO DE CODIGO
-                    rotulo++;
-
                     getToken();
                     if (token.simbolo == "Sponto_virgula") {
                         Analisa_Bloco();
-
-                        //GERACAO DE CODIGO DE DALLOC??
 
                     }
                 } else {
@@ -598,11 +590,11 @@ function Analisa_fator() {
 function Analisa_chamada_funcao() {
     if (token.simbolo == "Sidentificador") {
         if (pesquisa_declfunc_tabela(token.lexema)) {
-            let mem = locEndMemoria(token.lexema);
-            if (mem != -1) {
-                geraCALL(mem);
-                geraLDV(0);
-            }
+            // let mem = locEndMemoria(token.lexema);
+            // if (mem != -1) {
+            //     geraCALL(mem);
+            //     geraLDV(0);
+            // }
         } else {
             geraErroSemantico();
         }
@@ -645,6 +637,12 @@ function Analisa_atribuicao(tokenantigo) {
             }
             geraRETURN();
         }
+        if (tipoVar === "var inteiro") {
+            let mem = locEndMemoria(tokenantigo.lexema);
+            if (mem != -1) {
+                geraSTR(mem);
+            }
+        }
         if (retornoPosFixo != "Sinteiro" && retornoPosFixo != "Snumero") {
             console.log(retornoPosFixo);
             geraErroSemantico();
@@ -652,8 +650,6 @@ function Analisa_atribuicao(tokenantigo) {
     } else {
         if (tipoVar === "var booleano" || tipoVar === "func booleano") {
             if (tipoVar === "func booleano") {
-
-
                 let vars = qtVarsNivel(nivel);
                 let varsTotal = qtVarsTotal() - vars + 1;
 
@@ -663,6 +659,12 @@ function Analisa_atribuicao(tokenantigo) {
                     memVars = memVars - vars;
                 }
                 geraRETURN();
+            }
+            if (tipoVar === "var booleano") {
+                let mem = locEndMemoria(tokenantigo.lexema);
+                if (mem != -1) {
+                    geraSTR(mem);
+                }
             }
             if (retornoPosFixo != "Sbooleano" && retornoPosFixo != "Sverdadeiro" && retornoPosFixo != "Sfalso") {
                 geraErroSemantico();
