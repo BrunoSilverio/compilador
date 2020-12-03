@@ -24,7 +24,7 @@ let operation = " ";
 let exec = true;
 
 // Contador para lista de instruções
-let numInst = 1;
+let comandoBuscaLinha = [];
 
 // Função main controla um loop para as operações das instruções
 function main() {
@@ -242,6 +242,28 @@ function tabelaInstrucoes(texto) {
     }
 }
 
+//FUNCAO PARA BUSCAR PROCEDIMENTO OU FUNCAO
+function buscaLinha(parametros){
+    let linha = -1;
+
+    console.log("#### ESTOU BUSCANDO: "+parametros);
+
+    for(let k = 0; k < linhaAtual.length; k++){
+        //percorrer o arquivo inteiro
+        //...
+
+
+        //OBEJTIVO DE IF É PEGAR QUANDO FOR INICIO DE FUNCAO OU PROCEDIMENTO
+        //EXEMPLO: L1 NULL, L2 NULL
+        if (operation[0] === "conteudo do arquivo aqui") { //SE O COMANDO TERMINAR COM NULL É INICIO DE PROCEDIMENTO OU  FUNCAO
+            console.log("#### ENCONTREI A LINHA: "+ parametros);
+            //pega a linha do role
+        }
+        
+        //RETORNO A LINHA/POSICAO DA FUNCAO/PROCEDIMENTO
+        return linha;
+    }
+}
 //=============================
 //===== Função basicas VM =====
 //=============================
@@ -249,7 +271,6 @@ function start() {
     console.log("*entrou func start*");
     s = -1;
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
-
 }
 //Parar - “Para a execução da MVD”
 function hlt() {
@@ -280,6 +301,7 @@ function prn() {
 //==============================
 //===== Funções de Memoria =====
 //==============================
+//Caregar constante
 function ldc(parametros) {
     console.log("*entrou funcao LDC*");
     s = (s + 1);
@@ -308,12 +330,12 @@ function alloc(parametros) {
     let p = parametros.split(",");
 
     console.log("*entrou funcao ALLOC*");
-    document.getElementById("formMemoria").innerHTML += "ALLOC";
+    document.getElementById("formMemoria").innerHTML += "ALLOC\n";
     for (let j = 0; j < p[1]; j++) {
         s = (s + 1);
         document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
         memory[s] = memory[p[0] + j];
-        document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+        document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "= NULL\n";
     }
 }
 //Desalocação de Variáveis
@@ -321,7 +343,7 @@ function dalloc(parametros) {
     let p = parametros.split(",");
 
     console.log("*entrou funcao DALLOC*");
-    document.getElementById("formMemoria").innerHTML += "DALLOC";
+    document.getElementById("formMemoria").innerHTML += "DALLOC\n";
     for (let j = p[1] - 1; j >= 0; j--) {
         memory[p[0] + j] = memory[s];
         document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
@@ -370,11 +392,9 @@ function inv() {
     memory[s] = memory[s] * (-1);
     document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
-
 //==========================
 //==== Funções Logicas =====
 //==========================
-
 //Operacao AND
 function and() {
     console.log("*entrou funcao AND*");
@@ -493,13 +513,13 @@ function cmaq() {
 //Desviar sempre
 function jmp(parametros) { //arrumar parametro da linha ->como pular e indicar
     console.log("*entrou funcao JMP*");
-    i = findLabel(parametros);
+    i = buscaLinha(parametros);
 }
 //Desviar se falso
 function jmpf(parametros) { //essa logica dos i ta certa?
     console.log("*entrou funcao JMPF*");
     if (memory[s] == 0) {
-        i = findLabel(parametros);
+        i = buscaLinha(parametros);
         // Decrementa pois será incrementado na main.
         i = (i - 1);
         i = (i + 1);
@@ -521,7 +541,7 @@ function call(parametros) {
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = (i + 1);
     document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
-    i = findLabel(parametros);
+    i = buscaLinha(parametros);
 }
 //Retornar de procedimento
 function retn() {
