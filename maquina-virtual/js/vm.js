@@ -248,14 +248,13 @@ function buscaLinha(parametros){
 
     console.log("#### ESTOU BUSCANDO: "+parametros);
 
-    for(let k = 0; k < linhaAtual.length; k++){
-        //percorrer o arquivo inteiro
-        //...
-
-
+    var buscaComando = arquivo.split("\n"); // define que linhas devem ser consultadas
+    for(let k = 0; k < buscaComando.length; k++){ //percorrer o arquivo inteiro
+        comando = buscaComando[k]; //contem a linha atual
+        operation = comando.split(" ", 1);
         //OBEJTIVO DE IF É PEGAR QUANDO FOR INICIO DE FUNCAO OU PROCEDIMENTO
         //EXEMPLO: L1 NULL, L2 NULL
-        if (operation[0] === "conteudo do arquivo aqui") { //SE O COMANDO TERMINAR COM NULL É INICIO DE PROCEDIMENTO OU  FUNCAO
+        if (operation[0] === parametros) { //SE O COMANDO TERMINAR COM NULL É INICIO DE PROCEDIMENTO OU  FUNCAO
             console.log("#### ENCONTREI A LINHA: "+ parametros);
             //pega a linha do role
         }
