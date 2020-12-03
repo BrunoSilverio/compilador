@@ -30,9 +30,9 @@ let comandoBuscaLinha = [];
 function main() {
     console.log("Executando...");
 
-    var teste = arquivo.split("\n"); // define que linhas devem ser consultadas
+    var teste = arquivo.split("\n"); //separa o arquivo por linha
 
-    for (let k = 0; k < teste.length; k++) { //percorre por quantidade de linhas
+    for (let k = 0; k < teste.length; k++) { //percorrer por quantidade de linhas no arquivo
         comando = teste[k]; //contem a linha atual
 
         //Pega a intrucao da linha
@@ -243,25 +243,26 @@ function tabelaInstrucoes(texto) {
 }
 
 //FUNCAO PARA BUSCAR PROCEDIMENTO OU FUNCAO
-function buscaLinha(parametros){
+function buscaLinha(parametros) {
     let linha = -1;
 
-    console.log("#### ESTOU BUSCANDO: "+parametros);
+    console.log("#### ESTOU BUSCANDO: " + parametros);
 
-    var buscaComando = arquivo.split("\n"); // define que linhas devem ser consultadas
-    for(let k = 0; k < buscaComando.length; k++){ //percorrer o arquivo inteiro
+    var buscaComando = arquivo.split("\n"); //separa o arquivo por linha
+    for (let k = 0; k < buscaComando.length; k++) { //percorrer por quantidade de linhas no arquivo
         comando = buscaComando[k]; //contem a linha atual
         operation = comando.split(" ", 1);
         //OBEJTIVO DE IF É PEGAR QUANDO FOR INICIO DE FUNCAO OU PROCEDIMENTO
         //EXEMPLO: L1 NULL, L2 NULL
         if (operation[0] === parametros) { //SE O COMANDO TERMINAR COM NULL É INICIO DE PROCEDIMENTO OU  FUNCAO
-            console.log("#### ENCONTREI A LINHA: "+ parametros);
+            console.log("#### ENCONTREI A LINHA: " + parametros);
             //pega a linha do role
+            linha = k;
         }
-        
-        //RETORNO A LINHA/POSICAO DA FUNCAO/PROCEDIMENTO
-        return linha;
     }
+
+    //RETORNO A LINHA DA FUNCAO/PROCEDIMENTO PARA A MAIN
+    return linha;
 }
 //=============================
 //===== Função basicas VM =====
