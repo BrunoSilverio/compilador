@@ -252,7 +252,7 @@ function tabelaInstrucoes(texto) {
 function start() {
     console.log("*entrou func start*");
     s = -1;
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 
 }
 //Parar - “Para a execução da MVD”
@@ -265,9 +265,9 @@ function rd() {
     console.log("*entrou funcao RD*");
     let valor = document.getElementById("formEntrada").innerHTML += "Digite um valor: ";
     s = (s + 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
     memory[s] = valor;
-    document.getElementById("formMemoria").innerHTML = "["+s+"]"+"="+valor+"\n";
+    document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+valor+"\n";
 }
 //Saida - Impressão
 function prn() {
@@ -278,7 +278,7 @@ function prn() {
         document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     }
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //==============================
 //===== Funções de Memoria =====
@@ -286,7 +286,7 @@ function prn() {
 function ldc(parametros) {
     console.log("*entrou funcao LDC*");
     s = (s + 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
     memory[s] = parametros;
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
 }
@@ -294,17 +294,17 @@ function ldc(parametros) {
 function ldv(parametros) {
     console.log("*entrou funcao LDV*");
     s = (s + 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
     memory[s] = parametros;
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
 }
 //Atribuição - Armazenar valor
 function str(parametros) {
     console.log("*entrou funcao STR*");
-    memory[n] = parametros;
+    memory[parametros] = memory[s];
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Alocação de Variáveis
 function alloc(parametros) {
@@ -313,7 +313,7 @@ function alloc(parametros) {
     console.log("*entrou funcao ALLOC*");
     for (let j = 0; j < p[1]; j++) {
         s = (s + 1);
-        document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+        document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
         memory[s] = memory[p[0] + j];
         document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     }
@@ -327,7 +327,7 @@ function dalloc(parametros) {
         memory[p[0] + j] = memory[s];
         document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
         s = (s - 1);
-        document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+        document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
     }
 }
 //==========================
@@ -339,7 +339,7 @@ function add() {
     memory[s - 1] = parseInt(memory[s - 1] + memory[s]);
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Operacao subtração
 function sub() {
@@ -347,7 +347,7 @@ function sub() {
     memory[s - 1] = parseInt(memory[s - 1] - memory[s]);
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Operacao multiplicação
 function mult() {
@@ -355,7 +355,7 @@ function mult() {
     memory[s - 1] = parseInt(memory[s - 1] * memory[s]);
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Operacao divisão
 function divi() {
@@ -363,7 +363,7 @@ function divi() {
     memory[s - 1] = parseInt(memory[s - 1] / memory[s]);
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Operacao inversão
 function inv() {
@@ -386,7 +386,7 @@ function and() {
     }
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Operacao OR
 function or() {
@@ -398,7 +398,7 @@ function or() {
     }
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Operacao NEG
 function neg() {
@@ -421,7 +421,7 @@ function cme() {
     }
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Comparar maior
 function cma() {
@@ -434,7 +434,7 @@ function cma() {
     }
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Comparar igual
 function ceq() {
@@ -447,7 +447,7 @@ function ceq() {
     }
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Comparar desigual
 function cdif() {
@@ -460,7 +460,7 @@ function cdif() {
     }
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Comparar menor ou igual
 function cmeq() {
@@ -473,7 +473,7 @@ function cmeq() {
     }
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //Comparar maior ou igual
 function cmaq() {
@@ -486,7 +486,7 @@ function cmaq() {
     }
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //============================
 //===== Funções de Jumps =====
@@ -510,7 +510,7 @@ function jmpf(parametros) {
         i = (i - 1);
     }
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
 //===============================
 //===== Funções de Chamadas =====
@@ -519,7 +519,7 @@ function jmpf(parametros) {
 function call(parametros) {
     console.log("*entrou funcao CALL*");
     s = (s + 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
     memory[s] = (i + 1);
     document.getElementById("formMemoria").innerHTML += "["+s+"]"+"="+memory[s]+"\n";
     i = findLabel(parametros);
@@ -529,5 +529,5 @@ function retn() {
     console.log("*entrou funcao RETURN*");
     i = memory[s];
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML = "s = "+s+"\n";
+    document.getElementById("formEnderecoS").innerHTML += "s = "+s+"\n";
 }
