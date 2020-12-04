@@ -5,7 +5,7 @@ let arquivo = "";
 let comando = "";
 
 //Variavel de controle para percorrer a pilha de memoria, indicando elemento do topo da pilha: M[s]
-let s = 0;
+let s = -1;
 
 // Variavel de controle para percorrer a lista de instruções a serem executadas, 
 //contem o endereço da proxima instrução a ser executada: P[i]
@@ -158,20 +158,18 @@ function main() {
     var teste = arquivo.split("\n"); //separa o arquivo por linha
 
     for (i = 0; i < teste.length; i++) { //percorrer por quantidade de linhas no arquivo
-        if (breakpoint == 1) {
-            
-        }
         comando = teste[i]; //contem a linha atual
 
         //Pega a intrucao da linha
         console.log("Comando atual: " + comando);
         operation = comando.split(" ", 1);
-        console.log("Comando: " + operation);
+        console.log("Operation: " + operation);
 
         if ((operation == "LDC") || (operation == "LDV") || (operation == "STR") || (operation == "JMP") || (operation == "JMPF") || (operation == "ALLOC") || (operation == "DALLOC") || (operation == "CALL")) {
             // Pega os valores da instrucao
+
             parametros = comando.substring(comando.lastIndexOf(" ") + 1);
-            console.log("Valores: " + parametros);
+            console.log("parametro: " + parametros);
         }
 
         switch (String(operation)) {
@@ -268,12 +266,12 @@ function main() {
 function start() {
     console.log("*entrou func start*");
     s = -1;
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Parar - “Para a execução da MVD”
 function hlt() {
     console.log("*entrou funcao HLT*");
+    exibeMemoria();
 }
 
 //Operação RD - Ultimo valor entrado pelo usuario.
@@ -282,10 +280,8 @@ function rd() {
     let entrada = prompt("Digite o valor de entrada: ");
     document.getElementById("formEntrada").innerHTML += entrada + "\n";
     s = (s + 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = entrada;
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + entrada + "\n";
 }
 
 //Saida - Impressão
@@ -298,27 +294,22 @@ function prn() {
         document.getElementById("formSaida").innerHTML += memory[s] + "\n";
     }
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Caregar constante
 function ldc(parametros) {
     console.log("*entrou funcao LDC*");
     s = (s + 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = parametros;
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
 
 //Carregar valor
 function ldv(parametros) {
     console.log("*entrou funcao LDV*");
     s = (s + 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = memory[parametros];
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
 
 //Atribuição - Armazenar valor
@@ -326,40 +317,34 @@ function str(parametros) {
     console.log("*entrou funcao STR*");
     memory[parseInt(parametros)] = memory[s];
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Alocação de Variáveis
 function alloc(parametros) {
-    let p = parametros.split(",");
-
     console.log("*entrou funcao ALLOC*");
-    
-    for (let j = 0; j < p[1]; j++) {
+    let p = parametros.split(",");
+    let m = parseInt(p[0]);
+    let n = parseInt(p[1]);
+
+    for (let k = 0; k < n; k++) {
         s = (s + 1);
-        console.log("s = "+s);
-        console.log("Valor em inteiro do parametro: "+parseInt(p[0]));
-        let testeParametro = (parseInt(p[0]) + j);
-        memory[s] = memory[testeParametro];
-        console.log("memory["+s+"] = memory["+memory[s]+"])");
-        //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "= NULL\n";
+        memory[s] = memory[(m + k)];
+        memory[(m + k)] = (m + k);
     }
     exibeMemoria();
 }
 
 //Desalocação de Variáveis
 function dalloc(parametros) {
-    let p = parametros.split(",");
-
     console.log("*entrou funcao DALLOC*");
-    
-    for (let j = p[1] - 1; j >= 0; j--) {
-        memory[p[0] + j] = memory[s];
-        //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    let p = parametros.split(",");
+    let m = parseInt(p[0]);
+    let n = parseInt(p[1]);
+
+    for (let k = (n - 1); k >= 0; k--) {
+        memory[m + k] = memory[s];
         s = (s - 1);
-        //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     }
     exibeMemoria();
 }
@@ -369,9 +354,7 @@ function add() {
     console.log("*entrou funcao ADD*");
     memory[s - 1] = parseInt(memory[s - 1] + memory[s]);
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao subtração
@@ -379,9 +362,7 @@ function sub() {
     console.log("*entrou funcao SUB*");
     memory[s - 1] = parseInt(memory[s - 1] - memory[s]);
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao multiplicação
@@ -389,9 +370,7 @@ function mult() {
     console.log("*entrou funcao MULT*");
     memory[s - 1] = parseInt(memory[s - 1] * memory[s]);
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao divisão
@@ -399,9 +378,7 @@ function divi() {
     console.log("*entrou funcao DIVI*");
     memory[s - 1] = parseInt(memory[s - 1] / memory[s]);
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao inversão
@@ -409,7 +386,6 @@ function inv() {
     console.log("*entrou funcao INV*");
     memory[s] = memory[s] * (-1);
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
 
 //Operacao AND
@@ -421,9 +397,7 @@ function and() {
         memory[s - 1] = 0;
     }
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao OR
@@ -435,9 +409,7 @@ function or() {
         memory[s - 1] = 0;
     }
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao NEG
@@ -445,7 +417,6 @@ function neg() {
     console.log("*entrou funcao NEG*");
     memory[s] = 1 - memory[s];
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
 
 //Comparar menor
@@ -458,9 +429,7 @@ function cme() {
         memory[s - 1] = 0;
     }
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar maior
@@ -473,9 +442,7 @@ function cma() {
         memory[s - 1] = 0;
     }
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar igual
@@ -488,9 +455,7 @@ function ceq() {
         memory[s - 1] = 0;
     }
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar desigual
@@ -503,9 +468,7 @@ function cdif() {
         memory[s - 1] = 0;
     }
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar menor ou igual
@@ -518,9 +481,7 @@ function cmeq() {
         memory[s - 1] = 0;
     }
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar maior ou igual
@@ -533,9 +494,7 @@ function cmaq() {
         memory[s - 1] = 0;
     }
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Desviar sempre
@@ -555,20 +514,15 @@ function jmpf(parametros) {
         // i = i + 1;
         //O proprio for incrementa isso, nao ha necessidade
     }
-
-    console.log("i apos jumpf 2: " + i);
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Chamar procedimento ou função
 function call(parametros) {
     console.log("*entrou funcao CALL*");
     s = (s + 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = (i + 1);
     exibeMemoria();
-    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     i = buscaLinha(parametros) + 1;
 }
 
@@ -579,34 +533,33 @@ function retn() {
     console.log(i);
     i = i - 1;
     s = (s - 1);
-    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Funcao para buscar rotulo
 function buscaLinha(parametros) {
     console.log("#### ESTOU BUSCANDO: " + parametros);
 
-    var buscaComando = arquivo.split("\n"); //separa o arquivo por linha
-    for (let k = 0; k <= buscaComando.length; k++) { //percorrer por quantidade de linhas no arquivo
-        comando = buscaComando[k]; //contem a linha atual
+    var buscaComando = arquivo.split("\n");
+    for (let k = 0; k <= buscaComando.length; k++) {
+        comando = buscaComando[k];
         operation = comando.split(" ");
-        //OBEJTIVO DE IF É PEGAR QUANDO FOR INICIO DE FUNCAO OU PROCEDIMENTO
-        //EXEMPLO: L1 NULL, L2 NULL
-        if (operation[0] === parametros) { //SE O COMANDO TERMINAR COM NULL É INICIO DE PROCEDIMENTO OU  FUNCAO
+
+        if (operation[0] === parametros) {
             console.log("#### ENCONTREI A LINHA: " + parametros);
-            //pega a linha do role
-            console.log("Na linha: "+k);
-            return k;
+            console.log("Na linha: " + k);
+            return k - 1;
         }
     }
 }
 
 //Funcao para exibir pilha de dados
 function exibeMemoria() {
-    console.log("Tamanho da memoria: " +s.length);
-    for (let k = 0; k < s.length; k++) {//NAO ESTA ENTRANDO, S.LENGHT = 0
-        console.log("s = " + k);
-        console.log("["+k+"]" +" | "+memory[k]);
+    document.getElementById("tabelaMemoria").innerHTML =
+        '<tr><td style="border: 2px solid; font-weight: bold">' + " Endereço " + '</td>' +
+        '<td style="border: 2px solid; font-weight: bold">' + " Valor " + '</td></tr>';
+
+    for (let k = 0; k < memory.length; k++) {
+
         document.getElementById("tabelaMemoria").innerHTML +=
             '<tr><td style="text-align: center; vertical-align: middle;">' + "[" + k + "] " + '</td>' +
             '<td style="text-align: center; vertical-align: middle;">' + memory[k] + '</td></tr>';
