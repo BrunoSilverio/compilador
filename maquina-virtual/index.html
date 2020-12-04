@@ -18,6 +18,24 @@
     <!-- NAVBAR -->
     <nav>
         <h3>Maquina Virtual</h3>
+
+        <!--Button Run-->
+        <div style="position:absolute; right:250px; top:10px" class="image-upload">
+            <label for="play">
+                <button id="compilar">
+                    <img src="img/play.png" class="w3-button w3-black" width="37" height="40" />
+                </button>
+            </label>
+        </div>
+        <!--Button Debug-->
+        <div style="position:absolute; right:130px; top:10px" class="image-upload">
+            <label for="file-save">
+                <button id="debug" onclick="debug()">
+                    <input type="image" src="img/debug.png" class="w3-button w3-black" width="35" height="30">
+                </button>
+            </label>
+        </div>
+        <!--Button Import-->
         <div style="position:absolute; right:20px; top:10px" class="image-upload">
             <label for="file-input">
                 <img src="img/import.png" class="w3-button w3-black" width="50" height="50" />
@@ -26,63 +44,41 @@
         </div>
     </nav>
     <hr>
+    <br>
     <!-- Div Geral -->
-    <div class="container-fluid text-center"  align="right">
-        <div>
-            <div class="col-sm-1 sidenav">
-                <br>
-                <br>
-                <!--Button Run-->
-                <div>
-                    <button id="compilar">
-                        <input type="image" src="img/play.png" class="w3-button w3-black" width="50" height="50">
-                    </button>
-                </div>
-                <br>
-                <br>
-                <br>
-                <!--Button Debug-->
-                <div>
-                    <button id="debug" onclick="debug()">
-                        <input type="image" src="img/debug.png" class="w3-button w3-black" width="50" height="50">
-                    </button>
-                </div>
-                <br>
-                <br>
-                <br>
-            </div>
-            <!--Div Entrada e Saida-->
-            <div class="col-sm-1 text-left sidenav">
-                Entrada
-                <textarea id="formEntrada" class="form-control form-control-lg" type="text" rows="11"
-                    readonly></textarea>
-                <br>
-                Saida
-                <textarea id="formSaida" class="form-control form-control-lg" type="text" rows="12" readonly></textarea>
-            </div>
-            <!--Tabela com memoria-->
+    <div class="container-fluid text-center" align="right">
+        <div class="col-sm-1 text-left sidenav"></div>
+        <div class="col-sm-1 text-left sidenav"></div>
+        <!--Div Entrada e Saida-->
+        <div class="col-sm-1 text-left sidenav">
+            Entrada
+            <textarea id="formEntrada" class="form-control form-control-lg" type="text" rows="11" readonly></textarea>
+            <br>
+            Saida
+            <textarea id="formSaida" class="form-control form-control-lg" type="text" rows="12" readonly></textarea>
+        </div>
+        <!--Tabela com memoria-->
+        <div class="op1">
             <div class="col-sm-2">
                 <div class="row">
                     <div class="col-sm-7">
-                        <div class="table-responsive">
-                            <br>
-                            <table class="table" id="table2">
-                                <tbody id="tabelaMemoria" style="display: block; width: 169px !important;"></tbody>
-                            </table>
-                        </div>
+                        <br>
+                        <table class="table" id="table2">
+                            <tbody id="tabelaMemoria" style="display: block; width: 169px !important;"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <!--Tabela com arquivo.obj-->
-            <br>
+        </div>
+        <!--Tabela com arquivo.obj-->
+        <br>
+        <div class="op2">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-7">
-                        <div class="table-responsive">
-                            <table class="table" align="right">
-                                <tbody id="tabelaInstrucoes"></tbody>
-                            </table>
-                        </div>
+                        <table class="table" align="right">
+                            <tbody id="tabelaInstrucoes"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
