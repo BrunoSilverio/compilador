@@ -135,7 +135,9 @@ function tabelaInstrucoes(texto) {
     }
 }
 
-
+function debug() {
+    console.log("debug");
+}
 
 
 // Função main controla um loop para as operações das instruções
