@@ -5,7 +5,7 @@ let arquivo = "";
 let comando = "";
 
 //Variavel de controle para percorrer a pilha de memoria, indicando elemento do topo da pilha: M[s]
-let s = -1;
+let s = 0;
 
 // Variavel de controle para percorrer a lista de instruções a serem executadas, 
 //contem o endereço da proxima instrução a ser executada: P[i]
@@ -20,8 +20,8 @@ let intrucoes = [];
 // Variavel de controle para identificar qual operação deve ser executada
 let operation = " ";
 
-// Variavel de controle para identificar quando o programa deve finalizar a execução
-let exec = true;
+// Variavel de controle para identificar quando o breakpoint esta selecionado
+let breakpoint = false;
 
 // Contador para lista de instruções
 let comandoBuscaLinha = [];
@@ -40,9 +40,18 @@ function readFile() {
     };
     fileReader.readAsText(fileToLoad, "UTF-8");
 
+    document.getElementById("tabelaMemoria").innerHTML +=
+        '<tr><td style="border: 2px solid; font-weight: bold">' + " Endereço " + '</td>' +
+        '<td style="border: 2px solid; font-weight: bold">' + " Valor " + '</td></tr>';
+
     //Iniciar execucao do codigo button compilar (PLAY)
     document.getElementById('compilar').addEventListener('click', function () {
         main();
+    });
+
+    //Espera pelo botao de debug
+    document.getElementById('debug').addEventListener('click', function () {
+        Fdebug();
     });
 }
 
@@ -135,10 +144,12 @@ function tabelaInstrucoes(texto) {
     }
 }
 
-function debug() {
-    console.log("debug");
+//Função para executar arquivo.obj comando por comando
+function Fdebug() {
+    let debug = true;
+    //console.log("DEBUG " + debug);
+    main();
 }
-
 
 // Função main controla um loop para as operações das instruções
 function main() {
@@ -147,6 +158,9 @@ function main() {
     var teste = arquivo.split("\n"); //separa o arquivo por linha
 
     for (i = 0; i < teste.length; i++) { //percorrer por quantidade de linhas no arquivo
+        if (breakpoint == 1) {
+            
+        }
         comando = teste[i]; //contem a linha atual
 
         //Pega a intrucao da linha
@@ -247,20 +261,19 @@ function main() {
             default:
                 break;
         }
+
     }
 }
 
 function start() {
     console.log("*entrou func start*");
     s = -1;
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Parar - “Para a execução da MVD”
 function hlt() {
     console.log("*entrou funcao HLT*");
-    exibeMemoria();
-    exec = false;
 }
 
 //Operação RD - Ultimo valor entrado pelo usuario.
@@ -269,9 +282,10 @@ function rd() {
     let entrada = prompt("Digite o valor de entrada: ");
     document.getElementById("formEntrada").innerHTML += entrada + "\n";
     s = (s + 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = entrada;
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + entrada + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + entrada + "\n";
 }
 
 //Saida - Impressão
@@ -280,37 +294,41 @@ function prn() {
     if (memory[s] == undefined) {
         document.getElementById("formSaida").innerHTML += "TESTE memoria undefined\n";
     } else {
+        exibeMemoria();
         document.getElementById("formSaida").innerHTML += memory[s] + "\n";
     }
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Caregar constante
 function ldc(parametros) {
     console.log("*entrou funcao LDC*");
     s = (s + 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = parametros;
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
 
 //Carregar valor
 function ldv(parametros) {
     console.log("*entrou funcao LDV*");
     s = (s + 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = memory[parametros];
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
 
 //Atribuição - Armazenar valor
 function str(parametros) {
     console.log("*entrou funcao STR*");
-    memory[parametros] = memory[s];
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    memory[parseInt(parametros)] = memory[s];
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Alocação de Variáveis
@@ -318,13 +336,17 @@ function alloc(parametros) {
     let p = parametros.split(",");
 
     console.log("*entrou funcao ALLOC*");
-    document.getElementById("formMemoria").innerHTML += "ALLOC\n";
+    
     for (let j = 0; j < p[1]; j++) {
         s = (s + 1);
-        document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
-        memory[s] = memory[p[0] + j];
-        document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "= NULL\n";
+        console.log("s = "+s);
+        console.log("Valor em inteiro do parametro: "+parseInt(p[0]));
+        let testeParametro = (parseInt(p[0]) + j);
+        memory[s] = memory[testeParametro];
+        console.log("memory["+s+"] = memory["+memory[s]+"])");
+        //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "= NULL\n";
     }
+    exibeMemoria();
 }
 
 //Desalocação de Variáveis
@@ -332,56 +354,62 @@ function dalloc(parametros) {
     let p = parametros.split(",");
 
     console.log("*entrou funcao DALLOC*");
-    document.getElementById("formMemoria").innerHTML += "DALLOC\n";
+    
     for (let j = p[1] - 1; j >= 0; j--) {
         memory[p[0] + j] = memory[s];
-        document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+        //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
         s = (s - 1);
-        document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+        //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     }
+    exibeMemoria();
 }
 
 //Operacao adição
 function add() {
     console.log("*entrou funcao ADD*");
     memory[s - 1] = parseInt(memory[s - 1] + memory[s]);
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao subtração
 function sub() {
     console.log("*entrou funcao SUB*");
     memory[s - 1] = parseInt(memory[s - 1] - memory[s]);
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao multiplicação
 function mult() {
     console.log("*entrou funcao MULT*");
     memory[s - 1] = parseInt(memory[s - 1] * memory[s]);
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao divisão
 function divi() {
     console.log("*entrou funcao DIVI*");
     memory[s - 1] = parseInt(memory[s - 1] / memory[s]);
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao inversão
 function inv() {
     console.log("*entrou funcao INV*");
     memory[s] = memory[s] * (-1);
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
 
 //Operacao AND
@@ -392,9 +420,10 @@ function and() {
     } else {
         memory[s - 1] = 0;
     }
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao OR
@@ -405,16 +434,18 @@ function or() {
     } else {
         memory[s - 1] = 0;
     }
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Operacao NEG
 function neg() {
     console.log("*entrou funcao NEG*");
     memory[s] = 1 - memory[s];
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
 
 //Comparar menor
@@ -426,9 +457,10 @@ function cme() {
     else {
         memory[s - 1] = 0;
     }
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar maior
@@ -440,9 +472,10 @@ function cma() {
     else {
         memory[s - 1] = 0;
     }
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar igual
@@ -454,9 +487,10 @@ function ceq() {
     else {
         memory[s - 1] = 0;
     }
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar desigual
@@ -468,9 +502,10 @@ function cdif() {
     else {
         memory[s - 1] = 0;
     }
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar menor ou igual
@@ -482,9 +517,10 @@ function cmeq() {
     else {
         memory[s - 1] = 0;
     }
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Comparar maior ou igual
@@ -496,9 +532,10 @@ function cmaq() {
     else {
         memory[s - 1] = 0;
     }
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Desviar sempre
@@ -521,17 +558,18 @@ function jmpf(parametros) {
 
     console.log("i apos jumpf 2: " + i);
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Chamar procedimento ou função
 function call(parametros) {
     console.log("*entrou funcao CALL*");
     s = (s + 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = (i + 1);
-    document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
-    i = buscaLinha(parametros);
+    exibeMemoria();
+    //document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
+    i = buscaLinha(parametros) + 1;
 }
 
 //Retornar de procedimento
@@ -541,7 +579,7 @@ function retn() {
     console.log(i);
     i = i - 1;
     s = (s - 1);
-    document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+    //document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
 
 //Funcao para buscar rotulo
@@ -551,12 +589,13 @@ function buscaLinha(parametros) {
     var buscaComando = arquivo.split("\n"); //separa o arquivo por linha
     for (let k = 0; k <= buscaComando.length; k++) { //percorrer por quantidade de linhas no arquivo
         comando = buscaComando[k]; //contem a linha atual
-        operation = comando.split(" ", 1);
+        operation = comando.split(" ");
         //OBEJTIVO DE IF É PEGAR QUANDO FOR INICIO DE FUNCAO OU PROCEDIMENTO
         //EXEMPLO: L1 NULL, L2 NULL
         if (operation[0] === parametros) { //SE O COMANDO TERMINAR COM NULL É INICIO DE PROCEDIMENTO OU  FUNCAO
             console.log("#### ENCONTREI A LINHA: " + parametros);
             //pega a linha do role
+            console.log("Na linha: "+k);
             return k;
         }
     }
@@ -564,11 +603,12 @@ function buscaLinha(parametros) {
 
 //Funcao para exibir pilha de dados
 function exibeMemoria() {
-    document.getElementById("formMemoria").innerHTML = "Endereco | Valor ";
-    console.log(s.length);
-    for (let k = 0; k < s.length; k++) {
+    console.log("Tamanho da memoria: " +s.length);
+    for (let k = 0; k < s.length; k++) {//NAO ESTA ENTRANDO, S.LENGHT = 0
         console.log("s = " + k);
-        document.getElementById("formMemoria").innerHTML += "[" + k + "]" + "=" + memory[k] + "\n";
-
+        console.log("["+k+"]" +" | "+memory[k]);
+        document.getElementById("tabelaMemoria").innerHTML +=
+            '<tr><td style="text-align: center; vertical-align: middle;">' + "[" + k + "] " + '</td>' +
+            '<td style="text-align: center; vertical-align: middle;">' + memory[k] + '</td></tr>';
     }
 }
