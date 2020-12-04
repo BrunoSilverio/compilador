@@ -17,18 +17,6 @@ nav {
   font-weight: bolder;
 }
 
-table {
-  border-top: 2px solid rgb(255, 255, 255);
-  border-bottom: 2px solid rgb(255, 255, 255);
-  border-left: 2px solid rgb(255, 255, 255);
-  height: 530px !important;
-  width: 770px !important;
-}
-  
-td, th {
-  border: 1px solid rgb(255, 255, 255);
-}
-
 .image-upload>input {
   display: none;
 }
@@ -39,6 +27,25 @@ td, th {
   overflow: auto;
 }
 
+table {
+  height: 530px !important;
+  width: 770px !important;
+}
+
+#table2 {
+  height: 529px !important;
+  width: 171px !important;
+  display: block;
+  position: fixed;
+}
+
+table, td, th {
+  border: 1px solid rgb(255, 255, 255);
+  border-top: 2px solid rgb(255, 255, 255);
+  border-bottom: 2px solid rgb(255, 255, 255);
+  border-left: 2px solid rgb(255, 255, 255);
+}
+
 thead, tbody{
   display: block;
   width: 770px;
@@ -46,5 +53,5 @@ thead, tbody{
 
 tbody{
   overflow-y: scroll;
-  height: 530px !important;
+  height: 527px !important;
 }
