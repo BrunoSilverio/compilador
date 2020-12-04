@@ -26,16 +26,129 @@ let exec = true;
 // Contador para lista de instruções
 let comandoBuscaLinha = [];
 
+//PRIMEIRA FUNCAO A SER EXECUTADA -> IMPORT NA INTERFACE
+//Função para leitura de arquivo .obj para manipualcao no JS
+function readFile() {
+
+    var fileToLoad = document.getElementById("file-input").files[0];
+    var fileReader = new FileReader();
+    fileReader.onload = function (fileLoadedEvent) {
+        var textFromFileLoaded = fileLoadedEvent.target.result;
+        var texto = textFromFileLoaded; // Variavel com o conteudo do arquivo
+        arquivo = texto;
+        tabelaInstrucoes(texto);
+    };
+    fileReader.readAsText(fileToLoad, "UTF-8");
+
+    //Iniciar execucao do codigo button compilar (PLAY)
+    document.getElementById('compilar').addEventListener('click', function () {
+        main();
+    });
+}
+
+//SEGUNDA FUNCAO A SER EXECUTADA -> EXIBE CODIGO
+//Função para printar na tabela o conteudo do arquivo .obj
+function tabelaInstrucoes(texto) {
+
+    let comentario = "";
+    let linha = "";
+
+    var quantidade = document.getElementById("tabelaInstrucoes").rows.length;// está pré definido que será usado o tamanho total do arquivo
+    if (quantidade > 1) { // quantidade representa o número indefinido de linhas que pode haver
+        for (var cont = 1; cont <= quantidade; cont++) {
+            document.getElementById("tabelaInstrucoes").deleteRow(cont);
+        }
+    }
+
+    var itens = texto.split("\n"); // define que linhas devem ser consultadas
+    console.log(itens);
+    document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="border: 2px solid; font-weight: bold">' + "Breakpoint" + '</td>' +
+        '<td style="border: 2px solid; font-weight: bold">' + " L " + '</td>' +
+        '<td style="border: 2px solid; font-weight: bold">' + "Instruçao" + '</td>' +
+        '<td style="border: 2px solid; font-weight: bold">' + "Comentario" + '</td></tr>';
+
+    for (i; i < itens.length; i++) {
+        linha = itens[i];// espaços TAB definem colunas que serão consultadas
+        console.log("Linha: " + linha);
+
+        if (linha.includes("START")) {
+            comentario = "(Iniciar programa principal): S:= -1";
+        } else if (linha.includes("NULL")) {
+            comentario = "Nada";
+        } else if (linha.includes("LDC")) {
+            comentario = "(Carregar constante): S:= s+1 ; M[s]:= k";
+        } else if (linha.includes("LDV")) {
+            comentario = "(Carregar valor): S:= s+1 ; M[s]:= M[n]";
+        } else if (linha.includes("ADD")) {
+            comentario = "(Somar): M[s-1]:= M[s-1] + M[s]; s:= s-1";
+        } else if (linha.includes("SUB")) {
+            comentario = "(Subtrair): M[s-1]:= M[s-1] - M[s]; s:= s-1";
+        } else if (linha.includes("MULT")) {
+            comentario = "(Multiplicar): M[s-1]:= M[s-1] * M[s]; s:= s-1";
+        } else if (linha.includes("DIVI")) {
+            comentario = "(Dividir): M[s-1]:= M[s-1] div M[s]; s:= s-1";
+        } else if (linha.includes("INV")) {
+            comentario = "(Inverter sinal): M[s]:= -M[s]";
+        } else if (linha.includes("AND")) {
+            comentario = "(Conjunção): se M[s-1]:= 1 e M[s] = 1 \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
+        } else if (linha.includes("OR")) {
+            comentario = "(Disjunção): se M[s-1]:= 1 ou M[s] = 1 \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
+        } else if (linha.includes("NEG")) {
+            comentario = "(Negação): M[s]:= 1 - M[s]";
+        } else if (linha.includes("CME")) {
+            comentario = "(Comparar menor): se M[s-1] < M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
+        } else if (linha.includes("CMA")) {
+            comentario = "(Comparar maior): se M[s-1] > M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
+        } else if (linha.includes("CEQ")) {
+            comentario = "(Comparar igual): se M[s-1] = M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
+        } else if (linha.includes("CDIF")) {
+            comentario = "(Comparar desigual): se M[s-1] ≠ M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
+        } else if (linha.includes("CMEQ")) {
+            comentario = "(Comparar menor ou igual) se M[s-1] ≤ M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
+        } else if (linha.includes("CMAQ")) {
+            comentario = "(Comparar maior ou igual): se M[s-1] ≥ M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
+        } else if (linha.includes("HLT")) {
+            comentario = "(Parar): “Para a execução da MVD”";
+        } else if (linha.includes("STR")) {
+            comentario = "(Armazenar valor): M[n]:= M[s]; s:= s-1";
+        } else if (linha.includes("JMPF")) {
+            comentario = "(Desviar se falso): se M[s]:= 0 \n então i:= t \n senão i:= i+1; \n s:= s-1";
+        } else if (linha.includes("JMP")) {
+            comentario = "(Desviar sempre): i:= t";
+        } else if (linha.includes("RD")) {
+            comentario = "(Leitura): S:=s+1; M[s]:= “próximo valor de entrada”";
+        } else if (linha.includes("PRN")) {
+            comentario = "(Impressão): “Imprimir M[s]”; s:=s-1";
+        } else if (linha.includes("ALLOC")) {
+            comentario = "(Alocar memória): Para k:= 0 até n-1\n faça {s:= s+1; M[s]:= M[m+k]}";
+        } else if (linha.includes("DALLOC")) {
+            comentario = "(Desalocar memória): Para k:= n-1 até 0\n faça {M[m+k]:= M[s]; s:= s-1}";
+        } else if (linha.includes("CALL")) {
+            comentario = "(Chamar procedimento ou função): S:= s+1; M[s]:= i+1; i:= t";
+        } else if (linha.includes("RETURN")) {
+            comentario = "(Retornar de procedimento): i:= M[s]; s:= s-1";
+        }
+
+        document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>' +
+            '<td>' + (i + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
+        comentario = "";
+    }
+}
+
+
+
+
 // Função main controla um loop para as operações das instruções
 function main() {
     console.log("Executando...");
 
     var teste = arquivo.split("\n"); //separa o arquivo por linha
 
-    for (let k = 0; k < teste.length; k++) { //percorrer por quantidade de linhas no arquivo
-        comando = teste[k]; //contem a linha atual
+    for (i = 0; i < teste.length; i++) { //percorrer por quantidade de linhas no arquivo
+        comando = teste[i]; //contem a linha atual
 
         //Pega a intrucao da linha
+        console.log("Comando atual: " + comando);
         operation = comando.split(" ", 1);
         console.log("Comando: " + operation);
 
@@ -128,7 +241,6 @@ function main() {
                 break;
             case "RETURN":
                 retn();
-                i = i - 1;
                 break;
             default:
                 break;
@@ -136,157 +248,30 @@ function main() {
     }
 }
 
-//Função para leitura de arquivo .obj para manipualcao no JS
-function readFile() {
-    var fileToLoad = document.getElementById("file-input").files[0];
-    var fileReader = new FileReader();
-    fileReader.onload = function (fileLoadedEvent) {
-        var textFromFileLoaded = fileLoadedEvent.target.result;
-        var texto = textFromFileLoaded; // Variavel com o conteudo do arquivo
-        //console.log(texto);
-        arquivo = texto;
-        tabelaInstrucoes(texto);
-    };
-    fileReader.readAsText(fileToLoad, "UTF-8");
-
-    //Iniciar execucao do codigo button compilar
-    document.getElementById('compilar').addEventListener('click', function () {
-        main();
-    });
-}
-
-//Função para printar na tabela o conteudo do arquivo .obj
-function tabelaInstrucoes(texto) {
-    let comentario = "";
-    let linha = "";
-
-    var quantidade = document.getElementById("tabelaInstrucoes").rows.length;// está pré definido que será usado o tamanho total do arquivo
-    if (quantidade > 1) { // quantidade representa o número indefinido de linhas que pode haver
-        for (var cont = 1; cont <= quantidade; cont++) {
-            document.getElementById("tabelaInstrucoes").deleteRow(cont);
-        }
-    }
-
-    var itens = texto.split("\n"); // define que linhas devem ser consultadas
-    console.log(itens);
-    document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="border: 2px solid; font-weight: bold">' + "Breakpoint" + '</td>' +
-        '<td style="border: 2px solid; font-weight: bold">' + " L " + '</td>' +
-        '<td style="border: 2px solid; font-weight: bold">' + "Instruçao" + '</td>' +
-        '<td style="border: 2px solid; font-weight: bold">' + "Comentario" + '</td></tr>';
-
-    for (i; i < itens.length; i++) {
-        linha = itens[i];// espaços TAB definem colunas que serão consultadas
-        console.log("Linha: " + linha);
-
-        if (linha.includes("START")) {
-            comentario = "(Iniciar programa principal): S:= -1";
-        } else if (linha.includes("NULL")) {
-            comentario = "Nada";
-        } else if (linha.includes("LDC")) {
-            comentario = "(Carregar constante): S:= s+1 ; M[s]:= k";
-        } else if (linha.includes("LDV")) {
-            comentario = "(Carregar valor): S:= s+1 ; M[s]:= M[n]";
-        } else if (linha.includes("ADD")) {
-            comentario = "(Somar): M[s-1]:= M[s-1] + M[s]; s:= s-1";
-        } else if (linha.includes("SUB")) {
-            comentario = "(Subtrair): M[s-1]:= M[s-1] - M[s]; s:= s-1";
-        } else if (linha.includes("MULT")) {
-            comentario = "(Multiplicar): M[s-1]:= M[s-1] * M[s]; s:= s-1";
-        } else if (linha.includes("DIVI")) {
-            comentario = "(Dividir): M[s-1]:= M[s-1] div M[s]; s:= s-1";
-        } else if (linha.includes("INV")) {
-            comentario = "(Inverter sinal): M[s]:= -M[s]";
-        } else if (linha.includes("AND")) {
-            comentario = "(Conjunção): se M[s-1]:= 1 e M[s] = 1 \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
-        } else if (linha.includes("OR")) {
-            comentario = "(Disjunção): se M[s-1]:= 1 ou M[s] = 1 \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
-        } else if (linha.includes("NEG")) {
-            comentario = "(Negação): M[s]:= 1 - M[s]";
-        } else if (linha.includes("CME")) {
-            comentario = "(Comparar menor): se M[s-1] < M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
-        } else if (linha.includes("CMA")) {
-            comentario = "(Comparar maior): se M[s-1] > M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
-        } else if (linha.includes("CEQ")) {
-            comentario = "(Comparar igual): se M[s-1] = M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
-        } else if (linha.includes("CDIF")) {
-            comentario = "(Comparar desigual): se M[s-1] ≠ M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
-        } else if (linha.includes("CMEQ")) {
-            comentario = "(Comparar menor ou igual) se M[s-1] ≤ M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
-        } else if (linha.includes("CMAQ")) {
-            comentario = "(Comparar maior ou igual): se M[s-1] ≥ M[s] \n então M[s-1]:= 1 \n senão M[s-1]:= 0; s:= s-1";
-        } else if (linha.includes("HLT")) {
-            comentario = "(Parar): “Para a execução da MVD”";
-        } else if (linha.includes("STR")) {
-            comentario = "(Armazenar valor): M[n]:= M[s]; s:= s-1";
-        } else if (linha.includes("JMP")) {
-            comentario = "(Desviar sempre): i:= t";
-        } else if (linha.includes("JMPF")) {
-            comentario = "(Desviar se falso): se M[s]:= 0 \n então i:= t \n senão i:= i+1; \n s:= s-1";
-        } else if (linha.includes("RD")) {
-            comentario = "(Leitura): S:=s+1; M[s]:= “próximo valor de entrada”";
-        } else if (linha.includes("PRN")) {
-            comentario = "(Impressão): “Imprimir M[s]”; s:=s-1";
-        } else if (linha.includes("ALLOC")) {
-            comentario = "(Alocar memória): Para k:= 0 até n-1\n faça {s:= s+1; M[s]:= M[m+k]}";
-        } else if (linha.includes("DALLOC")) {
-            comentario = "(Desalocar memória): Para k:= n-1 até 0\n faça {M[m+k]:= M[s]; s:= s-1}";
-        } else if (linha.includes("CALL")) {
-            comentario = "(Chamar procedimento ou função): S:= s+1; M[s]:= i+1; i:= t";
-        } else if (linha.includes("RETURN")) {
-            comentario = "(Retornar de procedimento): i:= M[s]; s:= s-1";
-        }
-
-        document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>' +
-            '<td>' + (i + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
-        comentario = "";
-    }
-}
-
-//FUNCAO PARA BUSCAR PROCEDIMENTO OU FUNCAO
-function buscaLinha(parametros) {
-    let linha = -1;
-
-    console.log("#### ESTOU BUSCANDO: " + parametros);
-
-    var buscaComando = arquivo.split("\n"); //separa o arquivo por linha
-    for (let k = 0; k < buscaComando.length; k++) { //percorrer por quantidade de linhas no arquivo
-        comando = buscaComando[k]; //contem a linha atual
-        operation = comando.split(" ", 1);
-        //OBEJTIVO DE IF É PEGAR QUANDO FOR INICIO DE FUNCAO OU PROCEDIMENTO
-        //EXEMPLO: L1 NULL, L2 NULL
-        if (operation[0] === parametros) { //SE O COMANDO TERMINAR COM NULL É INICIO DE PROCEDIMENTO OU  FUNCAO
-            console.log("#### ENCONTREI A LINHA: " + parametros);
-            //pega a linha do role
-            linha = k;
-        }
-    }
-
-    //RETORNO A LINHA DA FUNCAO/PROCEDIMENTO PARA A MAIN
-    return linha;
-}
-//=============================
-//===== Função basicas VM =====
-//=============================
 function start() {
     console.log("*entrou func start*");
     s = -1;
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Parar - “Para a execução da MVD”
 function hlt() {
     console.log("*entrou funcao HLT*");
+    exibeMemoria();
     exec = false;
 }
+
 //Operação RD - Ultimo valor entrado pelo usuario.
 function rd() {
     console.log("*entrou funcao RD*");
     let entrada = prompt("Digite o valor de entrada: ");
-    document.getElementById("formEntrada").innerHTML += entrada;
+    document.getElementById("formEntrada").innerHTML += entrada + "\n";
     s = (s + 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     memory[s] = entrada;
     document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + entrada + "\n";
 }
+
 //Saida - Impressão
 function prn() {
     console.log("*entrou funcao PRN*");
@@ -298,9 +283,7 @@ function prn() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
-//==============================
-//===== Funções de Memoria =====
-//==============================
+
 //Caregar constante
 function ldc(parametros) {
     console.log("*entrou funcao LDC*");
@@ -309,6 +292,7 @@ function ldc(parametros) {
     memory[s] = parametros;
     document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
+
 //Carregar valor
 function ldv(parametros) {
     console.log("*entrou funcao LDV*");
@@ -317,6 +301,7 @@ function ldv(parametros) {
     memory[s] = memory[parametros];
     document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
+
 //Atribuição - Armazenar valor
 function str(parametros) {
     console.log("*entrou funcao STR*");
@@ -325,6 +310,7 @@ function str(parametros) {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Alocação de Variáveis
 function alloc(parametros) {
     let p = parametros.split(",");
@@ -338,6 +324,7 @@ function alloc(parametros) {
         document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "= NULL\n";
     }
 }
+
 //Desalocação de Variáveis
 function dalloc(parametros) {
     let p = parametros.split(",");
@@ -351,9 +338,7 @@ function dalloc(parametros) {
         document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
     }
 }
-//==========================
-//=== Função aritmeticas ===
-//==========================
+
 //Operacao adição
 function add() {
     console.log("*entrou funcao ADD*");
@@ -362,6 +347,7 @@ function add() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Operacao subtração
 function sub() {
     console.log("*entrou funcao SUB*");
@@ -370,6 +356,7 @@ function sub() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Operacao multiplicação
 function mult() {
     console.log("*entrou funcao MULT*");
@@ -378,6 +365,7 @@ function mult() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Operacao divisão
 function divi() {
     console.log("*entrou funcao DIVI*");
@@ -386,15 +374,14 @@ function divi() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Operacao inversão
 function inv() {
     console.log("*entrou funcao INV*");
     memory[s] = memory[s] * (-1);
     document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
-//==========================
-//==== Funções Logicas =====
-//==========================
+
 //Operacao AND
 function and() {
     console.log("*entrou funcao AND*");
@@ -407,6 +394,7 @@ function and() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Operacao OR
 function or() {
     console.log("*entrou funcao OR*");
@@ -419,6 +407,7 @@ function or() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Operacao NEG
 function neg() {
     console.log("*entrou funcao NEG*");
@@ -426,9 +415,6 @@ function neg() {
     document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
 }
 
-//=============================
-//== Funções para Comparação ==
-//=============================
 //Comparar menor
 function cme() {
     console.log("*entrou funcao CME*");
@@ -442,6 +428,7 @@ function cme() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Comparar maior
 function cma() {
     console.log("*entrou funcao CMA*");
@@ -455,6 +442,7 @@ function cma() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Comparar igual
 function ceq() {
     console.log("*entrou funcao CEQ*");
@@ -468,6 +456,7 @@ function ceq() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Comparar desigual
 function cdif() {
     console.log("*entrou funcao CDIF*");
@@ -481,6 +470,7 @@ function cdif() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Comparar menor ou igual
 function cmeq() {
     console.log("*entrou funcao CMEQ*");
@@ -494,6 +484,7 @@ function cmeq() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
+
 //Comparar maior ou igual
 function cmaq() {
     console.log("*entrou funcao CMAQ*");
@@ -507,33 +498,30 @@ function cmaq() {
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
-//============================
-//===== Funções de Jumps =====
-//============================
+
 //Desviar sempre
 function jmp(parametros) { //arrumar parametro da linha ->como pular e indicar
     console.log("*entrou funcao JMP*");
     i = buscaLinha(parametros);
 }
+
 //Desviar se falso
-function jmpf(parametros) { //essa logica dos i ta certa?
-    console.log("*entrou funcao JMPF*");
+function jmpf(parametros) {
+
+    console.log(memory[s]);
     if (memory[s] == 0) {
         i = buscaLinha(parametros);
-        // Decrementa pois será incrementado na main.
-        i = (i - 1);
-        i = (i + 1);
     }
     else {
-        // Não faz nada pois será incrementado na main
-        i = (i - 1);
+        // i = i + 1;
+        //O proprio for incrementa isso, nao ha necessidade
     }
+
+    console.log("i apos jumpf 2: " + i);
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
 }
-//===============================
-//===== Funções de Chamadas =====
-//===============================
+
 //Chamar procedimento ou função
 function call(parametros) {
     console.log("*entrou funcao CALL*");
@@ -543,10 +531,42 @@ function call(parametros) {
     document.getElementById("formMemoria").innerHTML += "[" + s + "]" + "=" + memory[s] + "\n";
     i = buscaLinha(parametros);
 }
+
 //Retornar de procedimento
 function retn() {
     console.log("*entrou funcao RETURN*");
     i = memory[s];
+    console.log(i);
+    i = i - 1;
     s = (s - 1);
     document.getElementById("formEnderecoS").innerHTML += "s = " + s + "\n";
+}
+
+//Funcao para buscar rotulo
+function buscaLinha(parametros) {
+    console.log("#### ESTOU BUSCANDO: " + parametros);
+
+    var buscaComando = arquivo.split("\n"); //separa o arquivo por linha
+    for (let k = 0; k <= buscaComando.length; k++) { //percorrer por quantidade de linhas no arquivo
+        comando = buscaComando[k]; //contem a linha atual
+        operation = comando.split(" ", 1);
+        //OBEJTIVO DE IF É PEGAR QUANDO FOR INICIO DE FUNCAO OU PROCEDIMENTO
+        //EXEMPLO: L1 NULL, L2 NULL
+        if (operation[0] === parametros) { //SE O COMANDO TERMINAR COM NULL É INICIO DE PROCEDIMENTO OU  FUNCAO
+            console.log("#### ENCONTREI A LINHA: " + parametros);
+            //pega a linha do role
+            return k;
+        }
+    }
+}
+
+//Funcao para exibir pilha de dados
+function exibeMemoria() {
+    document.getElementById("formMemoria").innerHTML = "Endereco | Valor ";
+    console.log(s.length);
+    for (let k = 0; k < s.length; k++) {
+        console.log("s = " + k);
+        document.getElementById("formMemoria").innerHTML += "[" + k + "]" + "=" + memory[k] + "\n";
+
+    }
 }
