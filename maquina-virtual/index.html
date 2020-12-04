@@ -31,7 +31,7 @@
         <div style="position:absolute; right:130px; top:10px" class="image-upload">
             <label for="file-save">
                 <button id="debug">
-                    <img src="img//debug.png" class="w3-button w3-black" width="35" height="30"/>
+                    <img src="img/debug.png" class="w3-button w3-black" width="35" height="30" />
                 </button>
             </label>
         </div>
@@ -49,6 +49,7 @@
     <div class="container-fluid text-center" align="right">
         <div class="col-sm-1 text-left sidenav"></div>
         <div class="col-sm-1 text-left sidenav"></div>
+        
         <!--Div Entrada e Saida-->
         <div class="col-sm-1 text-left sidenav">
             Entrada
@@ -57,29 +58,27 @@
             Saida
             <textarea id="formSaida" class="form-control form-control-lg" type="text" rows="12" readonly></textarea>
         </div>
+
         <!--Tabela com memoria-->
-        <div class="op1">
-            <div class="col-sm-2">
-                <div class="row">
-                    <div class="col-sm-7">
-                        <br>
-                        <table class="table" id="table2">
-                            <tbody id="tabelaMemoria" style="display: block; width: 169px !important;"></tbody>
-                        </table>
-                    </div>
+        <div class="col-sm-2">
+            <div class="row">
+                <div class="col-sm-7">
+                    <br>
+                    <table class="table" id="table2">
+                        <tbody id="tabelaMemoria" style="width: 169px !important;"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
+
         <!--Tabela com arquivo.obj-->
         <br>
-        <div class="op2">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-7">
-                        <table class="table" align="right">
-                            <tbody id="tabelaInstrucoes"></tbody>
-                        </table>
-                    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-7">
+                    <table class="table" align="right">
+                        <tbody id="tabelaInstrucoes"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
