@@ -157,6 +157,7 @@ function analisaPosFixo() {
     let operador;
     let tipo = 0;
     transferePosFixo();
+    console.log("Expressao a ser avalidada: ");
     posFixo.forEach(i => {
         console.log(i.lexema);
     })
