@@ -7,8 +7,8 @@ body {
 }
 
 button {
-  width: 70;
-  height: 70;
+  width: 50;
+  height: 50;
   background-color: rgb(48, 47, 47);
 }
 
@@ -29,7 +29,7 @@ nav {
 
 table {
   height: 530px !important;
-  width: 770px !important;
+  width: 834px !important;
 }
 
 #table2 {
@@ -48,7 +48,7 @@ table, td, th {
 
 thead, tbody{
   display: block;
-  width: 770px;
+  width: 834px;
 }
 
 tbody{
