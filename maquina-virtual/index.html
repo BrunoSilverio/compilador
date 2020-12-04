@@ -27,7 +27,7 @@
     </nav>
     <hr>
     <!-- Div Geral -->
-    <div class="container-fluid text-center">
+    <div class="container-fluid text-center"  align="right">
         <div>
             <div class="col-sm-1 sidenav">
                 <br>
@@ -49,52 +49,44 @@
                 </div>
                 <br>
                 <br>
+                <br>
             </div>
+            <!--Div Entrada e Saida-->
             <div class="col-sm-1 text-left sidenav">
-                Memoria
-                <!--Memoria-->
-                <textarea id="formMemoria" class="form-control form-control-lg" type="text" rows="25"
-                    readonly></textarea>
-            </div>
-            <div class="col-sm-1 text-left sidenav">
-                Endereço[s] - Valor
-                <!--EnderecoS-->
-                <textarea id="formEnderecoS" class="form-control form-control-lg" type="text" rows="25"
-                    readonly></textarea>
-            </div>
-            <div class="col-sm-2 text-left sidenav">
                 Entrada
-                <!--Entrada-->
                 <textarea id="formEntrada" class="form-control form-control-lg" type="text" rows="11"
                     readonly></textarea>
                 <br>
                 Saida
-                <!--Saida-->
                 <textarea id="formSaida" class="form-control form-control-lg" type="text" rows="12" readonly></textarea>
             </div>
-        </div>
-        <br>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-7">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <!--<thead>
-                                <tr>
-                                    <th style="width:50px; text-align: center; vertical-align: middle;">Breakpoint</th>
-                                    <th style="width:50px; text-align: center; vertical-align: middle;">L</th>
-                                    <th style="width:20px">Instrução</th>
-                                    <th style="width:50px">Comentário</th>
-                                </tr>
-                            </thead>-->
-                            <tbody id="tabelaInstrucoes"></tbody>
-                        </table>
+            <!--Tabela com memoria-->
+            <div class="col-sm-2">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="table-responsive">
+                            <br>
+                            <table class="table" id="table2">
+                                <tbody id="tabelaMemoria" style="display: block; width: 169px !important;"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Tabela com arquivo.obj-->
+            <br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="table-responsive">
+                            <table class="table" align="right">
+                                <tbody id="tabelaInstrucoes"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <br>
-        <br>
     </div>
 </body>
 
