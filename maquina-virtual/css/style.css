@@ -35,8 +35,9 @@ table {
 #table2 {
   height: 652px !important;
   width: 172px !important;
-  display: block;
+  overflow-y: scroll !important;
   position: fixed;
+  z-index: 4 !important;
 }
 
 table, td, th {
