@@ -149,14 +149,17 @@ function main() {
 
     var teste = arquivo.split("\n"); //separa o arquivo por linha
 
-    for (let a = i; a < teste.length; a++) { //percorrer por quantidade de linhas no arquivo
-        comando = teste[a]; //contem a linha atual
+    for (i = i; i < teste.length; i++) { //percorrer por quantidade de linhas no arquivo
+        comando = teste[i]; //contem a linha atual
+
+        console.log("Comando: " + comando + "\n i= " + i + "\n s= " + s + "\n memory= " + memory[s]);
+
         executa(comando);
 
         //funcao para validar se existe um checkbox selecionado na linha
-        let checkbox = document.getElementById('breakpoint-' + a);
+        let checkbox = document.getElementById('breakpoint-' + i);
         if (checkbox.checked) {
-            document.getElementById(a).style.color = "red";
+            document.getElementById(i).style.color = "red";
             i++;
             break;
         }
@@ -178,14 +181,11 @@ function executa(comando) {
     //Pega a intrucao da linha
 
     operation = comando.split(" ", 1);
-
+    console.log("Operation: " + operation);
 
     if ((operation == "LDC") || (operation == "LDV") || (operation == "STR") || (operation == "JMP") || (operation == "JMPF") || (operation == "ALLOC") || (operation == "DALLOC") || (operation == "CALL")) {
         // Pega os valores da instrucao
-
         parametros = comando.substring(comando.lastIndexOf(" ") + 1);
-        console.log("Comando: " + comando);
-        console.log("Operation: " + operation);
         console.log("parametro: " + parametros);
     }
 
@@ -527,7 +527,6 @@ function retn() {
 
 //Funcao para buscar rotulo
 function buscaLinha(parametros) {
-
     var buscaComando = arquivo.split("\n");
     for (let k = 0; k <= buscaComando.length; k++) {
         comando = buscaComando[k];
@@ -535,8 +534,8 @@ function buscaLinha(parametros) {
 
         if (operation[0] === parametros) {
             console.log("Encontrou o parametro: " + parametros);
-            console.log("Na linha: " + k);
-            return k - 1;
+            console.log("Na linha: " + (k + 1));
+            return k;
         }
     }
 }
