@@ -29,8 +29,8 @@ let comandoBuscaLinha = [];
 
 //PRIMEIRA FUNCAO A SER EXECUTADA -> IMPORT NA INTERFACE
 //Função para leitura de arquivo .obj para manipualcao no JS
-function readFile() {
 
+function readFile() {
     var fileToLoad = document.getElementById("file-input").files[0];
     var fileReader = new FileReader();
     fileReader.onload = function (fileLoadedEvent) {
@@ -139,7 +139,7 @@ function tabelaInstrucoes(texto) {
             comentario = "(Retornar de procedimento): i:= M[s]; s:= s-1";
         }
 
-        document.getElementById("tabelaInstrucoes").innerHTML += '<tr id=' + k + '><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>' +
+        document.getElementById("tabelaInstrucoes").innerHTML += '<tr id=' + k + '><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id= breakpoint-' + k + ' name="line" value="breakpoint"></td>' +
             '<td>' + (k + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
         comentario = "";
     }
@@ -147,8 +147,6 @@ function tabelaInstrucoes(texto) {
 
 //Função para executar arquivo.obj comando por comando
 function debug() {
-
-
     document.getElementById(i).style.color = "#06fc06";
     var teste = arquivo.split("\n");
     console.log("indice" + i);
@@ -156,11 +154,10 @@ function debug() {
     executa(comando);
     document.getElementById(i + 1).style.color = "red";
     i++;
-
 }
 
+//Função para executar o comando atual
 function executa(comando) {
-
     //Pega a intrucao da linha
     console.log("Comando atual: " + comando);
     operation = comando.split(" ", 1);
@@ -265,7 +262,6 @@ function executa(comando) {
 
 // Função main controla um loop para as operações das instruções
 function main() {
-
     console.log("Executando...");
 
     var teste = arquivo.split("\n"); //separa o arquivo por linha
@@ -273,9 +269,21 @@ function main() {
     for (i = i; i < teste.length; i++) { //percorrer por quantidade de linhas no arquivo
         comando = teste[i]; //contem a linha atual
         executa(comando);
+
+        //funcao para validar se existe um checkbox selecionado na linha
+        let checkbox = document.getElementById('breakpoint-'+i);
+        if (checkbox.checked) {
+            document.getElementById(i).style.color = "red";
+            i++;
+            break;
+        } else {
+            console.log("O cliente não marcou o checkbox");
+        }
+        
     }
 }
 
+//Iniciar execução
 function start() {
     console.log("*entrou func start*");
     s = -1;
@@ -501,7 +509,6 @@ function jmpf(parametros) {
         i = buscaLinha(parametros);
     }
     else {
-        // i = i + 1;
         //O proprio for incrementa isso, nao ha necessidade
     }
     s = (s - 1);
