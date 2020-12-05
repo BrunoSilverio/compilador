@@ -18,7 +18,6 @@
     <!-- NAVBAR -->
     <nav>
         <h3>Maquina Virtual</h3>
-
         <!--Button Run-->
         <div style="position:absolute; right:250px; top:10px" class="image-upload">
             <label for="play">
@@ -49,7 +48,6 @@
     <div class="container-fluid text-center" align="right">
         <div class="col-sm-1 text-left sidenav"></div>
         <div class="col-sm-1 text-left sidenav"></div>
-        
         <!--Div Entrada e Saida-->
         <div class="col-sm-1 text-left sidenav">
             Entrada
@@ -58,28 +56,25 @@
             Saida
             <textarea id="formSaida" class="form-control form-control-lg" type="text" rows="16" readonly></textarea>
         </div>
-
         <!--Tabela com memoria-->
         <div class="col-sm-2">
-            <div class="row">
+            <div class="container vertical-scrollable">
                 <div class="col-sm-7">
                     <br>
+
                     <table class="table" id="table2">
                         <tbody id="tabelaMemoria" style="width: 170px !important;"></tbody>
                     </table>
                 </div>
             </div>
         </div>
-
         <!--Tabela com arquivo.obj-->
         <br>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-7">
-                    <table class="table" align="right">
-                        <tbody id="tabelaInstrucoes"></tbody>
-                    </table>
-                </div>
+            <div class="col-sm-7">
+                <table class="table" align="right">
+                    <tbody id="tabelaInstrucoes"></tbody>
+                </table>
             </div>
         </div>
     </div>
