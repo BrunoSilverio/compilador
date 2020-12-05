@@ -10,6 +10,7 @@ let s = -1;
 // Variavel de controle para percorrer a lista de instruções a serem executadas, 
 //contem o endereço da proxima instrução a ser executada: P[i]
 let i = 0;
+let indiceDebug = 0;
 
 // Vetor responsavel por simular a pilha de memoria
 let memory = [];
@@ -51,7 +52,7 @@ function readFile() {
 
     //Espera pelo botao de debug
     document.getElementById('debug').addEventListener('click', function () {
-        Fdebug();
+        debug();
     });
 }
 
@@ -76,8 +77,8 @@ function tabelaInstrucoes(texto) {
         '<td style="border: 2px solid; font-weight: bold">' + "Instruçao" + '</td>' +
         '<td style="border: 2px solid; font-weight: bold">' + "Comentario" + '</td></tr>';
 
-    for (i; i < itens.length; i++) {
-        linha = itens[i];// espaços TAB definem colunas que serão consultadas
+    for (let k = 0; k < itens.length; k++) {
+        linha = itens[k];// espaços TAB definem colunas que serão consultadas
         console.log("Linha: " + linha);
 
         if (linha.includes("START")) {
@@ -138,128 +139,140 @@ function tabelaInstrucoes(texto) {
             comentario = "(Retornar de procedimento): i:= M[s]; s:= s-1";
         }
 
-        document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>' +
-            '<td>' + (i + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
+        document.getElementById("tabelaInstrucoes").innerHTML += '<tr id=' + k + '><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="breakpoint" name="line" value="breakpoint"></td>' +
+            '<td>' + (k + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
         comentario = "";
     }
 }
 
 //Função para executar arquivo.obj comando por comando
-function Fdebug() {
-    let debug = true;
-    //console.log("DEBUG " + debug);
-    main();
+function debug() {
+
+
+    document.getElementById(i).style.color = "#06fc06";
+    var teste = arquivo.split("\n");
+    console.log("indice" + i);
+    comando = teste[i];
+    executa(comando);
+    document.getElementById(i + 1).style.color = "red";
+    i++;
+
+}
+
+function executa(comando) {
+
+    //Pega a intrucao da linha
+    console.log("Comando atual: " + comando);
+    operation = comando.split(" ", 1);
+    console.log("Operation: " + operation);
+
+    if ((operation == "LDC") || (operation == "LDV") || (operation == "STR") || (operation == "JMP") || (operation == "JMPF") || (operation == "ALLOC") || (operation == "DALLOC") || (operation == "CALL")) {
+        // Pega os valores da instrucao
+
+        parametros = comando.substring(comando.lastIndexOf(" ") + 1);
+        console.log("parametro: " + parametros);
+    }
+
+    switch (String(operation)) {
+        case "START":
+            start();
+            break;
+        case "LDC":
+            ldc(parametros);
+            break;
+        case "LDV":
+            ldv(parametros);
+            break;
+        case "ADD":
+            add();
+            break;
+        case "SUB":
+            sub();
+            break;
+        case "MULT":
+            mult();
+            break;
+        case "DIVI":
+            divi();
+            break;
+        case "INV":
+            inv();
+            break;
+        case "AND":
+            and();
+            break;
+        case "OR":
+            or();
+            break;
+        case "NEG":
+            neg();
+            break;
+        case "CME":
+            cme();
+            break;
+        case "CMA":
+            cma();
+            break;
+        case "CEQ":
+            ceq();
+            break;
+        case "CDIF":
+            cdif();
+            break;
+        case "CMEQ":
+            cmeq();
+            break;
+        case "CMAQ":
+            cmaq();
+            break;
+        case "HLT":
+            hlt();
+            break;
+        case "STR":
+            str(parametros);
+            break;
+        case "JMP":
+            jmp(parametros);
+            break;
+        case "JMPF":
+            jmpf(parametros);
+            break;
+        case "NULL":
+            break;
+        case "RD":
+            rd();
+            break;
+        case "PRN":
+            prn();
+            break;
+        case "ALLOC":
+            alloc(parametros);
+            break;
+        case "DALLOC":
+            dalloc(parametros);
+            break;
+        case "CALL":
+            call(parametros);
+            break;
+        case "RETURN":
+            retn();
+            break;
+        default:
+            break;
+    }
+    exibeMemoria();
 }
 
 // Função main controla um loop para as operações das instruções
 function main() {
+
     console.log("Executando...");
 
     var teste = arquivo.split("\n"); //separa o arquivo por linha
 
-    for (i = 0; i < teste.length; i++) { //percorrer por quantidade de linhas no arquivo
+    for (i = i; i < teste.length; i++) { //percorrer por quantidade de linhas no arquivo
         comando = teste[i]; //contem a linha atual
-
-        //Pega a intrucao da linha
-        console.log("Comando atual: " + comando);
-        operation = comando.split(" ", 1);
-        console.log("Operation: " + operation);
-
-        if ((operation == "LDC") || (operation == "LDV") || (operation == "STR") || (operation == "JMP") || (operation == "JMPF") || (operation == "ALLOC") || (operation == "DALLOC") || (operation == "CALL")) {
-            // Pega os valores da instrucao
-
-            parametros = comando.substring(comando.lastIndexOf(" ") + 1);
-            console.log("parametro: " + parametros);
-        }
-
-        switch (String(operation)) {
-            case "START":
-                start();
-                break;
-            case "LDC":
-                ldc(parametros);
-                break;
-            case "LDV":
-                ldv(parametros);
-                break;
-            case "ADD":
-                add();
-                break;
-            case "SUB":
-                sub();
-                break;
-            case "MULT":
-                mult();
-                break;
-            case "DIVI":
-                divi();
-                break;
-            case "INV":
-                inv();
-                break;
-            case "AND":
-                and();
-                break;
-            case "OR":
-                or();
-                break;
-            case "NEG":
-                neg();
-                break;
-            case "CME":
-                cme();
-                break;
-            case "CMA":
-                cma();
-                break;
-            case "CEQ":
-                ceq();
-                break;
-            case "CDIF":
-                cdif();
-                break;
-            case "CMEQ":
-                cmeq();
-                break;
-            case "CMAQ":
-                cmaq();
-                break;
-            case "HLT":
-                hlt();
-                break;
-            case "STR":
-                str(parametros);
-                break;
-            case "JMP":
-                jmp(parametros);
-                break;
-            case "JMPF":
-                jmpf(parametros);
-                break;
-            case "NULL":
-                break;
-            case "RD":
-                rd();
-                break;
-            case "PRN":
-                prn();
-                break;
-            case "ALLOC":
-                alloc(parametros);
-                break;
-            case "DALLOC":
-                dalloc(parametros);
-                break;
-            case "CALL":
-                call(parametros);
-                break;
-            case "RETURN":
-                retn();
-                break;
-            default:
-                break;
-        }
-
+        executa(comando);
     }
 }
 
@@ -271,7 +284,6 @@ function start() {
 //Parar - “Para a execução da MVD”
 function hlt() {
     console.log("*entrou funcao HLT*");
-    exibeMemoria();
 }
 
 //Operação RD - Ultimo valor entrado pelo usuario.
@@ -281,7 +293,6 @@ function rd() {
     document.getElementById("formEntrada").innerHTML += entrada + "\n";
     s = (s + 1);
     memory[s] = entrada;
-    exibeMemoria();
 }
 
 //Saida - Impressão
@@ -290,7 +301,6 @@ function prn() {
     if (memory[s] == undefined) {
         document.getElementById("formSaida").innerHTML += "TESTE memoria undefined\n";
     } else {
-        exibeMemoria();
         document.getElementById("formSaida").innerHTML += memory[s] + "\n";
     }
     s = (s - 1);
@@ -301,7 +311,6 @@ function ldc(parametros) {
     console.log("*entrou funcao LDC*");
     s = (s + 1);
     memory[s] = parametros;
-    exibeMemoria();
 }
 
 //Carregar valor
@@ -309,14 +318,12 @@ function ldv(parametros) {
     console.log("*entrou funcao LDV*");
     s = (s + 1);
     memory[s] = memory[parametros];
-    exibeMemoria();
 }
 
 //Atribuição - Armazenar valor
 function str(parametros) {
     console.log("*entrou funcao STR*");
     memory[parseInt(parametros)] = memory[s];
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -332,7 +339,6 @@ function alloc(parametros) {
         memory[s] = memory[(m + k)];
         memory[(m + k)] = (m + k);
     }
-    exibeMemoria();
 }
 
 //Desalocação de Variáveis
@@ -346,14 +352,12 @@ function dalloc(parametros) {
         memory[m + k] = memory[s];
         s = (s - 1);
     }
-    exibeMemoria();
 }
 
 //Operacao adição
 function add() {
     console.log("*entrou funcao ADD*");
     memory[s - 1] = parseInt(memory[s - 1] + memory[s]);
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -361,7 +365,6 @@ function add() {
 function sub() {
     console.log("*entrou funcao SUB*");
     memory[s - 1] = parseInt(memory[s - 1] - memory[s]);
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -369,7 +372,6 @@ function sub() {
 function mult() {
     console.log("*entrou funcao MULT*");
     memory[s - 1] = parseInt(memory[s - 1] * memory[s]);
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -377,7 +379,6 @@ function mult() {
 function divi() {
     console.log("*entrou funcao DIVI*");
     memory[s - 1] = parseInt(memory[s - 1] / memory[s]);
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -385,7 +386,6 @@ function divi() {
 function inv() {
     console.log("*entrou funcao INV*");
     memory[s] = memory[s] * (-1);
-    exibeMemoria();
 }
 
 //Operacao AND
@@ -396,7 +396,6 @@ function and() {
     } else {
         memory[s - 1] = 0;
     }
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -408,7 +407,6 @@ function or() {
     } else {
         memory[s - 1] = 0;
     }
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -416,7 +414,6 @@ function or() {
 function neg() {
     console.log("*entrou funcao NEG*");
     memory[s] = 1 - memory[s];
-    exibeMemoria();
 }
 
 //Comparar menor
@@ -428,7 +425,6 @@ function cme() {
     else {
         memory[s - 1] = 0;
     }
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -441,7 +437,6 @@ function cma() {
     else {
         memory[s - 1] = 0;
     }
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -454,7 +449,6 @@ function ceq() {
     else {
         memory[s - 1] = 0;
     }
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -467,7 +461,6 @@ function cdif() {
     else {
         memory[s - 1] = 0;
     }
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -480,7 +473,6 @@ function cmeq() {
     else {
         memory[s - 1] = 0;
     }
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -493,7 +485,6 @@ function cmaq() {
     else {
         memory[s - 1] = 0;
     }
-    exibeMemoria();
     s = (s - 1);
 }
 
@@ -522,8 +513,10 @@ function call(parametros) {
     console.log("*entrou funcao CALL*");
     s = (s + 1);
     memory[s] = (i + 1);
-    exibeMemoria();
-    i = buscaLinha(parametros) + 1;
+    i = buscaLinha(parametros);
+    console.log("s " + s);
+    console.log(`i ${i}`);
+    console.log(`memoria ${memory}`);
 }
 
 //Retornar de procedimento
@@ -558,7 +551,7 @@ function exibeMemoria() {
         '<tr><td style="border: 2px solid; font-weight: bold">' + " Endereço " + '</td>' +
         '<td style="border: 2px solid; font-weight: bold">' + " Valor " + '</td></tr>';
 
-    for (let k = 0; k < memory.length; k++) {
+    for (let k = 0; k <= s; k++) {
 
         document.getElementById("tabelaMemoria").innerHTML +=
             '<tr><td style="text-align: center; vertical-align: middle;">' + "[" + k + "] " + '</td>' +
