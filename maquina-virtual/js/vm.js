@@ -71,7 +71,6 @@ function tabelaInstrucoes(texto) {
     }
 
     var itens = texto.split("\n"); // define que linhas devem ser consultadas
-    console.log(itens);
     document.getElementById("tabelaInstrucoes").innerHTML += '<tr><td style="border: 2px solid; font-weight: bold">' + "Breakpoint" + '</td>' +
         '<td style="border: 2px solid; font-weight: bold">' + " L " + '</td>' +
         '<td style="border: 2px solid; font-weight: bold">' + "Instruçao" + '</td>' +
@@ -79,7 +78,6 @@ function tabelaInstrucoes(texto) {
 
     for (let k = 0; k < itens.length; k++) {
         linha = itens[k];// espaços TAB definem colunas que serão consultadas
-        console.log("Linha: " + linha);
 
         if (linha.includes("START")) {
             comentario = "(Iniciar programa principal): S:= -1";
@@ -151,7 +149,6 @@ function debug() {
 
     document.getElementById(i).style.color = "#06fc06";
     var teste = arquivo.split("\n");
-    console.log("indice" + i);
     comando = teste[i];
     executa(comando);
     document.getElementById(i + 1).style.color = "red";
@@ -162,14 +159,16 @@ function debug() {
 function executa(comando) {
 
     //Pega a intrucao da linha
-    console.log("Comando atual: " + comando);
+
     operation = comando.split(" ", 1);
-    console.log("Operation: " + operation);
+
 
     if ((operation == "LDC") || (operation == "LDV") || (operation == "STR") || (operation == "JMP") || (operation == "JMPF") || (operation == "ALLOC") || (operation == "DALLOC") || (operation == "CALL")) {
         // Pega os valores da instrucao
 
         parametros = comando.substring(comando.lastIndexOf(" ") + 1);
+        console.log("Comando: " + comando);
+        console.log("Operation: " + operation);
         console.log("parametro: " + parametros);
     }
 
@@ -495,8 +494,7 @@ function jmp(parametros) { //arrumar parametro da linha ->como pular e indicar
 
 //Desviar se falso
 function jmpf(parametros) {
-
-    console.log(memory[s]);
+    console.log("*entrou funcao JMPF*");
     if (memory[s] == 0) {
         i = buscaLinha(parametros);
     }
@@ -525,7 +523,6 @@ function retn() {
 
 //Funcao para buscar rotulo
 function buscaLinha(parametros) {
-    console.log("#### ESTOU BUSCANDO: " + parametros);
 
     var buscaComando = arquivo.split("\n");
     for (let k = 0; k <= buscaComando.length; k++) {
@@ -533,7 +530,7 @@ function buscaLinha(parametros) {
         operation = comando.split(" ");
 
         if (operation[0] === parametros) {
-            console.log("#### ENCONTREI A LINHA: " + parametros);
+            console.log("Encontrou o parametro: " + parametros);
             console.log("Na linha: " + k);
             return k - 1;
         }
