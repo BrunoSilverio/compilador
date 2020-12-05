@@ -28,13 +28,13 @@ nav {
 }
 
 table {
-  height: 530px !important;
+  height: 650px !important;
   width: 834px !important;
 }
 
 #table2 {
-  height: 529px !important;
-  width: 171px !important;
+  height: 652px !important;
+  width: 172px !important;
   display: block;
   position: fixed;
 }
@@ -53,5 +53,5 @@ thead, tbody{
 
 tbody{
   overflow-y: scroll;
-  height: 527px !important;
+  height: 650px !important;
 }
