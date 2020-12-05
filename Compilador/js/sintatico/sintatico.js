@@ -59,7 +59,7 @@ function sintatico() {
                         tempo = fim - inicio;
                         console.log(tabelasimbolos);
                         console.log("***** end SINTATICO *****");
-                        document.getElementById('terminal').value = "Programa compilado com SUCESSO!\nRealizado o download de:  compilador.obj\n\nTempo de execucao:  " + tempo.toFixed(4) + " ms";
+                        document.getElementById('terminal').value = "Programa compilado com SUCESSO!\nRealizado o download de:   " + nomeProg + ".obj\n\nTempo de execucao:  " + tempo.toFixed(4) + " ms";
                         alert("Compilado com sucesso!");
                     } else {
                         //Erro pois tem coisa depois do ponto final

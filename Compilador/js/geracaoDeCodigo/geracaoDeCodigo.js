@@ -19,7 +19,7 @@ function geraCodigo() {
         var a = document.createElement("a"),
             url = URL.createObjectURL(file);
         a.href = url;
-        a.download = "compilador.obj";  //NOME DO ARQUIVO A SER BAIXADO
+        a.download = nomeProg + ".obj";  //NOME DO ARQUIVO A SER BAIXADO
         document.body.appendChild(a);
         a.click();
         setTimeout(function () {

@@ -7,10 +7,14 @@ let programa;
 var inicio = "";
 var fim = "";
 var tempo = "";
+let nomeProg = "";
 
 //Funcao para chamar a Main.js, quando o botao compilar no front-end for executado. 
 function start() {
     document.getElementById('compilar').addEventListener('click', function () {
+        var fileInput = document.getElementById('file-input');
+        var filename = fileInput.files[0].name;
+        nomeProg = filename.split(".", 1);
         main();
     });
 }
