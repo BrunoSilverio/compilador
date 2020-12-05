@@ -143,6 +143,26 @@ function tabelaInstrucoes(texto) {
     }
 }
 
+// Função main controla um loop para as operações das instruções
+function main() {
+    console.log("Executando...");
+
+    var teste = arquivo.split("\n"); //separa o arquivo por linha
+
+    for (let a = i; a < teste.length; a++) { //percorrer por quantidade de linhas no arquivo
+        comando = teste[a]; //contem a linha atual
+        executa(comando);
+
+        //funcao para validar se existe um checkbox selecionado na linha
+        let checkbox = document.getElementById('breakpoint-' + a);
+        if (checkbox.checked) {
+            document.getElementById(a).style.color = "red";
+            i++;
+            break;
+        }
+    }
+}
+
 //Função para executar arquivo.obj comando por comando
 function debug() {
     document.getElementById(i).style.color = "#06fc06";
@@ -259,29 +279,6 @@ function executa(comando) {
     exibeMemoria();
 }
 
-// Função main controla um loop para as operações das instruções
-function main() {
-    console.log("Executando...");
-
-    var teste = arquivo.split("\n"); //separa o arquivo por linha
-
-    for (i = i; i < teste.length; i++) { //percorrer por quantidade de linhas no arquivo
-        comando = teste[i]; //contem a linha atual
-        executa(comando);
-
-        //funcao para validar se existe um checkbox selecionado na linha
-        let checkbox = document.getElementById('breakpoint-'+i);
-        if (checkbox.checked) {
-            document.getElementById(i).style.color = "red";
-            i++;
-            break;
-        } else {
-            console.log("O cliente não marcou o checkbox");
-        }
-        
-    }
-}
-
 //Iniciar execução
 function start() {
     console.log("*entrou func start*");
@@ -299,7 +296,7 @@ function rd() {
     let entrada = prompt("Digite o valor de entrada: ");
     document.getElementById("formEntrada").innerHTML += entrada + "\n";
     s = (s + 1);
-    memory[s] = entrada;
+    memory[s] = parseInt(entrada);
 }
 
 //Saida - Impressão
@@ -342,7 +339,7 @@ function alloc(parametros) {
 
     for (let k = 0; k < n; k++) {
         s = (s + 1);
-        memory[s] = memory[(m + k)];
+        memory[s] = parseInt(memory[(m + k)]);
         memory[(m + k)] = (m + k);
     }
 }
@@ -363,35 +360,35 @@ function dalloc(parametros) {
 //Operacao adição
 function add() {
     console.log("*entrou funcao ADD*");
-    memory[s - 1] = (memory[s - 1] + memory[s]);
+    memory[s - 1] = parseInt(memory[s - 1]) + parseInt(memory[s]);
     s = (s - 1);
 }
 
 //Operacao subtração
 function sub() {
     console.log("*entrou funcao SUB*");
-    memory[s - 1] = (memory[s - 1] - memory[s]);
+    memory[s - 1] = parseInt(memory[s - 1]) - parseInt(memory[s]);
     s = (s - 1);
 }
 
 //Operacao multiplicação
 function mult() {
     console.log("*entrou funcao MULT*");
-    memory[s - 1] = (memory[s - 1] * memory[s]);
+    memory[s - 1] = parseInt(memory[s - 1]) * parseInt(memory[s]);
     s = (s - 1);
 }
 
 //Operacao divisão
 function divi() {
     console.log("*entrou funcao DIVI*");
-    memory[s - 1] = (memory[s - 1] / memory[s]);
+    memory[s - 1] = parseInt(memory[s - 1]) / parseInt(memory[s]);
     s = (s - 1);
 }
 
 //Operacao inversão
 function inv() {
     console.log("*entrou funcao INV*");
-    memory[s] = (memory[s] * (-1));
+    memory[s] = parseInt(memory[s]) * (-1);
 }
 
 //Operacao AND
@@ -419,13 +416,13 @@ function or() {
 //Operacao NEG
 function neg() {
     console.log("*entrou funcao NEG*");
-    memory[s] = (1 - memory[s]);
+    memory[s] = (1 - parseInt(memory[s]));
 }
 
 //Comparar menor
 function cme() {
     console.log("*entrou funcao CME*");
-    if (memory[s - 1] < memory[s]) {
+    if (parseInt(memory[s - 1]) < parseInt(memory[s])) {
         memory[s - 1] = 1;
     }
     else {
@@ -437,7 +434,7 @@ function cme() {
 //Comparar maior
 function cma() {
     console.log("*entrou funcao CMA*");
-    if (memory[s - 1] > memory[s]) {
+    if (parseInt(memory[s - 1]) > parseInt(memory[s])) {
         memory[s - 1] = 1;
     }
     else {
@@ -449,7 +446,7 @@ function cma() {
 //Comparar igual
 function ceq() {
     console.log("*entrou funcao CEQ*");
-    if (memory[s - 1] === memory[s]) {
+    if (parseInt(memory[s - 1]) === parseInt(memory[s])) {
         memory[s - 1] = 1;
     }
     else {
@@ -461,7 +458,7 @@ function ceq() {
 //Comparar desigual
 function cdif() {
     console.log("*entrou funcao CDIF*");
-    if (memory[s - 1] != memory[s]) {
+    if (parseInt(memory[s - 1]) != parseInt(memory[s])) {
         memory[s - 1] = 1;
     }
     else {
@@ -473,7 +470,7 @@ function cdif() {
 //Comparar menor ou igual
 function cmeq() {
     console.log("*entrou funcao CMEQ*");
-    if (memory[s - 1] <= memory[s]) {
+    if (parseInt(memory[s - 1]) <= parseInt(memory[s])) {
         memory[s - 1] = 1;
     }
     else {
@@ -485,7 +482,7 @@ function cmeq() {
 //Comparar maior ou igual
 function cmaq() {
     console.log("*entrou funcao CMAQ*");
-    if (memory[s - 1] >= memory[s]) {
+    if (parseInt(memory[s - 1]) >= parseInt(memory[s])) {
         memory[s - 1] = 1;
     }
     else {
