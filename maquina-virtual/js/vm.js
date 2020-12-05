@@ -298,32 +298,31 @@ function rd() {
 //Saida - Impressão
 function prn() {
     console.log("*entrou funcao PRN*");
-    if (memory[s] == undefined) {
-        document.getElementById("formSaida").innerHTML += "TESTE memoria undefined\n";
-    } else {
-        document.getElementById("formSaida").innerHTML += memory[s] + "\n";
-    }
+    document.getElementById("formSaida").innerHTML += memory[s] + "\n";
     s = (s - 1);
 }
 
 //Caregar constante
 function ldc(parametros) {
     console.log("*entrou funcao LDC*");
+    let valor = parseInt(parametros);
     s = (s + 1);
-    memory[s] = parametros;
+    memory[s] = valor;
 }
 
 //Carregar valor
 function ldv(parametros) {
     console.log("*entrou funcao LDV*");
+    let valor = parseInt(parametros);
     s = (s + 1);
-    memory[s] = memory[parametros];
+    memory[s] = memory[valor];
 }
 
 //Atribuição - Armazenar valor
 function str(parametros) {
     console.log("*entrou funcao STR*");
-    memory[parseInt(parametros)] = memory[s];
+    let valor = parseInt(parametros);
+    memory[valor] = memory[s];
     s = (s - 1);
 }
 
@@ -357,35 +356,35 @@ function dalloc(parametros) {
 //Operacao adição
 function add() {
     console.log("*entrou funcao ADD*");
-    memory[s - 1] = parseInt(memory[s - 1] + memory[s]);
+    memory[s - 1] = (memory[s - 1] + memory[s]);
     s = (s - 1);
 }
 
 //Operacao subtração
 function sub() {
     console.log("*entrou funcao SUB*");
-    memory[s - 1] = parseInt(memory[s - 1] - memory[s]);
+    memory[s - 1] = (memory[s - 1] - memory[s]);
     s = (s - 1);
 }
 
 //Operacao multiplicação
 function mult() {
     console.log("*entrou funcao MULT*");
-    memory[s - 1] = parseInt(memory[s - 1] * memory[s]);
+    memory[s - 1] = (memory[s - 1] * memory[s]);
     s = (s - 1);
 }
 
 //Operacao divisão
 function divi() {
     console.log("*entrou funcao DIVI*");
-    memory[s - 1] = parseInt(memory[s - 1] / memory[s]);
+    memory[s - 1] = (memory[s - 1] / memory[s]);
     s = (s - 1);
 }
 
 //Operacao inversão
 function inv() {
     console.log("*entrou funcao INV*");
-    memory[s] = memory[s] * (-1);
+    memory[s] = (memory[s] * (-1));
 }
 
 //Operacao AND
@@ -413,7 +412,7 @@ function or() {
 //Operacao NEG
 function neg() {
     console.log("*entrou funcao NEG*");
-    memory[s] = 1 - memory[s];
+    memory[s] = (1 - memory[s]);
 }
 
 //Comparar menor
@@ -443,7 +442,7 @@ function cma() {
 //Comparar igual
 function ceq() {
     console.log("*entrou funcao CEQ*");
-    if (memory[s - 1] == memory[s]) {
+    if (memory[s - 1] === memory[s]) {
         memory[s - 1] = 1;
     }
     else {
@@ -514,17 +513,13 @@ function call(parametros) {
     s = (s + 1);
     memory[s] = (i + 1);
     i = buscaLinha(parametros);
-    console.log("s " + s);
-    console.log(`i ${i}`);
-    console.log(`memoria ${memory}`);
 }
 
 //Retornar de procedimento
 function retn() {
     console.log("*entrou funcao RETURN*");
     i = memory[s];
-    console.log(i);
-    i = i - 1;
+    //i = i - 1;
     s = (s - 1);
 }
 
