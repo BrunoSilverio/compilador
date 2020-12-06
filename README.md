@@ -12,24 +12,26 @@ Compilador de linguagem LPD desenvolvido em dupla na disciplina Contrução de C
 
 
 ## Etapas/Módulos do Compilador
-### Analisador Léxico:
-- Primeira etapa da compilação
+### [Analisador Léxico:](../Compilador/js/lexico/lexico.js)
+- Primeira etapa do processo de compilação
 - Possibilitar a entrada de um arquivo .txt ou digitação livre de código LPD
 - Realizar a geração de tokens do código inserido (seja por .txt ou digitado)
-- Gerar erro Léxico (caracteres não identificados, comentários não terminados) contendo lexema problema e linha do erro
+- Gerar erro Léxico (caracteres não identificados, comentários não terminados) contendo lexema e linha do erro
 
 
-### Analisador Sintático
-- Segunda etapa da compilação
+### [Analisador Sintático:](../Compilador/js/sintatico/sintatico.js)
+- Segunda etapa do processo de compilação
 - Validar a sequencia dos tokens
 - Gerar erro Sintático (tokens fora da ordem esperada) contendo lexema e linha do erro
 
 
-### Analisador Semântico:
-- Terceira etapa da compilação
-- Dividido em três "sub-módulos:
-  #### Tabela de Simbolos
-    - Inserir e validar variáveis, procedimentos e funções
+### [Analisador Semântico:](../Compilador/js/semantico)
+- Terceira etapa do pocesso de compilação
+- Gerar erro Semântico (váriaveis/funções duplicadas, expressões com tipos errados) contendo lexema e linha do erro
+- Dividido em três "sub-módulos":
+  #### Tabela de Símbolos
+    - Inserir variáveis, procedimentos e funções na tabela de símbolos
+    - Validar se váriaveis, procedimentoe e funções existem e pertencem ao escopo
   #### Pós-fixo
     - Tranformar expressão de in-fixo para pós-fixo
     - Inserir operadores e operandos
@@ -40,12 +42,10 @@ Compilador de linguagem LPD desenvolvido em dupla na disciplina Contrução de C
 
 
 ### Máquina Virtual:
-- Trazer segurança para todos os stakeholders
-- Garantir que haja eficiência operacional
-- Entregar vantagens reais para todos os stakeholders
-- Aproveitar a plataforma atual da Blacktag
-- Manter a experiência que o cliente já conhece
-- Construir uma solução barata e facilmente escalável
+- Responsável por executar o código gerado pelo compilador
+- Opção de executar o código em sua totalidade, linha a linha ou com breakpoint
+- Exibir ao usuário os campos de pilha de dados(memória), entrada e saida de dados
+
 
 
 ### Desafios mapeados:
@@ -62,5 +62,6 @@ Compilador de linguagem LPD desenvolvido em dupla na disciplina Contrução de C
 
 #### Tech:
 - Javascript
+- [CodeMirror](https://codemirror.net/)
 - HTML
 - CSS
