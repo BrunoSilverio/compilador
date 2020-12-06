@@ -157,12 +157,12 @@ function main() {
         executa(comando);
 
         //funcao para validar se existe um checkbox selecionado na linha
-        let checkbox = document.getElementById('breakpoint-' + i);
-        if (checkbox.checked) {
-            document.getElementById(i).style.color = "red";
-            i++;
-            break;
-        }
+        // let checkbox = document.getElementById('breakpoint-' + i);
+        // if (checkbox.checked) {
+        //     document.getElementById(i).style.color = "red";
+        //     i++;
+        //     break;
+        // }
     }
 }
 
@@ -171,6 +171,7 @@ function debug() {
     document.getElementById(i).style.color = "#06fc06";
     var teste = arquivo.split("\n");
     comando = teste[i];
+    console.log("Comando executado: " + comando);
     executa(comando);
     document.getElementById(i + 1).style.color = "red";
     i++;
@@ -247,11 +248,11 @@ function executa(comando) {
         case "STR":
             str(parametros);
             break;
-        case "JMP":
-            jmp(parametros);
-            break;
         case "JMPF":
             jmpf(parametros);
+            break;
+        case "JMP":
+            jmp(parametros);
             break;
         case "NULL":
             break;
@@ -319,14 +320,14 @@ function ldv(parametros) {
     console.log("*entrou funcao LDV*");
     let valor = parseInt(parametros);
     s = (s + 1);
-    memory[s] = memory[valor];
+    memory[s] = parseInt(memory[valor]);
 }
 
 //Atribuição - Armazenar valor
 function str(parametros) {
     console.log("*entrou funcao STR*");
     let valor = parseInt(parametros);
-    memory[valor] = memory[s];
+    memory[valor] = parseInt(memory[s]);
     s = (s - 1);
 }
 
@@ -352,7 +353,7 @@ function dalloc(parametros) {
     let n = parseInt(p[1]);
 
     for (let k = (n - 1); k >= 0; k--) {
-        memory[m + k] = memory[s];
+        memory[m + k] = parseInt(memory[s]);
         s = (s - 1);
     }
 }
@@ -394,7 +395,7 @@ function inv() {
 //Operacao AND
 function and() {
     console.log("*entrou funcao AND*");
-    if (memory[s - 1] == 1 && memory[s] == 1) {
+    if (parseInt(memory[s - 1]) === 1 && parseInt(memory[s]) === 1) {
         memory[s - 1] = 1;
     } else {
         memory[s - 1] = 0;
@@ -405,7 +406,7 @@ function and() {
 //Operacao OR
 function or() {
     console.log("*entrou funcao OR*");
-    if (memory[s - 1] == 1 || memory[s] == 1) {
+    if (parseInt(memory[s - 1]) === 1 || parseInt(memory[s]) === 1) {
         memory[s - 1] = 1;
     } else {
         memory[s - 1] = 0;
@@ -416,7 +417,7 @@ function or() {
 //Operacao NEG
 function neg() {
     console.log("*entrou funcao NEG*");
-    memory[s] = (1 - parseInt(memory[s]));
+    memory[s] = parseInt(1 - parseInt(memory[s]));
 }
 
 //Comparar menor
@@ -513,29 +514,27 @@ function jmpf(parametros) {
 function call(parametros) {
     console.log("*entrou funcao CALL*");
     s = (s + 1);
-    memory[s] = (i + 1);
+    memory[s] = i; //Original memory[s] = i + 1
     i = buscaLinha(parametros);
 }
 
 //Retornar de procedimento
 function retn() {
     console.log("*entrou funcao RETURN*");
-    i = memory[s];
-    //i = i - 1;
+    i = parseInt(memory[s]);
     s = (s - 1);
 }
 
 //Funcao para buscar rotulo
 function buscaLinha(parametros) {
     var buscaComando = arquivo.split("\n");
-    for (let k = 0; k <= buscaComando.length; k++) {
+    for (let k = 0; k < buscaComando.length; k++) {
         comando = buscaComando[k];
         operation = comando.split(" ");
 
         if (operation[0] === parametros) {
             console.log("Encontrou o parametro: " + parametros);
-            console.log("Na linha: " + (k + 1));
-            return k;
+            return parseInt(k - 1);
         }
     }
 }
