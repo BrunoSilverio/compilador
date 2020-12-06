@@ -4,48 +4,48 @@
 
 
 Compilador de linguagem LPD desenvolvido em dupla na disciplina Contrução de Compiladores, na Pontifícia Universidade Catolica de Campinas, no 2º semestre de 2020.
+
 [UML](https://google.com)
 ##### Dupla:
-  - [Bruno Camilo](https://www.linkedin.com/in/bruno-camilo-silv%C3%A9rio-546067159/)
-  - [Daniel Fraga](https://www.linkedin.com/in/daniel-a-fraga/)
+  - [Bruno Camilo - 16080293](https://www.linkedin.com/in/bruno-camilo-silv%C3%A9rio-546067159/)
+  - [Daniel Fraga - 15218282](https://www.linkedin.com/in/daniel-a-fraga/)
  
 
 
 ## Etapas/Módulos do Compilador
-### [Analisador Léxico:](../Compilador/js/lexico/lexico.js)
+### Analisador Léxico:
 - Primeira etapa do processo de compilação
-- Possibilitar a entrada de um arquivo .txt ou digitação livre de código LPD
-- Realizar a geração de tokens do código inserido (seja por .txt ou digitado)
-- Gerar erro Léxico (caracteres não identificados, comentários não terminados) contendo lexema e linha do erro
+- Possibilita a entrada de um arquivo .txt ou digitação livre de código LPD
+- Realiza a geração de tokens do código inserido
+- Gera erro Léxico (caracteres não previsto, comentários não terminados) contendo lexema e linha do erro
 
 
-### [Analisador Sintático:](../Compilador/js/sintatico/sintatico.js)
+### Analisador Sintático:
 - Segunda etapa do processo de compilação
-- Validar a sequencia dos tokens
-- Gerar erro Sintático (tokens fora da ordem esperada) contendo lexema e linha do erro
+- Valida a sequencia dos tokens
+- Gera erro Sintático (tokens fora da ordem esperada) contendo lexema e linha do erro
 
 
-### [Analisador Semântico:](../Compilador/js/semantico)
+### Analisador Semântico:
 - Terceira etapa do pocesso de compilação
-- Gerar erro Semântico (váriaveis/funções duplicadas, expressões com tipos errados) contendo lexema e linha do erro
+- Gera erro Semântico (váriaveis/funções duplicadas, expressões com tipos errados) contendo lexema e linha do erro
 - Dividido em três "sub-módulos":
   #### Tabela de Símbolos
-    - Inserir variáveis, procedimentos e funções na tabela de símbolos
-    - Validar se váriaveis, procedimentoe e funções existem e pertencem ao escopo
+    - Insere variáveis, procedimentos e funções na tabela de símbolos
+    - Valida se váriaveis, procedimentoe e funções existem, pertencem ao escopo e tem mesmo tipo
   #### Pós-fixo
-    - Tranformar expressão de in-fixo para pós-fixo
-    - Inserir operadores e operandos
-    - Avaliar expressão pós fixa
+    - Insere operadores e operandos para análise de pós-fixo
+    - Tranforma expressão de in-fixo para pós-fixo
+    - Avalia expressão pós fixa
   #### Geração de Código
-  - Realizar e geração do arquivo .obj contendo as instruções
-
+    - Realiza e geração das instruções com todos os parâmetros
+    - Gerar e realizar o download do arquivo .obj (a ser executado pela Maquina Virtual)
 
 
 ### Máquina Virtual:
 - Responsável por executar o código gerado pelo compilador
 - Opção de executar o código em sua totalidade, linha a linha ou com breakpoint
-- Exibir ao usuário os campos de pilha de dados(memória), entrada e saida de dados
-
+- Exibe ao usuário os campos de pilha de dados(memória), entrada e saida do programa
 
 
 ### Desafios mapeados:
