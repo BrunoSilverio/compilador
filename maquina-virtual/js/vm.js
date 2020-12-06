@@ -2,6 +2,8 @@
 
 // Variavel que contem todo contudo do arquivo.obj
 let arquivo = "";
+
+// Variavel auxiliar para manipular comando
 let comando = "";
 
 //Variavel de controle para percorrer a pilha de memoria, indicando elemento do topo da pilha: M[s]
@@ -10,26 +12,14 @@ let s = -1;
 // Variavel de controle para percorrer a lista de instruções a serem executadas, 
 //contem o endereço da proxima instrução a ser executada: P[i]
 let i = 0;
-let indiceDebug = 0;
 
 // Vetor responsavel por simular a pilha de memoria
 let memory = [];
 
-// Vetor responsavel por simular a lista de instruções a serem executadas
-let intrucoes = [];
-
 // Variavel de controle para identificar qual operação deve ser executada
 let operation = " ";
 
-// Variavel de controle para identificar quando o breakpoint esta selecionado
-let breakpoint = false;
-
-// Contador para lista de instruções
-let comandoBuscaLinha = [];
-
-//PRIMEIRA FUNCAO A SER EXECUTADA -> IMPORT NA INTERFACE
-//Função para leitura de arquivo .obj para manipualcao no JS
-
+// 1 - Função para leitura de arquivo .obj para manipualcao no JS
 function readFile() {
     var fileToLoad = document.getElementById("file-input").files[0];
     var fileReader = new FileReader();
@@ -45,21 +35,18 @@ function readFile() {
         '<tr><td style="border: 2px solid; font-weight: bold">' + " Endereço " + '</td>' +
         '<td style="border: 2px solid; font-weight: bold">' + " Valor " + '</td></tr>';
 
-    //Iniciar execucao do codigo button compilar (PLAY)
+    //Comando de espera para o botao de compilar (play)
     document.getElementById('compilar').addEventListener('click', function () {
         main();
     });
-
-    //Espera pelo botao de debug
+    //Iniciar execucao do codigo button compilar (PLAY)
     document.getElementById('debug').addEventListener('click', function () {
         debug();
     });
 }
 
-//SEGUNDA FUNCAO A SER EXECUTADA -> EXIBE CODIGO
-//Função para printar na tabela o conteudo do arquivo .obj
+// 2 - Função para printar na tabela o conteudo do arquivo .obj
 function tabelaInstrucoes(texto) {
-
     let comentario = "";
     let linha = "";
 
@@ -77,7 +64,7 @@ function tabelaInstrucoes(texto) {
         '<td style="border: 2px solid; font-weight: bold">' + "Comentario" + '</td></tr>';
 
     for (let k = 0; k < itens.length; k++) {
-        linha = itens[k];// espaços TAB definem colunas que serão consultadas
+        linha = itens[k]; // Contem a linha atual do arquivo
 
         if (linha.includes("START")) {
             comentario = "(Iniciar programa principal): S:= -1";
@@ -139,7 +126,8 @@ function tabelaInstrucoes(texto) {
 
         document.getElementById("tabelaInstrucoes").innerHTML += '<tr id=' + k + '><td style="text-align: center; vertical-align: middle;"><input type="checkbox" id= breakpoint-' + k + ' name="line" value="breakpoint"></td>' +
             '<td>' + (k + 1) + '</td><td>' + linha + '</td><td>' + comentario + '</td></tr>';
-        comentario = "";
+
+        comentario = ""; // Zera comentario para proximo comando
     }
 }
 
@@ -152,27 +140,29 @@ function main() {
     for (i = i; i < teste.length; i++) { //percorrer por quantidade de linhas no arquivo
         comando = teste[i]; //contem a linha atual
 
-        console.log("Comando: " + comando + "\n i= " + i + "\n s= " + s + "\n memory= " + memory[s]);
-
         executa(comando);
 
         //funcao para validar se existe um checkbox selecionado na linha
-        // let checkbox = document.getElementById('breakpoint-' + i);
-        // if (checkbox.checked) {
-        //     document.getElementById(i).style.color = "red";
-        //     i++;
-        //     break;
-        // }
+        let checkbox = document.getElementById('breakpoint-' + i);
+        if (checkbox.checked) {
+            document.getElementById(i).style.color = "red";
+            i++;
+            break;
+        }
     }
 }
 
 //Função para executar arquivo.obj comando por comando
 function debug() {
     document.getElementById(i).style.color = "#06fc06";
+
     var teste = arquivo.split("\n");
     comando = teste[i];
+
     console.log("Comando executado: " + comando);
+
     executa(comando);
+    
     document.getElementById(i + 1).style.color = "red";
     i++;
 }
